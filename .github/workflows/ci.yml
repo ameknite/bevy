@@ -64,7 +64,7 @@ jobs:
         # See tools/ci/src/main.rs for the commands this runs
         run: |
           cd crates/bevy_gltf/
-          cargo clippy -- -D warnings
+          cargo clippy -- -Dwarnings
 
   # miri:
   #   runs-on: ubuntu-latest
