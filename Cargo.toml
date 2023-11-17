@@ -31,7 +31,7 @@ members = [
 
 [features]
 default = [
-"animation",
+    "animation",
     "bevy_asset",
     "bevy_audio",
     "bevy_gilrs",
