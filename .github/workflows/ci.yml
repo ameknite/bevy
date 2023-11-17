@@ -178,7 +178,7 @@ jobs:
         id: taplo
         run: taplo fmt --check --diff --option indent_string="    "
       - name: Taplo info
-        if: failure()
+        if: ${{ steps.taplo.outcome == 'failure' }} == 'yes'
         run: |
           echo "Taplo Outcome: ${{ steps.taplo.outcome }}"
           echo 'To fix toml fmt, please run `taplo fmt --option indent_string="    "`.'
