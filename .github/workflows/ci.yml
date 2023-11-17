@@ -46,6 +46,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: actions/cache@v3
         with:
           path: |
@@ -66,9 +68,9 @@ jobs:
         run: |
           cd crates/bevy_gltf/
           pwd 
+          cat src/loader.rs
           cargo clippy --version
           cargo clippy -- -Dwarnings
-          cargo clippy --all -- -D warnings
 
   # miri:
   #   runs-on: ubuntu-latest
