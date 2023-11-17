@@ -185,9 +185,9 @@ jobs:
           cargo install taplo-cli --locked
       - name: Run Taplo
         id: taplo
-        run: taplo fmt --check --diff --option indent_string="  "
+        run: taplo fmt --check --diff --option indent_string="    "
       - name: Taplo info
-        if: steps.taplo.outcome == failure()
+        if: steps.taplo.outcome == 'failure'
         run: |
           echo 'To fix toml fmt, please run `taplo fmt --option indent_string="  "`.'
           echo `note: indent_string is with 4 spaces.`
