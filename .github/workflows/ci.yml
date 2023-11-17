@@ -65,6 +65,7 @@ jobs:
         run: |
           cargo clippy -- -D clippy::result_large_err
           cargo run -p ci -- lints
+          cargo clippy --workspace --all-targets --all-features -- -Dwarnings
 
   # miri:
   #   runs-on: ubuntu-latest
