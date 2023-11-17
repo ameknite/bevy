@@ -63,11 +63,13 @@ jobs:
       - name: CI job
         # See tools/ci/src/main.rs for the commands this runs
         run: |
+          cargo clippy --version
           cargo run -p ci -- lints
           cargo run -p ci -- lints
       - name: CI job 2
         # See tools/ci/src/main.rs for the commands this runs
         run: |
+          cargo clippy --version
           cargo run -p ci -- lints
 
   # miri:
