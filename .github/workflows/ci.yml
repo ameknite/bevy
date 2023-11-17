@@ -57,19 +57,14 @@ jobs:
       #       ~/.cargo/git/db/
       #       target/
       #     key: ${{ runner.os }}-cargo-ci-${{ hashFiles('**/Cargo.toml') }}
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
       # - name: Install alsa and udev
       #   run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev
       - name: CI job
         shell: bash
         # See tools/ci/src/main.rs for the commands this runs
         run: |
-          cd crates/bevy_gltf/
-          pwd 
-          cat src/loader.rs
-          cargo clippy --version
-          cargo clippy -- -Dwarnings
-          cargo clippy -- -W clippy::perf -Dwarnings
+          cargo run -p ci -- lints
 
   # miri:
   #   runs-on: ubuntu-latest
