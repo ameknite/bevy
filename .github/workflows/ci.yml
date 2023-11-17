@@ -61,11 +61,14 @@ jobs:
       # - name: Install alsa and udev
       #   run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev
       - name: CI job
+        shell: bash
         # See tools/ci/src/main.rs for the commands this runs
         run: |
           cd crates/bevy_gltf/
           cargo clippy -- -Dwarnings
+          cargo clippy -- -Dwarnings
       - name: CI 2
+        shell: bash
         # See tools/ci/src/main.rs for the commands this runs
         run: |
           cargo clippy --version
