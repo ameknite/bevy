@@ -69,6 +69,7 @@ jobs:
       - name: CI 2
         # See tools/ci/src/main.rs for the commands this runs
         run: |
+          cargo clippy --version
           cargo clippy -- -Dwarnings
 
   # miri:
