@@ -71,6 +71,7 @@ jobs:
           cat src/loader.rs
           cargo clippy --version
           cargo clippy -- -Dwarnings
+          cargo clippy -- -W clippy::perf -Dwarnings
 
   # miri:
   #   runs-on: ubuntu-latest
