@@ -63,6 +63,7 @@ jobs:
       - name: CI job
         # See tools/ci/src/main.rs for the commands this runs
         run: |
+          cargo clippy -- -D clippy::result_large_err
           cargo run -p ci -- lints
 
   # miri:

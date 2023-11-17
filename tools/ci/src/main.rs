@@ -78,7 +78,7 @@ fn main() {
     if what_to_run.contains(Check::CLIPPY) {
         // See if clippy has any complaints.
         // - Type complexity must be ignored because we use huge templates for queries
-        cmd!(sh, "cargo clippy -- -F result_large_err")
+        cmd!(sh, "cargo clippy -- -D clippy::result_large_err")
             .run()
             .expect("Please fix clippy errors in output above.");
     }
