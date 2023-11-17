@@ -65,13 +65,9 @@ jobs:
         # See tools/ci/src/main.rs for the commands this runs
         run: |
           cd crates/bevy_gltf/
-          cargo clippy -- -Dwarnings
-          cargo clippy -- -Dwarnings
-      - name: CI 2
-        shell: bash
-        # See tools/ci/src/main.rs for the commands this runs
-        run: |
+          pwd 
           cargo clippy --version
+          cargo clippy -- -Dwarnings
           cargo clippy -- -Dwarnings
 
   # miri:

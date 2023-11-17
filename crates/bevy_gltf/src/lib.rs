@@ -37,7 +37,7 @@ impl GltfPlugin {
     /// `name` must be the attribute name as found in the glTF data, which must start with an underscore.
     /// See [this section of the glTF specification](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#meshes-overview)
     /// for additional details on custom attributes.
-    pub fn add_custom_vertex_attribute(
+    pub fn addcustomVertex_attribute(
         mut self,
         name: &str,
         attribute: MeshVertexAttribute,
