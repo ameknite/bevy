@@ -63,9 +63,12 @@ jobs:
       - name: CI job
         # See tools/ci/src/main.rs for the commands this runs
         run: |
-          cargo clippy -- -D clippy::result_large_err
           cargo run -p ci -- lints
-          cargo clippy --workspace --all-targets --all-features -- -Dwarnings
+          cargo run -p ci -- lints
+      - name: CI job 2
+        # See tools/ci/src/main.rs for the commands this runs
+        run: |
+          cargo run -p ci -- lints
 
   # miri:
   #   runs-on: ubuntu-latest

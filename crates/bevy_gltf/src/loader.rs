@@ -851,7 +851,7 @@ fn load_material(
         }
     })
 }
-
+#[deny(clippy::result_large_err)]
 /// Loads a glTF node.
 fn load_node(
     gltf_node: &gltf::Node,
