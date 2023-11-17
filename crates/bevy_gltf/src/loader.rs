@@ -852,7 +852,6 @@ fn load_material(
     })
 }
 
-#[allow(clippy::result_large_err)]
 /// Loads a glTF node.
 fn load_node(
     gltf_node: &gltf::Node,
@@ -863,7 +862,6 @@ fn load_node(
     active_camera_found: &mut bool,
     parent_transform: &Transform,
 ) -> Result<(), GltfError> {
-    let x = 1;
     let transform = gltf_node.transform();
     let mut gltf_error = None;
     let transform = Transform::from_matrix(Mat4::from_cols_array_2d(&transform.matrix()));
@@ -1237,7 +1235,7 @@ fn texture_address_mode(gltf_address_mode: &gltf::texture::WrappingMode) -> Imag
     }
 }
 
-#[allow(clippy::result_large_err)]
+#[deny(clippy::result_large_err)]
 /// Maps the `primitive_topology` form glTF to `wgpu`.
 fn get_primitive_topology(mode: Mode) -> Result<PrimitiveTopology, GltfError> {
     match mode {
