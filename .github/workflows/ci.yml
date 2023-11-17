@@ -171,12 +171,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-toml-${{ hashFiles('**/Cargo.toml') }}
       - name: Install taplo
         run: | 
           cargo install taplo-cli --locked
       - name: Run Taplo
         id: taplo
-        run: taplo fmt --check --diff --option indent_string="    "
+        run: taplo fmt --check --diff --option indent_string="  "
       - name: Taplo info
         if: steps.taplo.outcome == failure()
         run: |
