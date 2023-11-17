@@ -170,24 +170,16 @@ jobs:
     if: always()
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-toml-${{ hashFiles('**/Cargo.toml') }}
-      - uses: dtolnay/rust-toolchain@stable
       - name: Install taplo
         run: | 
-          cargo install taplo-cli --locked
+          curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-full-linux-x86_64.gz \
+          | gzip -d - \
+          | install -m 755 /dev/stdin /usr/local/bin/taplo
       - name: Run Taplo
         id: taplo
         run: taplo fmt --check --diff --option indent_string="    "
       - name: Taplo info
-        if: ${{ steps.taplo.outcome }} == 'failure'
+        if: ${{ steps.taplo.outcome == 'failure' }} == 'true'
         run: |
           echo 'To fix toml fmt, please run `taplo fmt --option indent_string="    "`.'
           echo 'note: indent_string is with 4 spaces.'
