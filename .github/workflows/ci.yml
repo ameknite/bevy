@@ -57,7 +57,7 @@ jobs:
           key: ${{ runner.os }}-cargo-ci-${{ hashFiles('**/Cargo.toml') }}
       - uses: dtolnay/rust-toolchain@stable
         with:
-          components: rustfmt, clippy
+          components: clippy
       # - name: Install alsa and udev
       #   run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev
       - name: CI job
@@ -68,7 +68,7 @@ jobs:
           pwd 
           cargo clippy --version
           cargo clippy -- -Dwarnings
-          cargo clippy -- -Dwarnings
+          cargo clippy --all -- -D warnings
 
   # miri:
   #   runs-on: ubuntu-latest
