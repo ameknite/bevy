@@ -8,9 +8,9 @@ on:
       - main
       - test-ci
 
-env:
-  CARGO_TERM_COLOR: always
-  NIGHTLY_TOOLCHAIN: nightly
+# env:
+#   CARGO_TERM_COLOR: always
+#   NIGHTLY_TOOLCHAIN: nightly
 
 jobs:
   # build:
@@ -58,8 +58,6 @@ jobs:
       #       target/
       #     key: ${{ runner.os }}-cargo-ci-${{ hashFiles('**/Cargo.toml') }}
       - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          components: clippy
       # - name: Install alsa and udev
       #   run: sudo apt-get update; sudo apt-get install --no-install-recommends libasound2-dev libudev-dev libwayland-dev libxkbcommon-dev
       - name: CI job
