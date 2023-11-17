@@ -64,7 +64,6 @@ jobs:
         # See tools/ci/src/main.rs for the commands this runs
         run: |
           cd crates/bevy_gltf/
-          pwd
           cargo clippy -- -Dwarnings
       - name: CI 2
         # See tools/ci/src/main.rs for the commands this runs
