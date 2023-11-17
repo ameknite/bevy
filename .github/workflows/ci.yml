@@ -178,6 +178,9 @@ jobs:
       - name: Run Taplo
         id: taplo
         run: taplo fmt --check --diff --option indent_string="    "
+      - name: Debug Taplo Outcome
+        run: | 
+          echo "Taplo Outcome: ${{ steps.taplo.outcome }}"
       - name: Taplo info
         if: ${{ steps.taplo.outcome == 'failure' }}
         run: |
