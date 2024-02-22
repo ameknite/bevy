@@ -1,4 +1,4 @@
-# frustrum
+# frustum
 
 [package]
     name = "bevy"
@@ -22,15 +22,18 @@ exclude = [
   "crates/bevy_macros_compile_fail_tests",
   "crates/bevy_reflect_compile_fail_tests",
 ]
-  members = [
-  "crates/*",
-  "examples/mobile",
-  "tools/ci",
-  "tools/build-templated-pages",
-  "tools/build-wasm-example",
-  "tools/example-showcase",
-  "errors",
-]
+          members = [
+                      
+                      "crates/*",
+          "examples/mobile",
+
+
+          "tools/ci",
+          "tools/build-templated-pages",
+          "tools/build-wasm-example",
+          "tools/example-showcase",
+          "errors",
+        ]
 
 [workspace.lints.clippy]
 type_complexity = "allow"
@@ -82,7 +85,15 @@ default = [
 ]
 
 # Force dynamic linking, which improves iterative compile times
-dynamic_linking = ["dep:bevy_dylib", "bevy_internal/dynamic_linking"]
+dynamic_linking = [
+  
+  
+  
+  
+  "dep:bevy_dylib",
+  
+  
+   "bevy_internal/dynamic_linking"]
 
 # Provides animation functionality
 bevy_animation = ["bevy_internal/bevy_animation"]
