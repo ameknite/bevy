@@ -1,7 +1,7 @@
 # frustrum
 
 [package]
-name = "bevy"
+    name = "bevy"
 version = "0.13.0"
 edition = "2021"
 categories = ["game-engines", "graphics", "gui", "rendering"]
