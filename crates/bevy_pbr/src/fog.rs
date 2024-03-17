@@ -326,8 +326,8 @@ pub enum FogFalloff {
         /// due to photons being absorbed by atmospheric particles.
         ///
         /// Each component can be thought of as an independent per `R`/`G`/`B` channel `density`
-        /// factor from [`FogFalloff::Exponential`]: Multiplier applied to the world distance (within the fog
-        /// falloff calculation) for that specific channel.
+        /// factor from [`FogFalloff::Exponential`]: Multiplier applied to the world distance
+        /// (within the fog falloff calculation) for that specific channel.
         ///
         /// **Note:**
         /// This value is not a `Color`, since it affects the channels exponentially in a
@@ -339,8 +339,8 @@ pub enum FogFalloff {
         /// atmosphere.
         ///
         /// Each component can be thought of as an independent per `R`/`G`/`B` channel `density`
-        /// factor from [`FogFalloff::Exponential`]: A multiplier applied to the world distance (within the fog
-        /// falloff calculation) for that specific channel.
+        /// factor from [`FogFalloff::Exponential`]: A multiplier applied to the world distance
+        /// (within the fog falloff calculation) for that specific channel.
         ///
         /// **Note:**
         /// This value is not a `Color`, since it affects the channels exponentially in a
