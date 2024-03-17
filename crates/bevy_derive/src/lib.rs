@@ -65,11 +65,11 @@ pub fn derive_dynamic_plugin(input: TokenStream) -> TokenStream {
 ///
 /// #[derive(Deref, DerefMut)]
 /// struct MyStruct {
-///   value: String,
+///     value: String,
 /// }
 ///
 /// let foo = MyStruct {
-///   value: String::from("Hello")
+///     value: String::from("Hello"),
 /// };
 /// assert_eq!("Hello", *foo);
 /// ```
@@ -82,14 +82,14 @@ pub fn derive_dynamic_plugin(input: TokenStream) -> TokenStream {
 ///
 /// #[derive(Deref, DerefMut)]
 /// struct MyStruct<T> {
-///   #[deref]
-///   value: String,
-///   _phantom: PhantomData<T>,
+///     #[deref]
+///     value: String,
+///     _phantom: PhantomData<T>,
 /// }
 ///
 /// let foo = MyStruct {
-///   value:String::from("Hello"),
-///   _phantom:PhantomData::<usize>
+///     value: String::from("Hello"),
+///     _phantom: PhantomData::<usize>,
 /// };
 /// assert_eq!("Hello", *foo);
 /// ```
@@ -152,11 +152,11 @@ pub fn derive_deref(input: TokenStream) -> TokenStream {
 ///
 /// #[derive(Deref, DerefMut)]
 /// struct MyStruct {
-///   value: String,
+///     value: String,
 /// }
 ///
 /// let mut foo = MyStruct {
-///   value: String::from("Hello")
+///     value: String::from("Hello"),
 /// };
 /// foo.push_str(" World!");
 /// assert_eq!("Hello World!", *foo);
@@ -170,14 +170,14 @@ pub fn derive_deref(input: TokenStream) -> TokenStream {
 ///
 /// #[derive(Deref, DerefMut)]
 /// struct MyStruct<T> {
-///   #[deref]
-///   value: String,
-///   _phantom: PhantomData<T>,
+///     #[deref]
+///     value: String,
+///     _phantom: PhantomData<T>,
 /// }
 ///
 /// let mut foo = MyStruct {
-///   value:String::from("Hello"),
-///   _phantom:PhantomData::<usize>
+///     value: String::from("Hello"),
+///     _phantom: PhantomData::<usize>,
 /// };
 /// foo.push_str(" World!");
 /// assert_eq!("Hello World!", *foo);

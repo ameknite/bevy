@@ -75,8 +75,8 @@ use std::{
 /// # use bevy_ecs::prelude::*;
 /// # #[derive(Resource)]
 /// # struct SomeResource;
-/// use std::marker::PhantomData;
 /// use bevy_ecs::system::SystemParam;
+/// use std::marker::PhantomData;
 ///
 /// #[derive(SystemParam)]
 /// struct MyParam<'w, Marker: 'static> {
@@ -320,7 +320,7 @@ fn assert_component_access_compatibility(
 ///     mut set: ParamSet<(
 ///         Query<&mut Health, With<Enemy>>,
 ///         Query<&mut Health, With<Ally>>,
-///     )>
+///     )>,
 /// ) {
 ///     // This will access the first `SystemParam`.
 ///     for mut health in set.p0().iter_mut() {
@@ -362,7 +362,7 @@ fn assert_component_access_compatibility(
 ///         # let _event = event;
 ///     }
 ///     set.p1().send(MyEvent::new());
-///     
+///
 ///     let entities = set.p2().entities();
 ///     // ...
 ///     # let _entities = entities;
@@ -391,7 +391,9 @@ impl_param_set!();
 /// # let mut schedule = Schedule::default();
 /// # use bevy_ecs::prelude::*;
 /// #[derive(Resource)]
-/// struct MyResource { value: u32 }
+/// struct MyResource {
+///     value: u32,
+/// }
 ///
 /// world.insert_resource(MyResource { value: 42 });
 ///
@@ -433,7 +435,7 @@ impl_param_set!();
 ///
 /// #[derive(Resource)]
 /// struct ActuallySync {
-///    counter: SyncCell<RefCell<usize>>,
+///     counter: SyncCell<RefCell<usize>>,
 /// }
 /// ```
 ///
@@ -859,7 +861,7 @@ pub trait SystemBuffer: FromWorld + Send + 'static {
 /// fn alert_criminal(
 ///     settlements: Query<&Settlement>,
 ///     criminals: Query<&Criminal>,
-///     mut alarm: Deferred<AlarmFlag>
+///     mut alarm: Deferred<AlarmFlag>,
 /// ) {
 ///     let settlement = settlements.single();
 ///     for criminal in &criminals {
@@ -875,10 +877,7 @@ pub trait SystemBuffer: FromWorld + Send + 'static {
 /// }
 ///
 /// // Sound the alarm if there is a monster.
-/// fn alert_monster(
-///     monsters: Query<&Monster>,
-///     mut alarm: ResMut<Alarm>
-/// ) {
+/// fn alert_monster(monsters: Query<&Monster>, mut alarm: ResMut<Alarm>) {
 ///     if monsters.iter().next().is_some() {
 ///         // Since this system does nothing except for sounding the alarm,
 ///         // it would be pointless to defer it, so we sound the alarm directly.
@@ -1426,14 +1425,14 @@ pub mod lifetimeless {
 ///
 /// ```
 /// # use bevy_ecs::prelude::*;
-/// use bevy_ecs::system::{SystemParam, StaticSystemParam};
+/// use bevy_ecs::system::{StaticSystemParam, SystemParam};
 /// #[derive(SystemParam)]
-/// struct GenericParam<'w,'s, T: SystemParam + 'static> {
+/// struct GenericParam<'w, 's, T: SystemParam + 'static> {
 ///     field: StaticSystemParam<'w, 's, T>,
 /// }
 /// fn do_thing_generically<T: SystemParam + 'static>(t: StaticSystemParam<T>) {}
 ///
-/// fn check_always_is_system<T: SystemParam + 'static>(){
+/// fn check_always_is_system<T: SystemParam + 'static>() {
 ///     bevy_ecs::system::assert_is_system(do_thing_generically::<T>);
 /// }
 /// ```

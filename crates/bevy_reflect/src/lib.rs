@@ -36,7 +36,7 @@
 //! # use bevy_reflect::Reflect;
 //! #[derive(Reflect)]
 //! struct MyStruct {
-//!   foo: i32
+//!     foo: i32,
 //! }
 //! ```
 //!
@@ -84,9 +84,7 @@
 //! # struct MyStruct {
 //! #   foo: i32
 //! # }
-//! let my_struct: Box<dyn Struct> = Box::new(MyStruct {
-//!   foo: 123
-//! });
+//! let my_struct: Box<dyn Struct> = Box::new(MyStruct { foo: 123 });
 //! let foo: &dyn Reflect = my_struct.field("foo").unwrap();
 //! assert_eq!(Some(&123), foo.downcast_ref::<i32>());
 //! ```
@@ -104,7 +102,9 @@
 //! ```
 //! # use bevy_reflect::{Reflect, ReflectRef};
 //! let my_tuple: Box<dyn Reflect> = Box::new((1, 2, 3));
-//! let ReflectRef::Tuple(my_tuple) = my_tuple.reflect_ref() else { unreachable!() };
+//! let ReflectRef::Tuple(my_tuple) = my_tuple.reflect_ref() else {
+//!     unreachable!()
+//! };
 //! assert_eq!(3, my_tuple.field_len());
 //! ```
 //!
@@ -157,9 +157,7 @@
 //! # struct MyStruct {
 //! #   foo: i32
 //! # }
-//! let original: Box<dyn Reflect> = Box::new(MyStruct {
-//!   foo: 123
-//! });
+//! let original: Box<dyn Reflect> = Box::new(MyStruct { foo: 123 });
 //!
 //! // `cloned` will be a `DynamicStruct` representing a `MyStruct`
 //! let cloned: Box<dyn Reflect> = original.clone_value();
@@ -192,9 +190,7 @@
 //! # struct MyStruct {
 //! #   foo: i32
 //! # }
-//! let original: Box<dyn Reflect> = Box::new(MyStruct {
-//!   foo: 123
-//! });
+//! let original: Box<dyn Reflect> = Box::new(MyStruct { foo: 123 });
 //!
 //! let cloned: Box<dyn Reflect> = original.clone_value();
 //! let value = cloned.take::<MyStruct>().unwrap(); // PANIC!
@@ -215,11 +211,9 @@
 //! # use bevy_reflect::{Reflect, FromReflect};
 //! #[derive(Reflect)]
 //! struct MyStruct {
-//!   foo: i32
+//!     foo: i32,
 //! }
-//! let original: Box<dyn Reflect> = Box::new(MyStruct {
-//!   foo: 123
-//! });
+//! let original: Box<dyn Reflect> = Box::new(MyStruct { foo: 123 });
 //!
 //! let cloned: Box<dyn Reflect> = original.clone_value();
 //! let value = <MyStruct as FromReflect>::from_reflect(&*cloned).unwrap(); // OK!
@@ -247,16 +241,13 @@
 //! # use bevy_reflect::{Reflect, GetPath};
 //! #[derive(Reflect)]
 //! struct MyStruct {
-//!   value: Vec<Option<u32>>
+//!     value: Vec<Option<u32>>,
 //! }
 //!
 //! let my_struct = MyStruct {
-//!   value: vec![None, None, Some(123)],
+//!     value: vec![None, None, Some(123)],
 //! };
-//! assert_eq!(
-//!   my_struct.path::<u32>(".value[2].0").unwrap(),
-//!   &123,
-//! );
+//! assert_eq!(my_struct.path::<u32>(".value[2].0").unwrap(), &123,);
 //! ```
 //!
 //! # Type Registration
@@ -276,7 +267,7 @@
 //! # use bevy_reflect::{Reflect, TypeRegistry, prelude::ReflectDefault};
 //! #[derive(Reflect, Default)]
 //! struct MyStruct {
-//!   foo: i32
+//!     foo: i32,
 //! }
 //! let mut registry = TypeRegistry::empty();
 //! registry.register::<MyStruct>();
@@ -299,7 +290,7 @@
 //! #[derive(Reflect, Default)]
 //! #[reflect(Default)]
 //! struct MyStruct {
-//!   foo: i32
+//!     foo: i32,
 //! }
 //! ```
 //!
@@ -366,12 +357,10 @@
 //! # };
 //! #[derive(Reflect, PartialEq, Debug)]
 //! struct MyStruct {
-//!   foo: i32
+//!     foo: i32,
 //! }
 //!
-//! let original_value = MyStruct {
-//!   foo: 123
-//! };
+//! let original_value = MyStruct { foo: 123 };
 //!
 //! // Register
 //! let mut registry = TypeRegistry::new();
@@ -383,9 +372,9 @@
 //!
 //! // Deserialize
 //! let reflect_deserializer = UntypedReflectDeserializer::new(&registry);
-//! let deserialized_value: Box<dyn Reflect> = reflect_deserializer.deserialize(
-//!   &mut ron::Deserializer::from_str(&serialized_value).unwrap()
-//! ).unwrap();
+//! let deserialized_value: Box<dyn Reflect> = reflect_deserializer
+//!     .deserialize(&mut ron::Deserializer::from_str(&serialized_value).unwrap())
+//!     .unwrap();
 //!
 //! // Convert
 //! let converted_value = <MyStruct as FromReflect>::from_reflect(&*deserialized_value).unwrap();

@@ -94,7 +94,7 @@ use std::{any::TypeId, ptr::NonNull};
 /// If you want to add `PhantomData` to your `Bundle` you have to mark it with `#[bundle(ignore)]`.
 /// ```
 /// # use std::marker::PhantomData;
-/// use bevy_ecs::{component::Component, bundle::Bundle};
+/// use bevy_ecs::{bundle::Bundle, component::Component};
 ///
 /// #[derive(Component)]
 /// struct XPosition(i32);
@@ -121,7 +121,7 @@ use std::{any::TypeId, ptr::NonNull};
 ///
 ///     // when you need to use `PhantomData` you have to mark it as ignored
 ///     #[bundle(ignore)]
-///     _phantom_data: PhantomData<T>
+///     _phantom_data: PhantomData<T>,
 /// }
 ///
 /// #[derive(Component)]

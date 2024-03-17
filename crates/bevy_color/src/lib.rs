@@ -68,7 +68,7 @@
 //! # Example
 //!
 //! ```
-//! use bevy_color::{Srgba, Hsla};
+//! use bevy_color::{Hsla, Srgba};
 //!
 //! let srgba = Srgba::new(0.5, 0.2, 0.8, 1.0);
 //! let hsla: Hsla = srgba.into();

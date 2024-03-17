@@ -24,7 +24,7 @@ use super::{FilteredAccess, QueryData, QueryFilter};
 ///
 /// // Instantiate the builder using the type signature of the iterator you will consume
 /// let mut query = QueryBuilder::<(Entity, &B)>::new(&mut world)
-/// // Add additional terms through builder methods
+///     // Add additional terms through builder methods
 ///     .with::<A>()
 ///     .without::<C>()
 ///     .build();

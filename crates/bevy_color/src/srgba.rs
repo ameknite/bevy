@@ -125,7 +125,10 @@ impl Srgba {
     /// let color = Srgba::hex("FF00FF7F").unwrap(); // partially transparent fuchsia
     ///
     /// // A standard hex color notation is also available
-    /// assert_eq!(Srgba::hex("#FFFFFF").unwrap(), Srgba::new(1.0, 1.0, 1.0, 1.0));
+    /// assert_eq!(
+    ///     Srgba::hex("#FFFFFF").unwrap(),
+    ///     Srgba::new(1.0, 1.0, 1.0, 1.0)
+    /// );
     /// ```
     pub fn hex<T: AsRef<str>>(hex: T) -> Result<Self, HexColorError> {
         let hex = hex.as_ref();

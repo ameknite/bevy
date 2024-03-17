@@ -30,10 +30,10 @@ pub use bevy_ecs_macros::States;
 ///
 /// #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug, Default, States)]
 /// enum GameState {
-///  #[default]
-///   MainMenu,
-///   SettingsMenu,
-///   InGame,
+///     #[default]
+///     MainMenu,
+///     SettingsMenu,
+///     InGame,
 /// }
 /// ```
 pub trait States: 'static + Send + Sync + Clone + PartialEq + Eq + Hash + Debug {}
@@ -84,8 +84,8 @@ pub struct OnTransition<S: States> {
 ///     match game_state.get() {
 ///         GameState::InGame => {
 ///             // Run game logic here...
-///         },
-///         _ => {},
+///         }
+///         _ => {}
 ///     }
 /// }
 /// ```

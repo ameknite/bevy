@@ -178,12 +178,13 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
     /// # use bevy_math::prelude::*;
     /// # use bevy_color::palettes::basic::GREEN;
     /// fn system(mut gizmos: Gizmos) {
-    ///     gizmos.grid(
-    ///         Vec3::ZERO,
-    ///         Quat::IDENTITY,
-    ///         UVec2::new(10, 10),
-    ///         Vec2::splat(2.),
-    ///         GREEN
+    ///     gizmos
+    ///         .grid(
+    ///             Vec3::ZERO,
+    ///             Quat::IDENTITY,
+    ///             UVec2::new(10, 10),
+    ///             Vec2::splat(2.),
+    ///             GREEN,
     ///         )
     ///         .skew_x(0.25)
     ///         .outer_edges();
@@ -239,12 +240,13 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
     /// # use bevy_math::prelude::*;
     /// # use bevy_color::palettes::basic::GREEN;
     /// fn system(mut gizmos: Gizmos) {
-    ///     gizmos.grid_3d(
-    ///         Vec3::ZERO,
-    ///         Quat::IDENTITY,
-    ///         UVec3::new(10, 2, 10),
-    ///         Vec3::splat(2.),
-    ///         GREEN
+    ///     gizmos
+    ///         .grid_3d(
+    ///             Vec3::ZERO,
+    ///             Quat::IDENTITY,
+    ///             UVec3::new(10, 2, 10),
+    ///             Vec3::splat(2.),
+    ///             GREEN,
     ///         )
     ///         .skew_x(0.25)
     ///         .outer_edges();
@@ -298,13 +300,8 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
     /// # use bevy_math::prelude::*;
     /// # use bevy_color::palettes::basic::GREEN;
     /// fn system(mut gizmos: Gizmos) {
-    ///     gizmos.grid_2d(
-    ///         Vec2::ZERO,
-    ///         0.0,
-    ///         UVec2::new(10, 10),
-    ///         Vec2::splat(1.),
-    ///         GREEN
-    ///         )
+    ///     gizmos
+    ///         .grid_2d(Vec2::ZERO, 0.0, UVec2::new(10, 10), Vec2::splat(1.), GREEN)
     ///         .skew_x(0.25)
     ///         .outer_edges();
     /// }

@@ -13,7 +13,10 @@ use std::hash::Hash;
 /// fn main() {
 ///     App::new()
 ///         .add_plugins(DefaultPlugins)
-///         .add_systems(Update, pause_menu.run_if(input_toggle_active(false, KeyCode::Escape)))
+///         .add_systems(
+///             Update,
+///             pause_menu.run_if(input_toggle_active(false, KeyCode::Escape)),
+///         )
 ///         .run();
 /// }
 ///
@@ -36,7 +39,10 @@ use std::hash::Hash;
 ///     App::new()
 ///         .add_plugins(DefaultPlugins)
 ///         .init_resource::<Paused>()
-///         .add_systems(Update, toggle_pause_state.run_if(input_just_pressed(KeyCode::Escape)))
+///         .add_systems(
+///             Update,
+///             toggle_pause_state.run_if(input_just_pressed(KeyCode::Escape)),
+///         )
 ///         .add_systems(Update, pause_menu.run_if(|paused: Res<Paused>| paused.0))
 ///         .run();
 /// }

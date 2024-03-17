@@ -318,8 +318,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -352,8 +352,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -521,8 +521,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -648,8 +648,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -738,8 +738,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     /// #[derive(Component)]
     /// struct Label(&'static str);
@@ -747,7 +747,8 @@ impl World {
     /// struct Num(u32);
     ///
     /// let mut world = World::new();
-    /// let entity = world.spawn_empty()
+    /// let entity = world
+    ///     .spawn_empty()
     ///     .insert(Position { x: 0.0, y: 0.0 }) // add a single component
     ///     .insert((Num(1), Label("hello"))) // add a bundle of components
     ///     .id();
@@ -866,10 +867,12 @@ impl World {
     /// struct Num(u32);
     ///
     /// let mut world = World::new();
-    /// let entities = world.spawn_batch(vec![
-    ///   (Str("a"), Num(0)), // the first entity
-    ///   (Str("b"), Num(1)), // the second entity
-    /// ]).collect::<Vec<Entity>>();
+    /// let entities = world
+    ///     .spawn_batch(vec![
+    ///         (Str("a"), Num(0)), // the first entity
+    ///         (Str("b"), Num(1)), // the second entity
+    ///     ])
+    ///     .collect::<Vec<Entity>>();
     ///
     /// assert_eq!(entities.len(), 2);
     /// ```
@@ -888,8 +891,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -909,8 +912,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -941,8 +944,8 @@ impl World {
     ///
     /// #[derive(Component)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
@@ -1013,30 +1016,38 @@ impl World {
     ///
     /// #[derive(Component, Debug, PartialEq)]
     /// struct Position {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// #[derive(Component)]
     /// struct Velocity {
-    ///   x: f32,
-    ///   y: f32,
+    ///     x: f32,
+    ///     y: f32,
     /// }
     ///
     /// let mut world = World::new();
-    /// let entities = world.spawn_batch(vec![
-    ///     (Position { x: 0.0, y: 0.0}, Velocity { x: 1.0, y: 0.0 }),
-    ///     (Position { x: 0.0, y: 0.0}, Velocity { x: 0.0, y: 1.0 }),
-    /// ]).collect::<Vec<Entity>>();
+    /// let entities = world
+    ///     .spawn_batch(vec![
+    ///         (Position { x: 0.0, y: 0.0 }, Velocity { x: 1.0, y: 0.0 }),
+    ///         (Position { x: 0.0, y: 0.0 }, Velocity { x: 0.0, y: 1.0 }),
+    ///     ])
+    ///     .collect::<Vec<Entity>>();
     ///
     /// let mut query = world.query::<(&mut Position, &Velocity)>();
     /// for (mut position, velocity) in query.iter_mut(&mut world) {
-    ///    position.x += velocity.x;
-    ///    position.y += velocity.y;
+    ///     position.x += velocity.x;
+    ///     position.y += velocity.y;
     /// }
     ///
-    /// assert_eq!(world.get::<Position>(entities[0]).unwrap(), &Position { x: 1.0, y: 0.0 });
-    /// assert_eq!(world.get::<Position>(entities[1]).unwrap(), &Position { x: 0.0, y: 1.0 });
+    /// assert_eq!(
+    ///     world.get::<Position>(entities[0]).unwrap(),
+    ///     &Position { x: 1.0, y: 0.0 }
+    /// );
+    /// assert_eq!(
+    ///     world.get::<Position>(entities[1]).unwrap(),
+    ///     &Position { x: 0.0, y: 1.0 }
+    /// );
     /// ```
     ///
     /// To iterate over entities in a deterministic order,
@@ -1056,17 +1067,21 @@ impl World {
     /// let a = world.spawn((Order(2), Label("second"))).id();
     /// let b = world.spawn((Order(3), Label("third"))).id();
     /// let c = world.spawn((Order(1), Label("first"))).id();
-    /// let mut entities = world.query::<(Entity, &Order, &Label)>()
+    /// let mut entities = world
+    ///     .query::<(Entity, &Order, &Label)>()
     ///     .iter(&world)
     ///     .collect::<Vec<_>>();
     /// // Sort the query results by their `Order` component before comparing
     /// // to expected results. Query iteration order should not be relied on.
     /// entities.sort_by_key(|e| e.1);
-    /// assert_eq!(entities, vec![
-    ///     (c, &Order(1), &Label("first")),
-    ///     (a, &Order(2), &Label("second")),
-    ///     (b, &Order(3), &Label("third")),
-    /// ]);
+    /// assert_eq!(
+    ///     entities,
+    ///     vec![
+    ///         (c, &Order(1), &Label("first")),
+    ///         (a, &Order(2), &Label("second")),
+    ///         (b, &Order(3), &Label("third")),
+    ///     ]
+    /// );
     /// ```
     #[inline]
     pub fn query<D: QueryData>(&mut self) -> QueryState<D, ()> {
@@ -1076,7 +1091,7 @@ impl World {
     /// Returns [`QueryState`] for the given filtered [`QueryData`], which is used to efficiently
     /// run queries on the [`World`] by storing and reusing the [`QueryState`].
     /// ```
-    /// use bevy_ecs::{component::Component, entity::Entity, world::World, query::With};
+    /// use bevy_ecs::{component::Component, entity::Entity, query::With, world::World};
     ///
     /// #[derive(Component)]
     /// struct A;
@@ -1596,7 +1611,7 @@ impl World {
     /// doesn't happen by default).
     ///
     /// ```
-    /// use bevy_ecs::{entity::Entity, world::World, component::Component};
+    /// use bevy_ecs::{component::Component, entity::Entity, world::World};
     /// #[derive(Component)]
     /// struct A(&'static str);
     /// #[derive(Component, PartialEq, Debug)]
@@ -1606,8 +1621,8 @@ impl World {
     /// let e0 = world.spawn_empty().id();
     /// let e1 = world.spawn_empty().id();
     /// world.insert_or_spawn_batch(vec![
-    ///   (e0, (A("a"), B(0.0))), // the first entity
-    ///   (e1, (A("b"), B(1.0))), // the second entity
+    ///     (e0, (A("a"), B(0.0))), // the first entity
+    ///     (e1, (A("b"), B(1.0))), // the second entity
     /// ]);
     ///
     /// assert_eq!(world.get::<B>(e0), Some(&B(0.0)));

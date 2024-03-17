@@ -122,7 +122,7 @@ struct EventInstance<E: Event> {
 ///
 /// #[derive(Event)]
 /// struct MyEvent {
-///     value: usize
+///     value: usize,
 /// }
 ///
 /// // setup

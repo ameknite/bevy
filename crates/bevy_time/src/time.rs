@@ -53,7 +53,11 @@ use bevy_utils::Duration;
 /// # use bevy_time::prelude::*;
 /// #
 /// fn ambivalent_system(time: Res<Time>) {
-///     println!("this how I see time: delta {:?}, elapsed {:?}", time.delta(), time.elapsed());
+///     println!(
+///         "this how I see time: delta {:?}, elapsed {:?}",
+///         time.delta(),
+///         time.elapsed()
+///     );
 /// }
 /// ```
 ///
@@ -68,7 +72,11 @@ use bevy_utils::Duration;
 /// # use bevy_time::prelude::*;
 /// #
 /// fn real_time_system(time: Res<Time<Real>>) {
-///     println!("this will always be real time: delta {:?}, elapsed {:?}", time.delta(), time.elapsed());
+///     println!(
+///         "this will always be real time: delta {:?}, elapsed {:?}",
+///         time.delta(),
+///         time.elapsed()
+///     );
 /// }
 /// ```
 ///
@@ -82,7 +90,11 @@ use bevy_utils::Duration;
 /// # use bevy_time::prelude::*;
 /// #
 /// fn fixed_time_system(time: Res<Time<Fixed>>) {
-///     println!("this will always be the last executed fixed timestep: delta {:?}, elapsed {:?}", time.delta(), time.elapsed());
+///     println!(
+///         "this will always be the last executed fixed timestep: delta {:?}, elapsed {:?}",
+///         time.delta(),
+///         time.elapsed()
+///     );
 /// }
 /// ```
 ///
@@ -101,8 +113,15 @@ use bevy_utils::Duration;
 /// # use bevy_time::prelude::*;
 /// #
 /// fn fixed_time_system(time: Res<Time<Virtual>>) {
-///     println!("this will be virtual time for this update: delta {:?}, elapsed {:?}", time.delta(), time.elapsed());
-///     println!("also the relative speed of the game is now {}", time.effective_speed());
+///     println!(
+///         "this will be virtual time for this update: delta {:?}, elapsed {:?}",
+///         time.delta(),
+///         time.elapsed()
+///     );
+///     println!(
+///         "also the relative speed of the game is now {}",
+///         time.effective_speed()
+///     );
 /// }
 /// ```
 ///
@@ -175,9 +194,9 @@ use bevy_utils::Duration;
 ///
 /// impl CustomTime for Time<Custom> {
 ///     fn update_from_external(&mut self, instant: Instant) {
-///          let delta = instant - self.context().last_external_time;
-///          self.advance_by(delta);
-///          self.context_mut().last_external_time = instant;
+///         let delta = instant - self.context().last_external_time;
+///         self.advance_by(delta);
+///         self.context_mut().last_external_time = instant;
 ///     }
 /// }
 /// ```

@@ -229,7 +229,9 @@ impl<'a> ExactSizeIterator for FieldIter<'a> {}
 /// }
 ///
 /// # fn main() {
-/// let mut foo = Foo { bar: "Hello, world!".to_string() };
+/// let mut foo = Foo {
+///     bar: "Hello, world!".to_string(),
+/// };
 ///
 /// foo.get_field_mut::<String>("bar").unwrap().truncate(5);
 /// assert_eq!(foo.get_field::<String>("bar"), Some(&"Hello".to_string()));
@@ -526,7 +528,7 @@ pub fn struct_partial_eq<S: Struct>(a: &S, b: &dyn Reflect) -> Option<bool> {
 /// use bevy_reflect::Reflect;
 /// #[derive(Reflect)]
 /// struct MyStruct {
-///   foo: usize
+///     foo: usize,
 /// }
 ///
 /// let my_struct: &dyn Reflect = &MyStruct { foo: 123 };

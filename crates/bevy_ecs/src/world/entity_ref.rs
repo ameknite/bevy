@@ -25,10 +25,7 @@ use super::{unsafe_world_cell::UnsafeEntityCell, Ref};
 /// # use bevy_ecs::prelude::*;
 /// # #[derive(Component)] pub struct A;
 /// # #[derive(Component)] pub struct B;
-/// fn disjoint_system(
-///     query1: Query<&mut A>,
-///     query2: Query<EntityRef, Without<A>>,
-/// ) {
+/// fn disjoint_system(query1: Query<&mut A>, query2: Query<EntityRef, Without<A>>) {
 ///     // ...
 /// }
 /// # bevy_ecs::system::assert_is_system(disjoint_system);
@@ -255,10 +252,7 @@ impl<'a> TryFrom<&'a FilteredEntityMut<'_>> for EntityRef<'a> {
 /// ```
 /// # use bevy_ecs::prelude::*;
 /// # #[derive(Component)] pub struct A;
-/// fn disjoint_system(
-///     query1: Query<EntityMut, With<A>>,
-///     query2: Query<EntityMut, Without<A>>,
-/// ) {
+/// fn disjoint_system(query1: Query<EntityMut, With<A>>, query2: Query<EntityMut, Without<A>>) {
 ///     // ...
 /// }
 /// # bevy_ecs::system::assert_is_system(disjoint_system);

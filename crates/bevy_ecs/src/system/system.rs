@@ -197,8 +197,8 @@ impl<In: 'static, Out: 'static> Debug for dyn System<In = In, Out = Out> {
 /// struct Counter(u8);
 ///
 /// fn increment(mut counter: Local<Counter>) {
-///    counter.0 += 1;
-///    println!("{}", counter.0);
+///     counter.0 += 1;
+///     println!("{}", counter.0);
 /// }
 ///
 /// let mut world = World::default();
@@ -234,7 +234,7 @@ impl<In: 'static, Out: 'static> Debug for dyn System<In = In, Out = Out> {
 /// });
 /// # assert!(world.get_entity(entity).is_some());
 /// ```
-///
+/// 
 /// ## Immediate Queries
 ///
 /// This usage is helpful when trying to run an arbitrary query on a world for testing or debugging

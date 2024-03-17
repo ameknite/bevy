@@ -30,7 +30,7 @@ struct ParallelCommandQueue {
 /// # impl Velocity { fn magnitude(&self) -> f32 { 42.0 } }
 /// fn parallel_command_system(
 ///     mut query: Query<(Entity, &Velocity)>,
-///     par_commands: ParallelCommands
+///     par_commands: ParallelCommands,
 /// ) {
 ///     query.par_iter().for_each(|(entity, velocity)| {
 ///         if velocity.magnitude() > 10.0 {

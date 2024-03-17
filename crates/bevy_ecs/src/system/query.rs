@@ -585,10 +585,7 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     ///     list: Vec<Entity>,
     /// }
     ///
-    /// fn system(
-    ///     friends_query: Query<&Friends>,
-    ///     counter_query: Query<&Counter>,
-    /// ) {
+    /// fn system(friends_query: Query<&Friends>, counter_query: Query<&Counter>) {
     ///     for friends in &friends_query {
     ///         for counter in counter_query.iter_many(&friends.list) {
     ///             println!("Friend's counter: {:?}", counter.value);
@@ -633,7 +630,7 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// # use bevy_ecs::prelude::*;
     /// #[derive(Component)]
     /// struct Counter {
-    ///     value: i32
+    ///     value: i32,
     /// }
     ///
     /// #[derive(Component)]
@@ -641,10 +638,7 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     ///     list: Vec<Entity>,
     /// }
     ///
-    /// fn system(
-    ///     friends_query: Query<&Friends>,
-    ///     mut counter_query: Query<&mut Counter>,
-    /// ) {
+    /// fn system(friends_query: Query<&Friends>, mut counter_query: Query<&mut Counter>) {
     ///     for friends in &friends_query {
     ///         let mut iter = counter_query.iter_many_mut(&friends.list);
     ///         while let Some(mut counter) = iter.fetch_next() {
@@ -849,10 +843,9 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// # struct Character { name: String }
     /// #
     /// fn print_selected_character_name_system(
-    ///        query: Query<&Character>,
-    ///        selection: Res<SelectedCharacter>
-    /// )
-    /// {
+    ///     query: Query<&Character>,
+    ///     selection: Res<SelectedCharacter>,
+    /// ) {
     ///     if let Ok(selected_character) = query.get(selection.entity) {
     ///         println!("{}", selected_character.name);
     ///     }
@@ -915,9 +908,9 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// struct Targets([Entity; 3]);
     ///
     /// #[derive(Component)]
-    /// struct Position{
+    /// struct Position {
     ///     x: i8,
-    ///     y: i8
+    ///     y: i8,
     /// };
     ///
     /// impl Position {
@@ -927,7 +920,10 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     ///     }
     /// }
     ///
-    /// fn check_all_targets_in_range(targeting_query: Query<(Entity, &Targets, &Position)>, targets_query: Query<&Position>){
+    /// fn check_all_targets_in_range(
+    ///     targeting_query: Query<(Entity, &Targets, &Position)>,
+    ///     targets_query: Query<&Position>,
+    /// ) {
     ///     for (targeting_entity, targets, origin) in &targeting_query {
     ///         // We can use "destructuring" to unpack the results nicely
     ///         let [target_1, target_2, target_3] = targets_query.many(targets.0);
@@ -1024,7 +1020,7 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// use bevy_ecs::prelude::*;
     ///
     /// #[derive(Component)]
-    /// struct Spring{
+    /// struct Spring {
     ///     connected_entities: [Entity; 2],
     ///     strength: f32,
     /// }
@@ -1041,17 +1037,18 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     ///     y: f32,
     /// }
     ///
-    /// fn spring_forces(spring_query: Query<&Spring>, mut mass_query: Query<(&Position, &mut Force)>){
+    /// fn spring_forces(spring_query: Query<&Spring>, mut mass_query: Query<(&Position, &mut Force)>) {
     ///     for spring in &spring_query {
-    ///          // We can use "destructuring" to unpack our query items nicely
-    ///          let [(position_1, mut force_1), (position_2, mut force_2)] = mass_query.many_mut(spring.connected_entities);
+    ///         // We can use "destructuring" to unpack our query items nicely
+    ///         let [(position_1, mut force_1), (position_2, mut force_2)] =
+    ///             mass_query.many_mut(spring.connected_entities);
     ///
-    ///          force_1.x += spring.strength * (position_1.x - position_2.x);
-    ///          force_1.y += spring.strength * (position_1.y - position_2.y);
+    ///         force_1.x += spring.strength * (position_1.x - position_2.x);
+    ///         force_1.y += spring.strength * (position_1.y - position_2.y);
     ///
-    ///          // Silence borrow-checker: I have split your mutable borrow!
-    ///          force_2.x += spring.strength * (position_2.x - position_1.x);
-    ///          force_2.y += spring.strength * (position_2.y - position_1.y);
+    ///         // Silence borrow-checker: I have split your mutable borrow!
+    ///         force_2.x += spring.strength * (position_2.x - position_1.x);
+    ///         force_2.y += spring.strength * (position_2.y - position_1.y);
     ///     }
     /// }
     /// ```
@@ -1214,7 +1211,9 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// # struct Health(u32);
     /// #
     /// fn regenerate_player_health_system(mut query: Query<&mut Health, With<Player>>) {
-    ///     let mut health = query.get_single_mut().expect("Error: Could not find a single player.");
+    ///     let mut health = query
+    ///         .get_single_mut()
+    ///         .expect("Error: Could not find a single player.");
     ///     health.0 += 1;
     /// }
     /// # bevy_ecs::system::assert_is_system(regenerate_player_health_system);
@@ -1431,9 +1430,10 @@ impl<'w, 's, D: QueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// fn system(
     ///     mut transforms: Query<&Transform>,
     ///     mut players: Query<&Player>,
-    ///     mut enemies: Query<&Enemy>
+    ///     mut enemies: Query<&Enemy>,
     /// ) {
-    ///     let mut players_transforms: QueryLens<(&Transform, &Player)> = transforms.join(&mut players);
+    ///     let mut players_transforms: QueryLens<(&Transform, &Player)> =
+    ///         transforms.join(&mut players);
     ///     for (transform, player) in &players_transforms.query() {
     ///         // do something with a and b
     ///     }
@@ -1538,10 +1538,9 @@ impl<'w, 's, D: ReadOnlyQueryData, F: QueryFilter> Query<'w, 's, D, F> {
     /// # struct Character { name: String }
     /// #
     /// fn print_selected_character_name_system(
-    ///        query: Query<&Character>,
-    ///        selection: Res<SelectedCharacter>
-    /// )
-    /// {
+    ///     query: Query<&Character>,
+    ///     selection: Res<SelectedCharacter>,
+    /// ) {
     ///     if let Ok(selected_character) = query.get(selection.entity) {
     ///         println!("{}", selected_character.name);
     ///     }

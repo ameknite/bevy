@@ -341,7 +341,7 @@ pub struct Style {
     ///         left: Val::Percent(10.),
     ///         right: Val::Percent(10.),
     ///         top: Val::Percent(15.),
-    ///         bottom: Val::Percent(15.)
+    ///         bottom: Val::Percent(15.),
     ///     },
     ///     ..Default::default()
     /// };
@@ -365,7 +365,7 @@ pub struct Style {
     ///         left: Val::Percent(1.),
     ///         right: Val::Percent(2.),
     ///         top: Val::Percent(3.),
-    ///         bottom: Val::Percent(4.)
+    ///         bottom: Val::Percent(4.),
     ///     },
     ///     ..Default::default()
     /// };
@@ -1742,7 +1742,7 @@ impl Default for BorderColor {
 ///             background_color: BLUE.into(),
 ///             ..Default::default()
 ///         },
-///         Outline::new(Val::Px(10.), Val::ZERO, RED.into())
+///         Outline::new(Val::Px(10.), Val::ZERO, RED.into()),
 ///     ));
 /// }
 /// ```
@@ -1757,16 +1757,19 @@ impl Default for BorderColor {
 ///     mut node_query: Query<(Entity, &Interaction, Option<&mut Outline>), Changed<Interaction>>,
 /// ) {
 ///     for (entity, interaction, mut maybe_outline) in node_query.iter_mut() {
-///         let outline_color =
-///             if matches!(*interaction, Interaction::Hovered) {
-///                 Color::WHITE
-///             } else {
-///                 Color::NONE
-///             };
+///         let outline_color = if matches!(*interaction, Interaction::Hovered) {
+///             Color::WHITE
+///         } else {
+///             Color::NONE
+///         };
 ///         if let Some(mut outline) = maybe_outline {
 ///             outline.color = outline_color;
 ///         } else {
-///             commands.entity(entity).insert(Outline::new(Val::Px(10.), Val::ZERO, outline_color));
+///             commands.entity(entity).insert(Outline::new(
+///                 Val::Px(10.),
+///                 Val::ZERO,
+///                 outline_color,
+///             ));
 ///         }
 ///     }
 /// }
@@ -1955,10 +1958,12 @@ impl TargetCamera {
 /// # use bevy_window::{Window, WindowRef};
 ///
 /// fn spawn_camera(mut commands: Commands) {
-///     let another_window = commands.spawn(Window {
-///         title: String::from("Another window"),
-///         ..Default::default()
-///     }).id();
+///     let another_window = commands
+///         .spawn(Window {
+///             title: String::from("Another window"),
+///             ..Default::default()
+///         })
+///         .id();
 ///     commands.spawn((
 ///         Camera2dBundle {
 ///             camera: Camera {
@@ -1969,7 +1974,7 @@ impl TargetCamera {
 ///         },
 ///         // We add the Marker here so all Ui will spawn in
 ///         // another window if no TargetCamera is specified
-///         IsDefaultUiCamera
+///         IsDefaultUiCamera,
 ///     ));
 /// }
 /// ```

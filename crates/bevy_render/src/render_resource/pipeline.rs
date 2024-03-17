@@ -58,7 +58,6 @@ render_resource_wrapper!(ErasedComputePipeline, wgpu::ComputePipeline);
 /// May be converted from and dereferences to a wgpu [`ComputePipeline`](wgpu::ComputePipeline).
 /// Can be created via
 /// [`RenderDevice::create_compute_pipeline`](crate::renderer::RenderDevice::create_compute_pipeline).
-///
 #[derive(Clone, Debug)]
 pub struct ComputePipeline {
     id: ComputePipelineId,

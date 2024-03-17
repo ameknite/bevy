@@ -57,10 +57,7 @@ impl From<()> for DynamicVariant {
 /// let mut value: Option<usize> = Some(123);
 ///
 /// // Create a DynamicEnum to represent the new value
-/// let mut dyn_enum = DynamicEnum::new(
-///   "None",
-///   DynamicVariant::Unit
-/// );
+/// let mut dyn_enum = DynamicEnum::new("None", DynamicVariant::Unit);
 ///
 /// // Apply the DynamicEnum as a patch to the original value
 /// value.apply(&dyn_enum);

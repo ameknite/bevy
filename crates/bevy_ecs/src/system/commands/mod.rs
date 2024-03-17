@@ -39,7 +39,7 @@ use std::marker::PhantomData;
 /// # use bevy_ecs::prelude::*;
 /// #
 /// fn my_system(mut commands: Commands) {
-///    // ...
+///     // ...
 /// }
 /// # bevy_ecs::system::assert_is_system(my_system);
 /// ```
@@ -145,7 +145,8 @@ impl<'w, 's> Commands<'w, 's> {
     ///     let empty_entity = commands.spawn_empty().id();
     ///
     ///     // Create another empty entity, then add some component to it
-    ///     commands.spawn_empty()
+    ///     commands
+    ///         .spawn_empty()
     ///         // adds a new component bundle to the entity
     ///         .insert((Strength(1), Agility(2)))
     ///         // adds a single component to the entity
@@ -268,7 +269,8 @@ impl<'w, 's> Commands<'w, 's> {
     ///     // Create a new, empty entity
     ///     let entity = commands.spawn_empty().id();
     ///
-    ///     commands.entity(entity)
+    ///     commands
+    ///         .entity(entity)
     ///         // adds a new component bundle to the entity
     ///         .insert((Strength(1), Agility(2)))
     ///         // adds a single component to the entity
@@ -359,14 +361,8 @@ impl<'w, 's> Commands<'w, 's> {
     /// #
     /// # fn system(mut commands: Commands) {
     /// commands.spawn_batch(vec![
-    ///     (
-    ///         Name("Alice".to_string()),
-    ///         Score(0),
-    ///     ),
-    ///     (
-    ///         Name("Bob".to_string()),
-    ///         Score(0),
-    ///     ),
+    ///     (Name("Alice".to_string()), Score(0)),
+    ///     (Name("Bob".to_string()), Score(0)),
     /// ]);
     /// # }
     /// # bevy_ecs::system::assert_is_system(system);
@@ -591,7 +587,9 @@ impl<'w, 's> Commands<'w, 's> {
 ///     counter.0 += 1;
 ///
 ///     // Name the entity after the value of the counter.
-///     world.entity_mut(entity).insert(Name::new(format!("Entity #{i}")));
+///     world
+///         .entity_mut(entity)
+///         .insert(Name::new(format!("Entity #{i}")));
 /// }
 ///
 /// // App creation boilerplate omitted...
@@ -767,23 +765,23 @@ impl EntityCommands<'_> {
     /// }
     ///
     /// fn add_combat_stats_system(mut commands: Commands, player: Res<PlayerEntity>) {
-    ///   commands.entity(player.entity)
-    ///    // You can try_insert individual components:
-    ///     .try_insert(Defense(10))
-    ///     
-    ///    // You can also insert tuples of components:
-    ///     .try_insert(CombatBundle {
-    ///         health: Health(100),
-    ///         strength: Strength(40),
-    ///     });
-    ///    
-    ///    // Suppose this occurs in a parallel adjacent system or process
-    ///    commands.entity(player.entity)
-    ///      .despawn();
+    ///     commands
+    ///         .entity(player.entity)
+    ///         // You can try_insert individual components:
+    ///         .try_insert(Defense(10))
+    ///         // You can also insert tuples of components:
+    ///         .try_insert(CombatBundle {
+    ///             health: Health(100),
+    ///             strength: Strength(40),
+    ///         });
     ///
-    ///    commands.entity(player.entity)
-    ///    // This will not panic nor will it add the component
-    ///      .try_insert(Defense(5));
+    ///     // Suppose this occurs in a parallel adjacent system or process
+    ///     commands.entity(player.entity).despawn();
+    ///
+    ///     commands
+    ///         .entity(player.entity)
+    ///         // This will not panic nor will it add the component
+    ///         .try_insert(Defense(5));
     /// }
     /// # bevy_ecs::system::assert_is_system(add_combat_stats_system);
     /// ```
@@ -856,9 +854,8 @@ impl EntityCommands<'_> {
     /// #
     /// fn remove_character_system(
     ///     mut commands: Commands,
-    ///     character_to_remove: Res<CharacterToRemove>
-    /// )
-    /// {
+    ///     character_to_remove: Res<CharacterToRemove>,
+    /// ) {
     ///     commands.entity(character_to_remove.entity).despawn();
     /// }
     /// # bevy_ecs::system::assert_is_system(remove_character_system);
