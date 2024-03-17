@@ -35,17 +35,19 @@ use std::{
 };
 use thiserror::Error;
 
-/// Loads and tracks the state of [`Asset`] values from a configured [`AssetReader`]. This can be used to kick off new asset loads and
-/// retrieve their current load states.
+/// Loads and tracks the state of [`Asset`] values from a configured [`AssetReader`]. This can be
+/// used to kick off new asset loads and retrieve their current load states.
 ///
 /// The general process to load an asset is:
-/// 1. Initialize a new [`Asset`] type with the [`AssetServer`] via [`AssetApp::init_asset`], which will internally call [`AssetServer::register_asset`]
+/// 1. Initialize a new [`Asset`] type with the [`AssetServer`] via [`AssetApp::init_asset`], which
+///    will internally call [`AssetServer::register_asset`]
 /// and set up related ECS [`Assets`] storage and systems.
 /// 2. Register one or more [`AssetLoader`]s for that asset with [`AssetApp::init_asset_loader`]
 /// 3. Add the asset to your asset folder (defaults to `assets`).
 /// 4. Call [`AssetServer::load`] with a path to your asset.
 ///
-/// [`AssetServer`] can be cloned. It is backed by an [`Arc`] so clones will share state. Clones can be freely used in parallel.
+/// [`AssetServer`] can be cloned. It is backed by an [`Arc`] so clones will share state. Clones can
+/// be freely used in parallel.
 ///
 /// [`AssetApp::init_asset`]: crate::AssetApp::init_asset
 /// [`AssetApp::init_asset_loader`]: crate::AssetApp::init_asset_loader
@@ -75,8 +77,8 @@ pub enum AssetServerMode {
 }
 
 impl AssetServer {
-    /// Create a new instance of [`AssetServer`]. If `watch_for_changes` is true, the [`AssetReader`] storage will watch for changes to
-    /// asset sources and hot-reload them.
+    /// Create a new instance of [`AssetServer`]. If `watch_for_changes` is true, the
+    /// [`AssetReader`] storage will watch for changes to asset sources and hot-reload them.
     pub fn new(sources: AssetSources, mode: AssetServerMode, watching_for_changes: bool) -> Self {
         Self::new_with_loaders(
             sources,
@@ -87,8 +89,8 @@ impl AssetServer {
         )
     }
 
-    /// Create a new instance of [`AssetServer`]. If `watch_for_changes` is true, the [`AssetReader`] storage will watch for changes to
-    /// asset sources and hot-reload them.
+    /// Create a new instance of [`AssetServer`]. If `watch_for_changes` is true, the
+    /// [`AssetReader`] storage will watch for changes to asset sources and hot-reload them.
     pub fn new_with_meta_check(
         sources: AssetSources,
         mode: AssetServerMode,
@@ -140,12 +142,14 @@ impl AssetServer {
         self.data.infos.read().watching_for_changes
     }
 
-    /// Registers a new [`AssetLoader`]. [`AssetLoader`]s must be registered before they can be used.
+    /// Registers a new [`AssetLoader`]. [`AssetLoader`]s must be registered before they can be
+    /// used.
     pub fn register_loader<L: AssetLoader>(&self, loader: L) {
         self.data.loaders.write().push(loader);
     }
 
-    /// Registers a new [`Asset`] type. [`Asset`] types must be registered before assets of that type can be loaded.
+    /// Registers a new [`Asset`] type. [`Asset`] types must be registered before assets of that
+    /// type can be loaded.
     pub fn register_asset<A: Asset>(&self, assets: &Assets<A>) {
         self.register_handle_provider(assets.get_handle_provider());
         fn sender<A: Asset>(world: &mut World, id: UntypedAssetId) {
@@ -200,7 +204,8 @@ impl AssetServer {
         loader.ok_or_else(error)?.get().await.map_err(|_| error())
     }
 
-    /// Returns the registered [`AssetLoader`] associated with the given [`std::any::type_name`], if it exists.
+    /// Returns the registered [`AssetLoader`] associated with the given [`std::any::type_name`], if
+    /// it exists.
     pub async fn get_asset_loader_with_type_name(
         &self,
         type_name: &str,
@@ -241,7 +246,8 @@ impl AssetServer {
         loader.ok_or_else(error)?.get().await.map_err(|_| error())
     }
 
-    /// Retrieves the default [`AssetLoader`] for the given [`Asset`] [`TypeId`], if one can be found.
+    /// Retrieves the default [`AssetLoader`] for the given [`Asset`] [`TypeId`], if one can be
+    /// found.
     pub async fn get_asset_loader_with_asset_type_id<'a>(
         &self,
         type_id: TypeId,
@@ -261,22 +267,25 @@ impl AssetServer {
             .await
     }
 
-    /// Begins loading an [`Asset`] of type `A` stored at `path`. This will not block on the asset load. Instead,
-    /// it returns a "strong" [`Handle`]. When the [`Asset`] is loaded (and enters [`LoadState::Loaded`]), it will be added to the
-    /// associated [`Assets`] resource.
+    /// Begins loading an [`Asset`] of type `A` stored at `path`. This will not block on the asset
+    /// load. Instead, it returns a "strong" [`Handle`]. When the [`Asset`] is loaded (and
+    /// enters [`LoadState::Loaded`]), it will be added to the associated [`Assets`] resource.
     ///
-    /// You can check the asset's load state by reading [`AssetEvent`] events, calling [`AssetServer::load_state`], or checking
-    /// the [`Assets`] storage to see if the [`Asset`] exists yet.
+    /// You can check the asset's load state by reading [`AssetEvent`] events, calling
+    /// [`AssetServer::load_state`], or checking the [`Assets`] storage to see if the [`Asset`]
+    /// exists yet.
     ///
-    /// The asset load will fail and an error will be printed to the logs if the asset stored at `path` is not of type `A`.
+    /// The asset load will fail and an error will be printed to the logs if the asset stored at
+    /// `path` is not of type `A`.
     #[must_use = "not using the returned strong handle may result in the unexpected release of the asset"]
     pub fn load<'a, A: Asset>(&self, path: impl Into<AssetPath<'a>>) -> Handle<A> {
         self.load_with_meta_transform(path, None)
     }
 
-    /// Begins loading an [`Asset`] of type `A` stored at `path`. The given `settings` function will override the asset's
-    /// [`AssetLoader`] settings. The type `S` _must_ match the configured [`AssetLoader::Settings`] or `settings` changes
-    /// will be ignored and an error will be printed to the log.
+    /// Begins loading an [`Asset`] of type `A` stored at `path`. The given `settings` function will
+    /// override the asset's [`AssetLoader`] settings. The type `S` _must_ match the configured
+    /// [`AssetLoader::Settings`] or `settings` changes will be ignored and an error will be
+    /// printed to the log.
     #[must_use = "not using the returned strong handle may result in the unexpected release of the asset"]
     pub fn load_with_settings<'a, A: Asset, S: Settings>(
         &self,
@@ -313,9 +322,10 @@ impl AssetServer {
         handle
     }
 
-    /// Asynchronously load an asset that you do not know the type of statically. If you _do_ know the type of the asset,
-    /// you should use [`AssetServer::load`]. If you don't know the type of the asset, but you can't use an async method,
-    /// consider using [`AssetServer::load_untyped`].
+    /// Asynchronously load an asset that you do not know the type of statically. If you _do_ know
+    /// the type of the asset, you should use [`AssetServer::load`]. If you don't know the type
+    /// of the asset, but you can't use an async method, consider using
+    /// [`AssetServer::load_untyped`].
     #[must_use = "not using the returned strong handle may result in the unexpected release of the asset"]
     pub async fn load_untyped_async<'a>(
         &self,
@@ -325,7 +335,8 @@ impl AssetServer {
         self.load_internal(None, path, false, None).await
     }
 
-    /// Load an asset without knowing its type. The method returns a handle to a [`LoadedUntypedAsset`].
+    /// Load an asset without knowing its type. The method returns a handle to a
+    /// [`LoadedUntypedAsset`].
     ///
     /// Once the [`LoadedUntypedAsset`] is loaded, an untyped handle for the requested path can be
     /// retrieved from it.
@@ -400,8 +411,9 @@ impl AssetServer {
 
     /// Performs an async asset load.
     ///
-    /// `input_handle` must only be [`Some`] if `should_load` was true when retrieving `input_handle`. This is an optimization to
-    /// avoid looking up `should_load` twice, but it means you _must_ be sure a load is necessary when calling this function with [`Some`].
+    /// `input_handle` must only be [`Some`] if `should_load` was true when retrieving
+    /// `input_handle`. This is an optimization to avoid looking up `should_load` twice, but it
+    /// means you _must_ be sure a load is necessary when calling this function with [`Some`].
     async fn load_internal<'a>(
         &self,
         input_handle: Option<UntypedHandle>,
@@ -417,8 +429,8 @@ impl AssetServer {
             .get_meta_loader_and_reader(&path_clone, asset_type_id)
             .await
             .map_err(|e| {
-                // if there was an input handle, a "load" operation has already started, so we must produce a "failure" event, if
-                // we cannot find the meta and loader
+                // if there was an input handle, a "load" operation has already started, so we must
+                // produce a "failure" event, if we cannot find the meta and loader
                 if let Some(handle) = &input_handle {
                     self.send_asset_event(InternalAssetEvent::Failed {
                         id: handle.id(),
@@ -433,15 +445,16 @@ impl AssetServer {
         // If it is None, that is because it was _not_ retrievable, due to
         //    1. The handle was not already passed in for this path, meaning we can't just use that
         //    2. The asset has not been loaded yet, meaning there is no existing Handle for it
-        //    3. The path has a label, meaning the AssetLoader's root asset type is not the path's asset type
+        //    3. The path has a label, meaning the AssetLoader's root asset type is not the path's
+        //       asset type
         //
-        // In the None case, the only course of action is to wait for the asset to load so we can allocate the
-        // handle for that type.
+        // In the None case, the only course of action is to wait for the asset to load so we can
+        // allocate the handle for that type.
         //
-        // TODO: Note that in the None case, multiple asset loads for the same path can happen at the same time
-        // (rather than "early out-ing" in the "normal" case)
-        // This would be resolved by a universal asset id, as we would not need to resolve the asset type
-        // to generate the ID. See this issue: https://github.com/bevyengine/bevy/issues/10549
+        // TODO: Note that in the None case, multiple asset loads for the same path can happen at
+        // the same time (rather than "early out-ing" in the "normal" case)
+        // This would be resolved by a universal asset id, as we would not need to resolve the asset
+        // type to generate the ID. See this issue: https://github.com/bevyengine/bevy/issues/10549
         let handle_result = match input_handle {
             Some(handle) => {
                 // if a handle was passed in, the "should load" check was already done
@@ -552,7 +565,8 @@ impl AssetServer {
         self.send_asset_event(InternalAssetEvent::Loaded { id, loaded_asset });
     }
 
-    /// Kicks off a reload of the asset stored at the given path. This will only reload the asset if it currently loaded.
+    /// Kicks off a reload of the asset stored at the given path. This will only reload the asset if
+    /// it currently loaded.
     pub fn reload<'a>(&self, path: impl Into<AssetPath<'a>>) {
         let server = self.clone();
         let path = path.into().into_owned();
@@ -584,10 +598,11 @@ impl AssetServer {
             .detach();
     }
 
-    /// Queues a new asset to be tracked by the [`AssetServer`] and returns a [`Handle`] to it. This can be used to track
-    /// dependencies of assets created at runtime.
+    /// Queues a new asset to be tracked by the [`AssetServer`] and returns a [`Handle`] to it. This
+    /// can be used to track dependencies of assets created at runtime.
     ///
-    /// After the asset has been fully loaded by the [`AssetServer`], it will show up in the relevant [`Assets`] storage.
+    /// After the asset has been fully loaded by the [`AssetServer`], it will show up in the
+    /// relevant [`Assets`] storage.
     #[must_use = "not using the returned strong handle may result in the unexpected release of the asset"]
     pub fn add<A: Asset>(&self, asset: A) -> Handle<A> {
         self.load_asset(LoadedAsset::new_with_dependencies(asset, None))
@@ -629,9 +644,9 @@ impl AssetServer {
         handle
     }
 
-    /// Loads all assets from the specified folder recursively. The [`LoadedFolder`] asset (when it loads) will
-    /// contain handles to all assets in the folder. You can wait for all assets to load by checking the [`LoadedFolder`]'s
-    /// [`RecursiveDependencyLoadState`].
+    /// Loads all assets from the specified folder recursively. The [`LoadedFolder`] asset (when it
+    /// loads) will contain handles to all assets in the folder. You can wait for all assets to
+    /// load by checking the [`LoadedFolder`]'s [`RecursiveDependencyLoadState`].
     ///
     /// Loading the same folder multiple times will return the same handle. If the `file_watcher`
     /// feature is enabled, [`LoadedFolder`] handles will reload when a file in the folder is
@@ -795,8 +810,8 @@ impl AssetServer {
             && self.recursive_dependency_load_state(id) == RecursiveDependencyLoadState::Loaded
     }
 
-    /// Returns an active handle for the given path, if the asset at the given path has already started loading,
-    /// or is still "alive".
+    /// Returns an active handle for the given path, if the asset at the given path has already
+    /// started loading, or is still "alive".
     pub fn get_handle<'a, A: Asset>(&self, path: impl Into<AssetPath<'a>>) -> Option<Handle<A>> {
         self.get_path_and_type_id_handle(&path.into(), TypeId::of::<A>())
             .map(|h| h.typed_debug_checked())
@@ -819,14 +834,14 @@ impl AssetServer {
         self.data.infos.read().get_id_handle(id)
     }
 
-    /// Returns `true` if the given `id` corresponds to an asset that is managed by this [`AssetServer`].
-    /// Otherwise, returns `false`.
+    /// Returns `true` if the given `id` corresponds to an asset that is managed by this
+    /// [`AssetServer`]. Otherwise, returns `false`.
     pub fn is_managed(&self, id: impl Into<UntypedAssetId>) -> bool {
         self.data.infos.read().contains_key(id.into())
     }
 
-    /// Returns an active untyped asset id for the given path, if the asset at the given path has already started loading,
-    /// or is still "alive".
+    /// Returns an active untyped asset id for the given path, if the asset at the given path has
+    /// already started loading, or is still "alive".
     /// Returns the first ID in the event of multiple assets being registered against a single path.
     ///
     /// # See also
@@ -838,18 +853,20 @@ impl AssetServer {
         ids.next()
     }
 
-    /// Returns all active untyped asset IDs for the given path, if the assets at the given path have already started loading,
-    /// or are still "alive".
-    /// Multiple IDs will be returned in the event that a single path is used by multiple [`AssetLoader`]'s.
+    /// Returns all active untyped asset IDs for the given path, if the assets at the given path
+    /// have already started loading, or are still "alive".
+    /// Multiple IDs will be returned in the event that a single path is used by multiple
+    /// [`AssetLoader`]'s.
     pub fn get_path_ids<'a>(&self, path: impl Into<AssetPath<'a>>) -> Vec<UntypedAssetId> {
         let infos = self.data.infos.read();
         let path = path.into();
         infos.get_path_ids(&path).collect()
     }
 
-    /// Returns an active untyped handle for the given path, if the asset at the given path has already started loading,
-    /// or is still "alive".
-    /// Returns the first handle in the event of multiple assets being registered against a single path.
+    /// Returns an active untyped handle for the given path, if the asset at the given path has
+    /// already started loading, or is still "alive".
+    /// Returns the first handle in the event of multiple assets being registered against a single
+    /// path.
     ///
     /// # See also
     /// [`get_handles_untyped`][Self::get_handles_untyped] for all handles.
@@ -860,17 +877,18 @@ impl AssetServer {
         handles.next()
     }
 
-    /// Returns all active untyped handles for the given path, if the assets at the given path have already started loading,
-    /// or are still "alive".
-    /// Multiple handles will be returned in the event that a single path is used by multiple [`AssetLoader`]'s.
+    /// Returns all active untyped handles for the given path, if the assets at the given path have
+    /// already started loading, or are still "alive".
+    /// Multiple handles will be returned in the event that a single path is used by multiple
+    /// [`AssetLoader`]'s.
     pub fn get_handles_untyped<'a>(&self, path: impl Into<AssetPath<'a>>) -> Vec<UntypedHandle> {
         let infos = self.data.infos.read();
         let path = path.into();
         infos.get_path_handles(&path).collect()
     }
 
-    /// Returns an active untyped handle for the given path and [`TypeId`], if the asset at the given path has already started loading,
-    /// or is still "alive".
+    /// Returns an active untyped handle for the given path and [`TypeId`], if the asset at the
+    /// given path has already started loading, or is still "alive".
     pub fn get_path_and_type_id_handle(
         &self,
         path: &AssetPath,
@@ -901,7 +919,8 @@ impl AssetServer {
         self.data.loaders.write().reserve::<L>(extensions);
     }
 
-    /// Retrieve a handle for the given path. This will create a handle (and [`AssetInfo`]) if it does not exist
+    /// Retrieve a handle for the given path. This will create a handle (and [`AssetInfo`]) if it
+    /// does not exist
     pub(crate) fn get_or_create_path_handle<'a, A: Asset>(
         &self,
         path: impl Into<AssetPath<'a>>,
@@ -930,10 +949,11 @@ impl AssetServer {
         AssetLoadError,
     > {
         let source = self.get_source(asset_path.source())?;
-        // NOTE: We grab the asset byte reader first to ensure this is transactional for AssetReaders like ProcessorGatedReader
-        // The asset byte reader will "lock" the processed asset, preventing writes for the duration of the lock.
-        // Then the meta reader, if meta exists, will correspond to the meta for the current "version" of the asset.
-        // See ProcessedAssetInfo::file_transaction_lock for more context
+        // NOTE: We grab the asset byte reader first to ensure this is transactional for
+        // AssetReaders like ProcessorGatedReader The asset byte reader will "lock" the
+        // processed asset, preventing writes for the duration of the lock. Then the meta
+        // reader, if meta exists, will correspond to the meta for the current "version" of the
+        // asset. See ProcessedAssetInfo::file_transaction_lock for more context
         let asset_reader = match self.data.mode {
             AssetServerMode::Unprocessed { .. } => source.reader(),
             AssetServerMode::Processed { .. } => source.processed_reader()?,
@@ -1122,8 +1142,8 @@ pub fn handle_internal_asset_events(world: &mut World) {
         let mut paths_to_reload = HashSet::new();
         let mut handle_event = |source: AssetSourceId<'static>, event: AssetSourceEvent| {
             match event {
-                // TODO: if the asset was processed and the processed file was changed, the first modified event
-                // should be skipped?
+                // TODO: if the asset was processed and the processed file was changed, the first
+                // modified event should be skipped?
                 AssetSourceEvent::ModifiedAsset(path) | AssetSourceEvent::ModifiedMeta(path) => {
                     let path = AssetPath::from(path).with_source(source);
                     queue_ancestors(&path, &infos, &mut paths_to_reload);
@@ -1290,7 +1310,8 @@ pub struct MissingAssetLoaderForExtensionError {
     extensions: Vec<String>,
 }
 
-/// An error that occurs when an [`AssetLoader`] is not registered for a given [`std::any::type_name`].
+/// An error that occurs when an [`AssetLoader`] is not registered for a given
+/// [`std::any::type_name`].
 #[derive(Error, Debug, Clone)]
 #[error("no `AssetLoader` found with the name '{type_name}'")]
 pub struct MissingAssetLoaderForTypeNameError {

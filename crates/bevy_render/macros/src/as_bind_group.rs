@@ -420,7 +420,8 @@ pub fn derive_as_bind_group(ast: syn::DeriveInput) -> Result<TokenStream> {
                         count: None,
                     }
                 });
-            // multi-field uniform bindings for a given index require an intermediate struct to derive ShaderType
+            // multi-field uniform bindings for a given index require an intermediate struct to
+            // derive ShaderType
             } else {
                 let uniform_struct_name = Ident::new(
                     &format!("_{struct_name}AsBindGroupUniformStructBindGroup{binding_index}"),

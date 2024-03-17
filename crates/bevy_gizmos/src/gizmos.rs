@@ -77,8 +77,8 @@ unsafe impl<T: GizmoConfigGroup> SystemParam for Gizmos<'_, '_, T> {
         let (f0, f1) = unsafe {
             GizmosState::<T>::get_param(&mut state.state, system_meta, world, change_tick)
         };
-        // Accessing the GizmoConfigStore in the immediate mode API reduces performance significantly.
-        // Implementing SystemParam manually allows us to do it to here
+        // Accessing the GizmoConfigStore in the immediate mode API reduces performance
+        // significantly. Implementing SystemParam manually allows us to do it to here
         // Having config available allows for early returns when gizmos are disabled
         let (config, config_ext) = f1.into_inner().config::<T>();
         Gizmos {

@@ -29,9 +29,9 @@ pub struct WinitWindows {
     pub entity_to_winit: EntityHashMap<winit::window::WindowId>,
     /// Maps `winit` window identifiers to entities.
     pub winit_to_entity: HashMap<winit::window::WindowId, Entity>,
-    // Many `winit` window functions (e.g. `set_window_icon`) can only be called on the main thread.
-    // If they're called on other threads, the program might hang. This marker indicates that this
-    // type is not thread-safe and will be `!Send` and `!Sync`.
+    // Many `winit` window functions (e.g. `set_window_icon`) can only be called on the main
+    // thread. If they're called on other threads, the program might hang. This marker
+    // indicates that this type is not thread-safe and will be `!Send` and `!Sync`.
     _not_send_sync: core::marker::PhantomData<*const ()>,
 }
 
@@ -369,7 +369,7 @@ pub fn winit_window_position(
 ) -> Option<PhysicalPosition<i32>> {
     match position {
         WindowPosition::Automatic => {
-            /* Window manager will handle position */
+            // Window manager will handle position
             None
         }
         WindowPosition::Centered(monitor_selection) => {

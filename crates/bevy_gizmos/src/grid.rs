@@ -157,15 +157,19 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
     /// # Arguments
     ///
     /// - `position`: The center point of the grid.
-    /// - `rotation`: defines the orientation of the grid, by default we assume the grid is contained in a plane parallel to the XY plane.
+    /// - `rotation`: defines the orientation of the grid, by default we assume the grid is
+    ///   contained in a plane parallel to the XY plane.
     /// - `cell_count`: defines the amount of cells in the x and y axes
     /// - `spacing`: defines the distance between cells along the x and y axes
     /// - `color`: color of the grid
     ///
     /// # Builder methods
     ///
-    /// - The skew of the grid can be adjusted using the `.skew(...)`, `.skew_x(...)` or `.skew_y(...)` methods. They behave very similar to their CSS equivalents.
-    /// - All outer edges can be toggled on or off using `.outer_edges(...)`. Alternatively you can use `.outer_edges_x(...)` or `.outer_edges_y(...)` to toggle the outer edges along an axis.
+    /// - The skew of the grid can be adjusted using the `.skew(...)`, `.skew_x(...)` or
+    ///   `.skew_y(...)` methods. They behave very similar to their CSS equivalents.
+    /// - All outer edges can be toggled on or off using `.outer_edges(...)`. Alternatively you can
+    ///   use `.outer_edges_x(...)` or `.outer_edges_y(...)` to toggle the outer edges along an
+    ///   axis.
     ///
     /// # Example
     /// ```
@@ -213,15 +217,20 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
     /// # Arguments
     ///
     /// - `position`: The center point of the grid.
-    /// - `rotation`: defines the orientation of the grid, by default we assume the grid is contained in a plane parallel to the XY plane.
+    /// - `rotation`: defines the orientation of the grid, by default we assume the grid is
+    ///   contained in a plane parallel to the XY plane.
     /// - `cell_count`: defines the amount of cells in the x, y and z axes
     /// - `spacing`: defines the distance between cells along the x, y and z axes
     /// - `color`: color of the grid
     ///
     /// # Builder methods
     ///
-    /// - The skew of the grid can be adjusted using the `.skew(...)`, `.skew_x(...)`, `.skew_y(...)` or  `.skew_z(...)` methods. They behave very similar to their CSS equivalents.
-    /// - All outer edges can be toggled on or off using `.outer_edges(...)`. Alternatively you can use `.outer_edges_x(...)`, `.outer_edges_y(...)` or `.outer_edges_z(...)` to toggle the outer edges along an axis.
+    /// - The skew of the grid can be adjusted using the `.skew(...)`, `.skew_x(...)`,
+    ///   `.skew_y(...)` or  `.skew_z(...)` methods. They behave very similar to their CSS
+    ///   equivalents.
+    /// - All outer edges can be toggled on or off using `.outer_edges(...)`. Alternatively you can
+    ///   use `.outer_edges_x(...)`, `.outer_edges_y(...)` or `.outer_edges_z(...)` to toggle the
+    ///   outer edges along an axis.
     ///
     /// # Example
     /// ```
@@ -276,8 +285,11 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
     ///
     /// # Builder methods
     ///
-    /// - The skew of the grid can be adjusted using the `.skew(...)`, `.skew_x(...)` or `.skew_y(...)` methods. They behave very similar to their CSS equivalents.
-    /// - All outer edges can be toggled on or off using `.outer_edges(...)`. Alternatively you can use `.outer_edges_x(...)` or `.outer_edges_y(...)` to toggle the outer edges along an axis.
+    /// - The skew of the grid can be adjusted using the `.skew(...)`, `.skew_x(...)` or
+    ///   `.skew_y(...)` methods. They behave very similar to their CSS equivalents.
+    /// - All outer edges can be toggled on or off using `.outer_edges(...)`. Alternatively you can
+    ///   use `.outer_edges_x(...)` or `.outer_edges_y(...)` to toggle the outer edges along an
+    ///   axis.
     ///
     /// # Example
     /// ```

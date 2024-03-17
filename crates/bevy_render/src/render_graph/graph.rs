@@ -119,7 +119,8 @@ impl RenderGraph {
     ///
     /// # See also
     ///
-    /// - [`get_input_node`](Self::get_input_node) for a version which returns an [`Option`] instead.
+    /// - [`get_input_node`](Self::get_input_node) for a version which returns an [`Option`]
+    ///   instead.
     #[inline]
     pub fn input_node(&self) -> &NodeState {
         self.get_input_node().unwrap()

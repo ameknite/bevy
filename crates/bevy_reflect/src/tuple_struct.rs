@@ -71,7 +71,6 @@ impl TupleStructInfo {
     /// # Arguments
     ///
     /// * `fields`: The fields of this struct in the order they are defined
-    ///
     pub fn new<T: Reflect + TypePath>(fields: &[UnnamedField]) -> Self {
         Self {
             type_path: TypePathTable::of::<T>(),

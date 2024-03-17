@@ -49,7 +49,8 @@ fn slider_toggled() {
     println!("A slider was toggled!");
 }
 
-/// Runs the systems associated with each `Callback` component if the entity also has a Triggered component.
+/// Runs the systems associated with each `Callback` component if the entity also has a Triggered
+/// component.
 ///
 /// This could be done in an exclusive system rather than using `Commands` if preferred.
 fn evaluate_callbacks(query: Query<&Callback, With<Triggered>>, mut commands: Commands) {

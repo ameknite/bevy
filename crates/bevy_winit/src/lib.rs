@@ -2,8 +2,8 @@
 //!
 //! Most commonly, the [`WinitPlugin`] is used as part of
 //! [`DefaultPlugins`](https://docs.rs/bevy/latest/bevy/struct.DefaultPlugins.html).
-//! The app's [runner](bevy_app::App::runner) is set by `WinitPlugin` and handles the `winit` [`EventLoop`].
-//! See `winit_runner` for details.
+//! The app's [runner](bevy_app::App::runner) is set by `WinitPlugin` and handles the `winit`
+//! [`EventLoop`]. See `winit_runner` for details.
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 pub mod accessibility;
@@ -241,7 +241,8 @@ pub type CreateWindowParams<'w, 's, F = ()> = (
     Res<'w, AccessibilityRequested>,
 );
 
-/// The [`winit::event_loop::EventLoopProxy`] with the specific [`winit::event::Event::UserEvent`] used in the [`winit_runner`].
+/// The [`winit::event_loop::EventLoopProxy`] with the specific [`winit::event::Event::UserEvent`]
+/// used in the [`winit_runner`].
 ///
 /// The `EventLoopProxy` can be used to request a redraw from outside bevy.
 ///
@@ -671,8 +672,9 @@ fn handle_winit_event(
             runner_state.redraw_requested = true;
             #[cfg(target_os = "android")]
             {
-                // Get windows that are cached but without raw handles. Those window were already created, but got their
-                // handle wrapper removed when the app was suspended.
+                // Get windows that are cached but without raw handles. Those window were already
+                // created, but got their handle wrapper removed when the app was
+                // suspended.
                 let mut query = app
                         .world
                         .query_filtered::<(Entity, &Window), (With<CachedWindow>, Without<bevy_window::RawHandleWrapper>)>();

@@ -40,7 +40,8 @@ pub struct TextureAtlasBuilder<'a> {
     format: TextureFormat,
     /// Enable automatic format conversion for textures if they are not in the atlas format.
     auto_format_conversion: bool,
-    /// The amount of padding in pixels to add along the right and bottom edges of the texture rects.
+    /// The amount of padding in pixels to add along the right and bottom edges of the texture
+    /// rects.
     padding: UVec2,
 }
 
@@ -86,15 +87,17 @@ impl<'a> TextureAtlasBuilder<'a> {
 
     /// Adds a texture to be copied to the texture atlas.
     ///
-    /// Optionally an asset id can be passed that can later be used with the texture layout to retrieve the index of this texture.
-    /// The insertion order will reflect the index of the added texture in the finished texture atlas.
+    /// Optionally an asset id can be passed that can later be used with the texture layout to
+    /// retrieve the index of this texture. The insertion order will reflect the index of the
+    /// added texture in the finished texture atlas.
     pub fn add_texture(&mut self, image_id: Option<AssetId<Image>>, texture: &'a Image) {
         self.textures_to_place.push((image_id, texture));
     }
 
     /// Sets the amount of padding in pixels to add between the textures in the texture atlas.
     ///
-    /// The `x` value provide will be added to the right edge, while the `y` value will be added to the bottom edge.
+    /// The `x` value provide will be added to the right edge, while the `y` value will be added to
+    /// the bottom edge.
     pub fn padding(mut self, padding: UVec2) -> Self {
         self.padding = padding;
         self
@@ -257,7 +260,8 @@ impl<'a> TextureAtlasBuilder<'a> {
 
         let mut texture_rects = Vec::with_capacity(rect_placements.packed_locations().len());
         let mut texture_ids = HashMap::default();
-        // We iterate through the textures to place to respect the insertion order for the texture indices
+        // We iterate through the textures to place to respect the insertion order for the texture
+        // indices
         for (index, (image_id, texture)) in self.textures_to_place.iter().enumerate() {
             let (_, packed_location) = rect_placements.packed_locations().get(&index).unwrap();
 

@@ -8,8 +8,8 @@ use bevy_utils::{tracing::trace, BoxedFuture};
 use futures_io::AsyncRead;
 use std::{path::Path, pin::Pin, sync::Arc};
 
-/// An [`AssetReader`] that will prevent asset (and asset metadata) read futures from returning for a
-/// given path until that path has been processed by [`AssetProcessor`].
+/// An [`AssetReader`] that will prevent asset (and asset metadata) read futures from returning for
+/// a given path until that path has been processed by [`AssetProcessor`].
 ///
 /// [`AssetProcessor`]: crate::processor::AssetProcessor   
 pub struct ProcessorGatedReader {
@@ -131,7 +131,8 @@ impl AssetReader for ProcessorGatedReader {
     }
 }
 
-/// An [`AsyncRead`] impl that will hold its asset's transaction lock until [`TransactionLockedReader`] is dropped.
+/// An [`AsyncRead`] impl that will hold its asset's transaction lock until
+/// [`TransactionLockedReader`] is dropped.
 pub struct TransactionLockedReader<'a> {
     reader: Box<Reader<'a>>,
     _file_transaction_lock: RwLockReadGuardArc<()>,

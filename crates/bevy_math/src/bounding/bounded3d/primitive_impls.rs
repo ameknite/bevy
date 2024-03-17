@@ -149,7 +149,8 @@ impl Bounded3d for Capsule3d {
     fn aabb_3d(&self, translation: Vec3, rotation: Quat) -> Aabb3d {
         // Get the line segment between the hemispheres of the rotated capsule
         let segment = Segment3d {
-            // Multiplying a normalized vector (Vec3::Y) with a rotation returns a normalized vector.
+            // Multiplying a normalized vector (Vec3::Y) with a rotation returns a normalized
+            // vector.
             direction: rotation * Dir3::Y,
             half_length: self.half_length,
         };
@@ -229,13 +230,16 @@ impl Bounded3d for ConicalFrustum {
         let half_height = 0.5 * self.height;
 
         // To compute the bounding sphere, we'll get the center and radius of the circumcircle
-        // passing through all four vertices of the trapezoidal cross-section of the conical frustum.
+        // passing through all four vertices of the trapezoidal cross-section of the conical
+        // frustum.
         //
         // If the circumcenter is inside the trapezoid, we can use that for the bounding sphere.
-        // Otherwise, we clamp it to the longer parallel side to get a more tightly fitting bounding sphere.
+        // Otherwise, we clamp it to the longer parallel side to get a more tightly fitting bounding
+        // sphere.
         //
         // The circumcenter is at the intersection of the bisectors perpendicular to the sides.
-        // For the isosceles trapezoid, the X coordinate is zero at the center, so a single bisector is enough.
+        // For the isosceles trapezoid, the X coordinate is zero at the center, so a single bisector
+        // is enough.
         //
         //       A
         //       *-------*
@@ -276,7 +280,8 @@ impl Bounded3d for ConicalFrustum {
             (Vec2::new(0.0, half_height), self.radius_top)
         } else {
             let circumcenter = Vec2::new(0.0, circumcenter_y);
-            // We can use the distance from an arbitrary vertex because they all lie on the circumcircle.
+            // We can use the distance from an arbitrary vertex because they all lie on the
+            // circumcircle.
             (circumcenter, a.distance(circumcenter))
         };
 

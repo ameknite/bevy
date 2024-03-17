@@ -92,15 +92,19 @@ impl<'a, 'b> WhereClauseOptions<'a, 'b> {
         }
     }
 
-    /// Extends the `where` clause for a type with additional bounds needed for the reflection impls.
+    /// Extends the `where` clause for a type with additional bounds needed for the reflection
+    /// impls.
     ///
     /// The default bounds added are as follows:
     /// - `Self` has the bounds `Any + Send + Sync`
-    /// - Type parameters have the bound `TypePath` unless `#[reflect(type_path = false)]` is present
-    /// - Active fields have the bounds `TypePath` and either `Reflect` if `#[reflect(from_reflect = false)]` is present
-    ///   or `FromReflect` otherwise (or no bounds at all if `#[reflect(no_field_bounds)]` is present)
+    /// - Type parameters have the bound `TypePath` unless `#[reflect(type_path = false)]` is
+    ///   present
+    /// - Active fields have the bounds `TypePath` and either `Reflect` if `#[reflect(from_reflect =
+    ///   false)]` is present or `FromReflect` otherwise (or no bounds at all if
+    ///   `#[reflect(no_field_bounds)]` is present)
     ///
-    /// When the derive is used with `#[reflect(where)]`, the bounds specified in the attribute are added as well.
+    /// When the derive is used with `#[reflect(where)]`, the bounds specified in the attribute are
+    /// added as well.
     ///
     /// # Example
     ///
@@ -340,7 +344,8 @@ impl StringExpr {
         Self::Const(lit.to_token_stream())
     }
 
-    /// Creates a [constant] [`StringExpr`] by interpreting a [string slice][str] as a [`struct@LitStr`].
+    /// Creates a [constant] [`StringExpr`] by interpreting a [string slice][str] as a
+    /// [`struct@LitStr`].
     ///
     /// [constant]: StringExpr::Const
     pub fn from_str(string: &str) -> Self {

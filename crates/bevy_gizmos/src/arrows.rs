@@ -52,7 +52,8 @@ impl<T: GizmoConfigGroup> Drop for ArrowBuilder<'_, '_, '_, T> {
         // first, draw the body of the arrow
         self.gizmos.line(self.start, self.end, self.color);
         // now the hard part is to draw the head in a sensible way
-        // put us in a coordinate system where the arrow is pointing towards +x and ends at the origin
+        // put us in a coordinate system where the arrow is pointing towards +x and ends at the
+        // origin
         let pointing = (self.end - self.start).normalize();
         let rotation = Quat::from_rotation_arc(Vec3::X, pointing);
         let tips = [
@@ -73,7 +74,8 @@ impl<T: GizmoConfigGroup> Drop for ArrowBuilder<'_, '_, '_, T> {
 }
 
 impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
-    /// Draw an arrow in 3D, from `start` to `end`. Has four tips for convenient viewing from any direction.
+    /// Draw an arrow in 3D, from `start` to `end`. Has four tips for convenient viewing from any
+    /// direction.
     ///
     /// This should be called for each frame the arrow needs to be rendered.
     ///
@@ -130,8 +132,8 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
 }
 
 impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
-    /// Draw a set of axes local to the given transform (`transform`), with length scaled by a factor
-    /// of `base_length`.
+    /// Draw a set of axes local to the given transform (`transform`), with length scaled by a
+    /// factor of `base_length`.
     ///
     /// This should be called for each frame the axes need to be rendered.
     ///

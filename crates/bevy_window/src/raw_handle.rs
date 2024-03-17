@@ -4,11 +4,12 @@ use raw_window_handle::{
     RawWindowHandle, WindowHandle,
 };
 
-/// A wrapper over [`RawWindowHandle`] and [`RawDisplayHandle`] that allows us to safely pass it across threads.
+/// A wrapper over [`RawWindowHandle`] and [`RawDisplayHandle`] that allows us to safely pass it
+/// across threads.
 ///
-/// Depending on the platform, the underlying pointer-containing handle cannot be used on all threads,
-/// and so we cannot simply make it (or any type that has a safe operation to get a [`RawWindowHandle`] or [`RawDisplayHandle`])
-/// thread-safe.
+/// Depending on the platform, the underlying pointer-containing handle cannot be used on all
+/// threads, and so we cannot simply make it (or any type that has a safe operation to get a
+/// [`RawWindowHandle`] or [`RawDisplayHandle`]) thread-safe.
 #[derive(Debug, Clone, Component)]
 pub struct RawHandleWrapper {
     /// Raw handle to a window.
@@ -18,21 +19,23 @@ pub struct RawHandleWrapper {
 }
 
 impl RawHandleWrapper {
-    /// Returns a [`HasWindowHandle`] + [`HasDisplayHandle`] impl, which exposes [`WindowHandle`] and [`DisplayHandle`].
+    /// Returns a [`HasWindowHandle`] + [`HasDisplayHandle`] impl, which exposes [`WindowHandle`]
+    /// and [`DisplayHandle`].
     ///
     /// # Safety
     ///
-    /// Some platforms have constraints on where/how this handle can be used. For example, some platforms don't support doing window
-    /// operations off of the main thread. The caller must ensure the [`RawHandleWrapper`] is only used in valid contexts.
+    /// Some platforms have constraints on where/how this handle can be used. For example, some
+    /// platforms don't support doing window operations off of the main thread. The caller must
+    /// ensure the [`RawHandleWrapper`] is only used in valid contexts.
     pub unsafe fn get_handle(&self) -> ThreadLockedRawWindowHandleWrapper {
         ThreadLockedRawWindowHandleWrapper(self.clone())
     }
 }
 
-// SAFETY: [`RawHandleWrapper`] is just a normal "raw pointer", which doesn't impl Send/Sync. However the pointer is only
-// exposed via an unsafe method that forces the user to make a call for a given platform. (ex: some platforms don't
-// support doing window operations off of the main thread).
-// A recommendation for this pattern (and more context) is available here:
+// SAFETY: [`RawHandleWrapper`] is just a normal "raw pointer", which doesn't impl Send/Sync.
+// However the pointer is only exposed via an unsafe method that forces the user to make a call for
+// a given platform. (ex: some platforms don't support doing window operations off of the main
+// thread). A recommendation for this pattern (and more context) is available here:
 // https://github.com/rust-windowing/raw-window-handle/issues/59
 unsafe impl Send for RawHandleWrapper {}
 // SAFETY: This is safe for the same reasons as the Send impl above.
@@ -40,7 +43,8 @@ unsafe impl Sync for RawHandleWrapper {}
 
 /// A [`RawHandleWrapper`] that cannot be sent across threads.
 ///
-/// This safely exposes [`RawWindowHandle`] and [`RawDisplayHandle`], but care must be taken to ensure that the construction itself is correct.
+/// This safely exposes [`RawWindowHandle`] and [`RawDisplayHandle`], but care must be taken to
+/// ensure that the construction itself is correct.
 ///
 /// This can only be constructed via the [`RawHandleWrapper::get_handle()`] method;
 /// be sure to read the safety docs there about platform-specific limitations.
@@ -53,8 +57,9 @@ impl HasWindowHandle for ThreadLockedRawWindowHandleWrapper {
         // as otherwise an instance of this type could not have been constructed
         // NOTE: we cannot simply impl HasRawWindowHandle for RawHandleWrapper,
         // as the `raw_window_handle` method is safe. We cannot guarantee that all calls
-        // of this method are correct (as it may be off the main thread on an incompatible platform),
-        // and so exposing a safe method to get a [`RawWindowHandle`] directly would be UB.
+        // of this method are correct (as it may be off the main thread on an incompatible
+        // platform), and so exposing a safe method to get a [`RawWindowHandle`] directly
+        // would be UB.
         Ok(unsafe { WindowHandle::borrow_raw(self.0.window_handle) })
     }
 }
@@ -65,8 +70,9 @@ impl HasDisplayHandle for ThreadLockedRawWindowHandleWrapper {
         // as otherwise an instance of this type could not have been constructed
         // NOTE: we cannot simply impl HasRawDisplayHandle for RawHandleWrapper,
         // as the `raw_display_handle` method is safe. We cannot guarantee that all calls
-        // of this method are correct (as it may be off the main thread on an incompatible platform),
-        // and so exposing a safe method to get a [`RawDisplayHandle`] directly would be UB.
+        // of this method are correct (as it may be off the main thread on an incompatible
+        // platform), and so exposing a safe method to get a [`RawDisplayHandle`] directly
+        // would be UB.
         Ok(unsafe { DisplayHandle::borrow_raw(self.0.display_handle) })
     }
 }

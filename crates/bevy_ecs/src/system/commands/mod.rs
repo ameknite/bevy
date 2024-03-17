@@ -31,8 +31,9 @@ use std::marker::PhantomData;
 ///
 /// # Usage
 ///
-/// Add `mut commands: Commands` as a function argument to your system to get a copy of this struct that will be applied the next time a copy of [`apply_deferred`] runs.
-/// Commands are almost always used as a [`SystemParam`](crate::system::SystemParam).
+/// Add `mut commands: Commands` as a function argument to your system to get a copy of this struct
+/// that will be applied the next time a copy of [`apply_deferred`] runs. Commands are almost always
+/// used as a [`SystemParam`](crate::system::SystemParam).
 ///
 /// ```
 /// # use bevy_ecs::prelude::*;
@@ -165,8 +166,8 @@ impl<'w, 's> Commands<'w, 's> {
         }
     }
 
-    /// Pushes a [`Command`] to the queue for creating a new [`Entity`] if the given one does not exists,
-    /// and returns its corresponding [`EntityCommands`].
+    /// Pushes a [`Command`] to the queue for creating a new [`Entity`] if the given one does not
+    /// exists, and returns its corresponding [`EntityCommands`].
     ///
     /// This method silently fails by returning [`EntityCommands`]
     /// even if the given `Entity` cannot be spawned.
@@ -189,8 +190,8 @@ impl<'w, 's> Commands<'w, 's> {
         }
     }
 
-    /// Pushes a [`Command`] to the queue for creating a new entity with the given [`Bundle`]'s components,
-    /// and returns its corresponding [`EntityCommands`].
+    /// Pushes a [`Command`] to the queue for creating a new entity with the given [`Bundle`]'s
+    /// components, and returns its corresponding [`EntityCommands`].
     ///
     /// # Example
     ///
@@ -324,7 +325,7 @@ impl<'w, 's> Commands<'w, 's> {
     /// }
     /// # bevy_ecs::system::assert_is_system(example_system);
     /// ```
-    ///
+    /// 
     /// # See also
     ///
     /// - [`entity`](Self::entity) for the panicking version.
@@ -401,9 +402,10 @@ impl<'w, 's> Commands<'w, 's> {
     ///
     /// # Note
     ///
-    /// Spawning a specific `entity` value is rarely the right choice. Most apps should use [`Commands::spawn_batch`].
-    /// This method should generally only be used for sharing entities across apps, and only when they have a scheme
-    /// worked out to share an ID space (which doesn't happen by default).
+    /// Spawning a specific `entity` value is rarely the right choice. Most apps should use
+    /// [`Commands::spawn_batch`]. This method should generally only be used for sharing
+    /// entities across apps, and only when they have a scheme worked out to share an ID space
+    /// (which doesn't happen by default).
     pub fn insert_or_spawn_batch<I, B>(&mut self, bundles: I)
     where
         I: IntoIterator<Item = (Entity, B)> + Send + Sync + 'static,
@@ -412,7 +414,8 @@ impl<'w, 's> Commands<'w, 's> {
         self.queue.push(insert_or_spawn_batch(bundles));
     }
 
-    /// Pushes a [`Command`] to the queue for inserting a [`Resource`] in the [`World`] with an inferred value.
+    /// Pushes a [`Command`] to the queue for inserting a [`Resource`] in the [`World`] with an
+    /// inferred value.
     ///
     /// The inferred value is determined by the [`FromWorld`] trait of the resource.
     /// When the command is applied,
@@ -440,7 +443,8 @@ impl<'w, 's> Commands<'w, 's> {
         self.queue.push(init_resource::<R>);
     }
 
-    /// Pushes a [`Command`] to the queue for inserting a [`Resource`] in the [`World`] with a specific value.
+    /// Pushes a [`Command`] to the queue for inserting a [`Resource`] in the [`World`] with a
+    /// specific value.
     ///
     /// This will overwrite any previous value of the same resource type.
     ///
@@ -501,7 +505,8 @@ impl<'w, 's> Commands<'w, 's> {
     ///
     /// There is no way to get the output of a system when run as a command, because the
     /// execution of the system happens later. To get the output of a system, use
-    /// [`World::run_system`] or [`World::run_system_with_input`] instead of running the system as a command.
+    /// [`World::run_system`] or [`World::run_system_with_input`] instead of running the system as a
+    /// command.
     pub fn run_system(&mut self, id: SystemId) {
         self.run_system_with_input(id, ());
     }
@@ -514,7 +519,8 @@ impl<'w, 's> Commands<'w, 's> {
     ///
     /// There is no way to get the output of a system when run as a command, because the
     /// execution of the system happens later. To get the output of a system, use
-    /// [`World::run_system`] or [`World::run_system_with_input`] instead of running the system as a command.
+    /// [`World::run_system`] or [`World::run_system_with_input`] instead of running the system as a
+    /// command.
     pub fn run_system_with_input<I: 'static + Send>(&mut self, id: SystemId<I>, input: I) {
         self.queue
             .push(RunSystemWithInput::new_with_input(id, input));
@@ -861,7 +867,8 @@ impl EntityCommands<'_> {
         self.add(despawn);
     }
 
-    /// Pushes an [`EntityCommand`] to the queue, which will get executed for the current [`Entity`].
+    /// Pushes an [`EntityCommand`] to the queue, which will get executed for the current
+    /// [`Entity`].
     ///
     /// # Examples
     ///
@@ -884,7 +891,8 @@ impl EntityCommands<'_> {
 
     /// Removes all components except the given [`Bundle`] from the entity.
     ///
-    /// This can also be used to remove all the components from the entity by passing it an empty Bundle.
+    /// This can also be used to remove all the components from the entity by passing it an empty
+    /// Bundle.
     ///
     /// # Example
     ///
@@ -1068,7 +1076,8 @@ fn insert_resource<R: Resource>(resource: R) -> impl Command {
     }
 }
 
-/// [`EntityCommand`] to log the components of a given entity. See [`EntityCommands::log_components`].
+/// [`EntityCommand`] to log the components of a given entity. See
+/// [`EntityCommands::log_components`].
 fn log_components(entity: Entity, world: &mut World) {
     let debug_infos: Vec<_> = world
         .inspect_entity(entity)

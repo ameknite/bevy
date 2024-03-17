@@ -26,7 +26,8 @@ impl Plugin for MeshPlugin {
             .register_asset_reflect::<Mesh>()
             .register_type::<skinning::SkinnedMesh>()
             .register_type::<Vec<Entity>>()
-            // 'Mesh' must be prepared after 'Image' as meshes rely on the morph target image being ready
+            // 'Mesh' must be prepared after 'Image' as meshes rely on the morph target image being
+            // ready
             .add_plugins(RenderAssetPlugin::<Mesh, Image>::default());
 
         let Ok(render_app) = app.get_sub_app_mut(RenderApp) else {

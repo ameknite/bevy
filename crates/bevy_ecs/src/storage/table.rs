@@ -225,7 +225,6 @@ impl Column {
     ///
     /// # Safety
     /// `row` must be within the range `[0, self.len())`.
-    ///
     #[inline]
     pub(crate) unsafe fn swap_remove_unchecked(&mut self, row: TableRow) {
         self.data.swap_remove_and_drop_unchecked(row.as_usize());
@@ -397,8 +396,8 @@ impl Column {
         })
     }
 
-    /// Fetches a mutable reference to the data at `row`. Unlike [`Column::get_data_mut`] this does not
-    /// do any bounds checking.
+    /// Fetches a mutable reference to the data at `row`. Unlike [`Column::get_data_mut`] this does
+    /// not do any bounds checking.
     ///
     /// # Safety
     /// - index must be in-bounds
@@ -446,8 +445,8 @@ impl Column {
         }
     }
 
-    /// Fetches the "added" change detection tick for the value at `row`. Unlike [`Column::get_added_tick`]
-    /// this function does not do any bounds checking.
+    /// Fetches the "added" change detection tick for the value at `row`. Unlike
+    /// [`Column::get_added_tick`] this function does not do any bounds checking.
     ///
     /// # Safety
     /// `row` must be within the range `[0, self.len())`.
@@ -457,8 +456,8 @@ impl Column {
         self.added_ticks.get_unchecked(row.as_usize())
     }
 
-    /// Fetches the "changed" change detection tick for the value at `row`. Unlike [`Column::get_changed_tick`]
-    /// this function does not do any bounds checking.
+    /// Fetches the "changed" change detection tick for the value at `row`. Unlike
+    /// [`Column::get_changed_tick`] this function does not do any bounds checking.
     ///
     /// # Safety
     /// `row` must be within the range `[0, self.len())`.

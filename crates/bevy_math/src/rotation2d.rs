@@ -180,8 +180,8 @@ impl Rotation2d {
 
     /// Returns `self` with a length of `1.0` if possible, and `None` otherwise.
     ///
-    /// `None` will be returned if the sine and cosine of `self` are both zero (or very close to zero),
-    /// or if either of them is NaN or infinite.
+    /// `None` will be returned if the sine and cosine of `self` are both zero (or very close to
+    /// zero), or if either of them is NaN or infinite.
     ///
     /// Note that [`Rotation2d`] should typically already be normalized by design.
     /// Manual normalization is only needed when successive operations result in
@@ -272,7 +272,8 @@ impl Rotation2d {
     /// when the difference between the two rotations is small. At larger differences,
     /// the result resembles a kind of ease-in-out effect.
     ///
-    /// If you would like the angular velocity to remain constant, consider using [`slerp`](Self::slerp) instead.
+    /// If you would like the angular velocity to remain constant, consider using
+    /// [`slerp`](Self::slerp) instead.
     ///
     /// # Details
     ///

@@ -180,10 +180,11 @@ fn extract_windows(
         extracted_windows.remove(&removed_window);
         window_surfaces.remove(&removed_window);
     }
-    // This lock will never block because `callbacks` is `pub(crate)` and this is the singular callsite where it's locked.
-    // Even if a user had multiple copies of this system, since the system has a mutable resource access the two systems would never run
-    // at the same time
-    // TODO: since this is guaranteed, should the lock be replaced with an UnsafeCell to remove the overhead, or is it minor enough to be ignored?
+    // This lock will never block because `callbacks` is `pub(crate)` and this is the singular
+    // callsite where it's locked. Even if a user had multiple copies of this system, since the
+    // system has a mutable resource access the two systems would never run at the same time
+    // TODO: since this is guaranteed, should the lock be replaced with an UnsafeCell to remove the
+    // overhead, or is it minor enough to be ignored?
     for (window, screenshot_func) in screenshot_manager
         .callbacks
         .lock()
@@ -258,7 +259,8 @@ pub fn prepare_windows(
         // This is an ugly hack to work around drivers that don't support MSAA.
         // This should be removed once https://github.com/bevyengine/bevy/issues/7194 lands and we're doing proper
         // feature detection for MSAA.
-        // When removed, we can also remove the `.after(prepare_windows)` of `prepare_core_3d_depth_textures` and `prepare_prepass_textures`
+        // When removed, we can also remove the `.after(prepare_windows)` of
+        // `prepare_core_3d_depth_textures` and `prepare_prepass_textures`
         let sample_flags = render_adapter
             .get_texture_format_features(surface_data.configuration.format)
             .flags;
@@ -404,8 +406,8 @@ pub fn need_surface_configuration(
 
 /// Creates window surfaces.
 pub fn create_surfaces(
-    // By accessing a NonSend resource, we tell the scheduler to put this system on the main thread,
-    // which is necessary for some OS's
+    // By accessing a NonSend resource, we tell the scheduler to put this system on the main
+    // thread, which is necessary for some OS's
     #[cfg(any(target_os = "macos", target_os = "ios"))] _marker: Option<
         NonSend<bevy_core::NonSendMarker>,
     >,
@@ -424,10 +426,12 @@ pub fn create_surfaces(
                     raw_display_handle: window.handle.display_handle,
                     raw_window_handle: window.handle.window_handle,
                 };
-                // SAFETY: The window handles in ExtractedWindows will always be valid objects to create surfaces on
+                // SAFETY: The window handles in ExtractedWindows will always be valid objects to
+                // create surfaces on
                 let surface = unsafe {
                     // NOTE: On some OSes this MUST be called from the main thread.
-                    // As of wgpu 0.15, only fallible if the given window is a HTML canvas and obtaining a WebGPU or WebGL2 context fails.
+                    // As of wgpu 0.15, only fallible if the given window is a HTML canvas and
+                    // obtaining a WebGPU or WebGL2 context fails.
                     render_instance
                         .create_surface_unsafe(surface_target)
                         .expect("Failed to create wgpu surface")
@@ -436,10 +440,12 @@ pub fn create_surfaces(
                 let formats = caps.formats;
                 // For future HDR output support, we'll need to request a format that supports HDR,
                 // but as of wgpu 0.15 that is not yet supported.
-                // Prefer sRGB formats for surfaces, but fall back to first available format if no sRGB formats are available.
+                // Prefer sRGB formats for surfaces, but fall back to first available format if no
+                // sRGB formats are available.
                 let mut format = *formats.first().expect("No supported formats for surface");
                 for available_format in formats {
-                    // Rgba8UnormSrgb and Bgra8UnormSrgb and the only sRGB formats wgpu exposes that we can use for surfaces.
+                    // Rgba8UnormSrgb and Bgra8UnormSrgb and the only sRGB formats wgpu exposes that
+                    // we can use for surfaces.
                     if available_format == TextureFormat::Rgba8UnormSrgb
                         || available_format == TextureFormat::Bgra8UnormSrgb
                     {
@@ -463,8 +469,9 @@ pub fn create_surfaces(
                     },
                     // TODO: Expose this as a setting somewhere
                     // 2 is wgpu's default/what we've been using so far.
-                    // 1 is the minimum, but may cause lower framerates due to the cpu waiting for the gpu to finish
-                    // all work for the previous frame before starting work on the next frame, which then means the gpu
+                    // 1 is the minimum, but may cause lower framerates due to the cpu waiting for
+                    // the gpu to finish all work for the previous frame before
+                    // starting work on the next frame, which then means the gpu
                     // has to wait for the cpu to finish to start on the next frame.
                     desired_maximum_frame_latency: 2,
                     alpha_mode: match window.alpha_mode {

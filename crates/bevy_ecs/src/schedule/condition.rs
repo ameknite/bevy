@@ -111,7 +111,8 @@ pub trait Condition<Marker, In = ()>: sealed::Condition<Marker, In> {
     /// # app.run(&mut world);
     /// ```
     ///
-    /// Note that in this case, it's better to just use the run condition [`resource_exists_and_equals`].
+    /// Note that in this case, it's better to just use the run condition
+    /// [`resource_exists_and_equals`].
     ///
     /// [`resource_exists_and_equals`]: common_conditions::resource_exists_and_equals
     fn and_then<M, C: Condition<M, In>>(self, and_then: C) -> AndThen<Self::System, C::System> {

@@ -100,7 +100,8 @@ pub mod light_consts {
 #[reflect(Component, Default)]
 pub struct PointLight {
     pub color: Color,
-    /// Luminous power in lumens, representing the amount of light emitted by this source in all directions.
+    /// Luminous power in lumens, representing the amount of light emitted by this source in all
+    /// directions.
     pub intensity: f32,
     pub range: f32,
     pub radius: f32,
@@ -116,9 +117,9 @@ impl Default for PointLight {
     fn default() -> Self {
         PointLight {
             color: Color::WHITE,
-            // 1,000,000 lumens is a very large "cinema light" capable of registering brightly at Bevy's
-            // default "very overcast day" exposure level. For "indoor lighting" with a lower exposure,
-            // this would be way too bright.
+            // 1,000,000 lumens is a very large "cinema light" capable of registering brightly at
+            // Bevy's default "very overcast day" exposure level. For "indoor lighting"
+            // with a lower exposure, this would be way too bright.
             intensity: 1_000_000.0,
             range: 20.0,
             radius: 0.0,
@@ -154,7 +155,8 @@ impl Default for PointLightShadowMap {
 #[reflect(Component, Default)]
 pub struct SpotLight {
     pub color: Color,
-    /// Luminous power in lumens, representing the amount of light emitted by this source in all directions.
+    /// Luminous power in lumens, representing the amount of light emitted by this source in all
+    /// directions.
     pub intensity: f32,
     pub range: f32,
     pub radius: f32,
@@ -187,9 +189,9 @@ impl Default for SpotLight {
         // a quarter arc attenuating from the center
         Self {
             color: Color::WHITE,
-            // 1,000,000 lumens is a very large "cinema light" capable of registering brightly at Bevy's
-            // default "very overcast day" exposure level. For "indoor lighting" with a lower exposure,
-            // this would be way too bright.
+            // 1,000,000 lumens is a very large "cinema light" capable of registering brightly at
+            // Bevy's default "very overcast day" exposure level. For "indoor lighting"
+            // with a lower exposure, this would be way too bright.
             intensity: 1_000_000.0,
             range: 20.0,
             radius: 0.0,
@@ -263,7 +265,8 @@ pub struct DirectionalLight {
     pub shadows_enabled: bool,
     pub shadow_depth_bias: f32,
     /// A bias applied along the direction of the fragment's surface normal. It is scaled to the
-    /// shadow map's texel size so that it is automatically adjusted to the orthographic projection.
+    /// shadow map's texel size so that it is automatically adjusted to the orthographic
+    /// projection.
     pub shadow_normal_bias: f32,
 }
 
@@ -344,26 +347,27 @@ fn calculate_cascade_bounds(
 /// Builder for [`CascadeShadowConfig`].
 pub struct CascadeShadowConfigBuilder {
     /// The number of shadow cascades.
-    /// More cascades increases shadow quality by mitigating perspective aliasing - a phenomenon where areas
-    /// nearer the camera are covered by fewer shadow map texels than areas further from the camera, causing
-    /// blocky looking shadows.
+    /// More cascades increases shadow quality by mitigating perspective aliasing - a phenomenon
+    /// where areas nearer the camera are covered by fewer shadow map texels than areas further
+    /// from the camera, causing blocky looking shadows.
     ///
-    /// This does come at the cost increased rendering overhead, however this overhead is still less
-    /// than if you were to use fewer cascades and much larger shadow map textures to achieve the
-    /// same quality level.
+    /// This does come at the cost increased rendering overhead, however this overhead is still
+    /// less than if you were to use fewer cascades and much larger shadow map textures to
+    /// achieve the same quality level.
     ///
-    /// In case rendered geometry covers a relatively narrow and static depth relative to camera, it may
-    /// make more sense to use fewer cascades and a higher resolution shadow map texture as perspective aliasing
-    /// is not as much an issue. Be sure to adjust `minimum_distance` and `maximum_distance` appropriately.
+    /// In case rendered geometry covers a relatively narrow and static depth relative to camera,
+    /// it may make more sense to use fewer cascades and a higher resolution shadow map texture
+    /// as perspective aliasing is not as much an issue. Be sure to adjust `minimum_distance`
+    /// and `maximum_distance` appropriately.
     pub num_cascades: usize,
-    /// The minimum shadow distance, which can help improve the texel resolution of the first cascade.
-    /// Areas nearer to the camera than this will likely receive no shadows.
+    /// The minimum shadow distance, which can help improve the texel resolution of the first
+    /// cascade. Areas nearer to the camera than this will likely receive no shadows.
     ///
     /// NOTE: Due to implementation details, this usually does not impact shadow quality as much as
     /// `first_cascade_far_bound` and `maximum_distance`. At many view frustum field-of-views, the
-    /// texel resolution of the first cascade is dominated by the width / height of the view frustum plane
-    /// at `first_cascade_far_bound` rather than the depth of the frustum from `minimum_distance` to
-    /// `first_cascade_far_bound`.
+    /// texel resolution of the first cascade is dominated by the width / height of the view
+    /// frustum plane at `first_cascade_far_bound` rather than the depth of the frustum from
+    /// `minimum_distance` to `first_cascade_far_bound`.
     pub minimum_distance: f32,
     /// The maximum shadow distance.
     /// Areas further from the camera than this will likely receive no shadows.
@@ -465,8 +469,8 @@ pub struct Cascade {
     /// The orthographic projection for this cascade.
     pub(crate) projection: Mat4,
     /// The view-projection matrix for this cascade, converting world space into light clip space.
-    /// Importantly, this is derived and stored separately from `view_transform` and `projection` to
-    /// ensure shadow stability.
+    /// Importantly, this is derived and stored separately from `view_transform` and `projection`
+    /// to ensure shadow stability.
     pub(crate) view_projection: Mat4,
     /// Size of each shadow map texel in world units.
     pub(crate) texel_size: f32,
@@ -549,7 +553,8 @@ pub fn build_directional_light_cascades<P: CameraProjection + Component>(
 
 /// Returns a [`Cascade`] for the frustum defined by `frustum_corners`.
 /// The corner vertices should be specified in the following order:
-/// first the bottom right, top right, top left, bottom left for the near plane, then similar for the far plane.
+/// first the bottom right, top right, top left, bottom left for the near plane, then similar for
+/// the far plane.
 fn calculate_cascade(
     frustum_corners: [Vec3A; 8],
     cascade_texture_size: f32,
@@ -564,21 +569,22 @@ fn calculate_cascade(
         max = max.max(corner_light_view);
     }
 
-    // NOTE: Use the larger of the frustum slice far plane diagonal and body diagonal lengths as this
-    //       will be the maximum possible projection size. Use the ceiling to get an integer which is
-    //       very important for floating point stability later. It is also important that these are
-    //       calculated using the original camera space corner positions for floating point precision
-    //       as even though the lengths using corner_light_view above should be the same, precision can
-    //       introduce small but significant differences.
-    // NOTE: The size remains the same unless the view frustum or cascade configuration is modified.
+    // NOTE: Use the larger of the frustum slice far plane diagonal and body diagonal lengths as
+    // this       will be the maximum possible projection size. Use the ceiling to get an
+    // integer which is       very important for floating point stability later. It is also
+    // important that these are       calculated using the original camera space corner
+    // positions for floating point precision       as even though the lengths using
+    // corner_light_view above should be the same, precision can       introduce small but
+    // significant differences. NOTE: The size remains the same unless the view frustum or
+    // cascade configuration is modified.
     let cascade_diameter = (frustum_corners[0] - frustum_corners[6])
         .length()
         .max((frustum_corners[4] - frustum_corners[6]).length())
         .ceil();
 
-    // NOTE: If we ensure that cascade_texture_size is a power of 2, then as we made cascade_diameter an
-    //       integer, cascade_texel_size is then an integer multiple of a power of 2 and can be
-    //       exactly represented in a floating point value.
+    // NOTE: If we ensure that cascade_texture_size is a power of 2, then as we made
+    // cascade_diameter an       integer, cascade_texel_size is then an integer multiple of a
+    // power of 2 and can be       exactly represented in a floating point value.
     let cascade_texel_size = cascade_diameter / cascade_texture_size;
     // NOTE: For shadow stability it is very important that the near_plane_center is at integer
     //       multiples of the texel size to be exactly representable in a floating point value.
@@ -630,11 +636,13 @@ pub struct NotShadowCaster;
 #[derive(Component, Reflect, Default)]
 #[reflect(Component, Default)]
 pub struct NotShadowReceiver;
-/// Add this component to make a [`Mesh`](bevy_render::mesh::Mesh) using a PBR material with [`diffuse_transmission`](crate::pbr_material::StandardMaterial::diffuse_transmission)`> 0.0`
+/// Add this component to make a [`Mesh`](bevy_render::mesh::Mesh) using a PBR material with
+/// [`diffuse_transmission`](crate::pbr_material::StandardMaterial::diffuse_transmission)`> 0.0`
 /// receive shadows on its diffuse transmission lobe. (i.e. its “backside”)
 ///
-/// Not enabled by default, as it requires carefully setting up [`thickness`](crate::pbr_material::StandardMaterial::thickness)
-/// (and potentially even baking a thickness texture!) to match the geometry of the mesh, in order to avoid self-shadow artifacts.
+/// Not enabled by default, as it requires carefully setting up
+/// [`thickness`](crate::pbr_material::StandardMaterial::thickness) (and potentially even baking a
+/// thickness texture!) to match the geometry of the mesh, in order to avoid self-shadow artifacts.
 ///
 /// **Note:** Using [`NotShadowReceiver`] overrides this component.
 #[derive(Component, Reflect, Default)]
@@ -685,9 +693,9 @@ pub enum SimulationLightSystems {
 // http://www.aortiz.me/2018/12/21/CG.html
 // Some inspiration was taken from “Practical Clustered Shading” which is part 2 of:
 // https://efficientshading.com/2015/01/01/real-time-many-light-management-and-shadows-with-clustered-shading/
-// (Also note that Part 3 of the above shows how we could support the shadow mapping for many lights.)
-// The z-slicing method mentioned in the aortiz article is originally from Tiago Sousa's Siggraph 2016 talk about Doom 2016:
-// http://advances.realtimerendering.com/s2016/Siggraph2016_idTech6.pdf
+// (Also note that Part 3 of the above shows how we could support the shadow mapping for many
+// lights.) The z-slicing method mentioned in the aortiz article is originally from Tiago Sousa's
+// Siggraph 2016 talk about Doom 2016: http://advances.realtimerendering.com/s2016/Siggraph2016_idTech6.pdf
 
 /// Configure the far z-plane mode used for the furthest depth slice for clustered forward
 /// rendering
@@ -730,25 +738,26 @@ pub enum ClusterConfig {
     /// One single cluster. Optimal for low-light complexity scenes or scenes where
     /// most lights affect the entire scene.
     Single,
-    /// Explicit `X`, `Y` and `Z` counts (may yield non-square `X/Y` clusters depending on the aspect ratio)
+    /// Explicit `X`, `Y` and `Z` counts (may yield non-square `X/Y` clusters depending on the
+    /// aspect ratio)
     XYZ {
         dimensions: UVec3,
         z_config: ClusterZConfig,
-        /// Specify if clusters should automatically resize in `X/Y` if there is a risk of exceeding
-        /// the available cluster-light index limit
+        /// Specify if clusters should automatically resize in `X/Y` if there is a risk of
+        /// exceeding the available cluster-light index limit
         dynamic_resizing: bool,
     },
     /// Fixed number of `Z` slices, `X` and `Y` calculated to give square clusters
-    /// with at most total clusters. For top-down games where lights will generally always be within a
-    /// short depth range, it may be useful to use this configuration with 1 or few `Z` slices. This
-    /// would reduce the number of lights per cluster by distributing more clusters in screen space
-    /// `X/Y` which matches how lights are distributed in the scene.
+    /// with at most total clusters. For top-down games where lights will generally always be
+    /// within a short depth range, it may be useful to use this configuration with 1 or few
+    /// `Z` slices. This would reduce the number of lights per cluster by distributing more
+    /// clusters in screen space `X/Y` which matches how lights are distributed in the scene.
     FixedZ {
         total: u32,
         z_slices: u32,
         z_config: ClusterZConfig,
-        /// Specify if clusters should automatically resize in `X/Y` if there is a risk of exceeding
-        /// the available cluster-light index limit
+        /// Specify if clusters should automatically resize in `X/Y` if there is a risk of
+        /// exceeding the available cluster-light index limit
         dynamic_resizing: bool,
     },
 }
@@ -1006,11 +1015,12 @@ fn cluster_space_light_aabb(
 
     // Constrain view z to be negative - i.e. in front of the camera
     // When view z is >= 0.0 and we're using a perspective projection, bad things happen.
-    // At view z == 0.0, ndc x,y are mathematically undefined. At view z > 0.0, i.e. behind the camera,
-    // the perspective projection flips the directions of the axes. This breaks assumptions about
-    // use of min/max operations as something that was to the left in view space is now returning a
-    // coordinate that for view z in front of the camera would be on the right, but at view z behind the
-    // camera is on the left. So, we just constrain view z to be < 0.0 and necessarily in front of the camera.
+    // At view z == 0.0, ndc x,y are mathematically undefined. At view z > 0.0, i.e. behind the
+    // camera, the perspective projection flips the directions of the axes. This breaks
+    // assumptions about use of min/max operations as something that was to the left in view
+    // space is now returning a coordinate that for view z in front of the camera would be on
+    // the right, but at view z behind the camera is on the left. So, we just constrain view z
+    // to be < 0.0 and necessarily in front of the camera.
     light_aabb_view_min.z = light_aabb_view_min.z.min(-f32::MIN_POSITIVE);
     light_aabb_view_max.z = light_aabb_view_max.z.min(-f32::MIN_POSITIVE);
 
@@ -1148,7 +1158,8 @@ fn compute_aabb_for_cluster(
             -z_near * z_far_over_z_near.powf(ijk.z / (cluster_dimensions.z - 1) as f32)
         };
 
-        // Calculate the four intersection points of the min and max points with the cluster near and far planes
+        // Calculate the four intersection points of the min and max points with the cluster near
+        // and far planes
         let p_min_near = line_intersection_to_z_plane(Vec3::ZERO, p_min.xyz(), cluster_near);
         let p_min_far = line_intersection_to_z_plane(Vec3::ZERO, p_min.xyz(), cluster_far);
         let p_max_near = line_intersection_to_z_plane(Vec3::ZERO, p_max.xyz(), cluster_near);
@@ -1162,10 +1173,13 @@ fn compute_aabb_for_cluster(
 }
 
 // Sort lights by
-// - point-light vs spot-light, so that we can iterate point lights and spot lights in contiguous blocks in the fragment shader,
-// - then those with shadows enabled first, so that the index can be used to render at most `point_light_shadow_maps_count`
-//   point light shadows and `spot_light_shadow_maps_count` spot light shadow maps,
-// - then by entity as a stable key to ensure that a consistent set of lights are chosen if the light count limit is exceeded.
+// - point-light vs spot-light, so that we can iterate point lights and spot lights in contiguous
+//   blocks in the fragment shader,
+// - then those with shadows enabled first, so that the index can be used to render at most
+//   `point_light_shadow_maps_count` point light shadows and `spot_light_shadow_maps_count` spot
+//   light shadow maps,
+// - then by entity as a stable key to ensure that a consistent set of lights are chosen if the
+//   light count limit is exceeded.
 pub(crate) fn point_light_order(
     (entity_1, shadows_enabled_1, is_spot_light_1): (&Entity, &bool, &bool),
     (entity_2, shadows_enabled_2, is_spot_light_2): (&Entity, &bool, &bool),
@@ -1177,9 +1191,10 @@ pub(crate) fn point_light_order(
 }
 
 // Sort lights by
-// - those with shadows enabled first, so that the index can be used to render at most `directional_light_shadow_maps_count`
-//   directional light shadows
-// - then by entity as a stable key to ensure that a consistent set of lights are chosen if the light count limit is exceeded.
+// - those with shadows enabled first, so that the index can be used to render at most
+//   `directional_light_shadow_maps_count` directional light shadows
+// - then by entity as a stable key to ensure that a consistent set of lights are chosen if the
+//   light count limit is exceeded.
 pub(crate) fn directional_light_order(
     (entity_1, shadows_enabled_1): (&Entity, &bool),
     (entity_2, shadows_enabled_2): (&Entity, &bool),
@@ -1266,7 +1281,8 @@ pub(crate) fn assign_lights_to_clusters(
 
     global_lights.entities.clear();
     lights.clear();
-    // collect just the relevant light query data into a persisted vec to avoid reallocating each frame
+    // collect just the relevant light query data into a persisted vec to avoid reallocating each
+    // frame
     lights.extend(
         point_lights_query
             .iter()
@@ -1324,7 +1340,8 @@ pub(crate) fn assign_lights_to_clusters(
             )
         });
 
-        // check each light against each view's frustum, keep only those that affect at least one of our views
+        // check each light against each view's frustum, keep only those that affect at least one of
+        // our views
         let frusta: Vec<_> = views
             .iter()
             .map(|(_, _, _, frustum, _, _, _, _)| *frustum)
@@ -1410,14 +1427,15 @@ pub(crate) fn assign_lights_to_clusters(
         };
         let first_slice_depth = match (is_orthographic, requested_cluster_dimensions.z) {
             (true, _) => {
-                // NOTE: Based on glam's Mat4::orthographic_rh(), as used to calculate the orthographic projection
-                // matrix, we can calculate the projection's view-space near plane as follows:
-                // component 3,2 = r * near and 2,2 = r where r = 1.0 / (near - far)
-                // There is a caveat here that when calculating the projection matrix, near and far were swapped to give
+                // NOTE: Based on glam's Mat4::orthographic_rh(), as used to calculate the
+                // orthographic projection matrix, we can calculate the projection's
+                // view-space near plane as follows: component 3,2 = r * near and
+                // 2,2 = r where r = 1.0 / (near - far) There is a caveat here that
+                // when calculating the projection matrix, near and far were swapped to give
                 // reversed z, consistent with the perspective projection. So,
                 // 3,2 = r * far and 2,2 = r where r = 1.0 / (far - near)
-                // rearranging r = 1.0 / (far - near), r * (far - near) = 1.0, r * far - 1.0 = r * near, near = (r * far - 1.0) / r
-                // = (3,2 - 1.0) / 2,2
+                // rearranging r = 1.0 / (far - near), r * (far - near) = 1.0, r * far - 1.0 = r *
+                // near, near = (r * far - 1.0) / r = (3,2 - 1.0) / 2,2
                 (camera.projection_matrix().w_axis.z - 1.0) / camera.projection_matrix().z_axis.z
             }
             (false, 1) => config.first_slice_depth().max(far_z),
@@ -1425,7 +1443,8 @@ pub(crate) fn assign_lights_to_clusters(
         };
         let first_slice_depth = first_slice_depth * view_inv_scale.z;
 
-        // NOTE: Ensure the far_z is at least as far as the first_depth_slice to avoid clustering problems.
+        // NOTE: Ensure the far_z is at least as far as the first_depth_slice to avoid clustering
+        // problems.
         let far_z = far_z.max(first_slice_depth);
         let cluster_factors = calculate_cluster_factors(
             first_slice_depth,
@@ -1444,9 +1463,10 @@ pub(crate) fn assign_lights_to_clusters(
                     continue;
                 }
 
-                // calculate a conservative aabb estimate of number of clusters affected by this light
-                // this overestimates index counts by at most 50% (and typically much less) when the whole light range is in view
-                // it can overestimate more significantly when light ranges are only partially in view
+                // calculate a conservative aabb estimate of number of clusters affected by this
+                // light this overestimates index counts by at most 50% (and
+                // typically much less) when the whole light range is in view it can
+                // overestimate more significantly when light ranges are only partially in view
                 let (light_aabb_min, light_aabb_max) = cluster_space_light_aabb(
                     inverse_view_transform,
                     view_inv_scale,
@@ -1454,7 +1474,8 @@ pub(crate) fn assign_lights_to_clusters(
                     &light_sphere,
                 );
 
-                // since we won't adjust z slices we can calculate exact number of slices required in z dimension
+                // since we won't adjust z slices we can calculate exact number of slices required
+                // in z dimension
                 let z_cluster_min = view_z_to_z_slice(
                     cluster_factors,
                     requested_cluster_dimensions.z,
@@ -1470,10 +1491,12 @@ pub(crate) fn assign_lights_to_clusters(
                 let z_count =
                     z_cluster_min.max(z_cluster_max) - z_cluster_min.min(z_cluster_max) + 1;
 
-                // calculate x/y count using floats to avoid overestimating counts due to large initial tile sizes
+                // calculate x/y count using floats to avoid overestimating counts due to large
+                // initial tile sizes
                 let xy_min = light_aabb_min.xy();
                 let xy_max = light_aabb_max.xy();
-                // multiply by 0.5 to move from [-1,1] to [-0.5, 0.5], max extent of 1 in each dimension
+                // multiply by 0.5 to move from [-1,1] to [-0.5, 0.5], max extent of 1 in each
+                // dimension
                 let xy_count = (xy_max - xy_min)
                     * 0.5
                     * Vec2::new(
@@ -1604,7 +1627,8 @@ pub(crate) fn assign_lights_to_clusters(
                     continue;
                 }
 
-                // NOTE: The light intersects the frustum so it must be visible and part of the global set
+                // NOTE: The light intersects the frustum so it must be visible and part of the
+                // global set
                 global_lights.entities.insert(light.entity);
                 visible_lights.push(light.entity);
 
@@ -1698,8 +1722,8 @@ pub(crate) fn assign_lights_to_clusters(
                     for y in min_cluster.y..=max_cluster.y {
                         let mut y_light = z_light.clone();
                         if y_center.is_none() || y != y_center.unwrap() {
-                            // The y plane closer to the light has the larger radius circle where the
-                            // light sphere intersects the y plane.
+                            // The y plane closer to the light has the larger radius circle where
+                            // the light sphere intersects the y plane.
                             let y_plane = if y_center.is_some() && y < y_center.unwrap() {
                                 y_planes[(y + 1) as usize]
                             } else {
@@ -2120,7 +2144,8 @@ pub fn check_light_mesh_visibility(
                     for (frustum, frustum_visible_entities) in
                         view_frusta.iter().zip(view_visible_entities)
                     {
-                        // Disable near-plane culling, as a shadow caster could lie before the near plane.
+                        // Disable near-plane culling, as a shadow caster could lie before the near
+                        // plane.
                         if !frustum.intersects_obb(aabb, &transform.affine(), false, true) {
                             continue;
                         }
@@ -2164,7 +2189,8 @@ pub fn check_light_mesh_visibility(
                     visible_entities.entities.clear();
                 }
 
-                // NOTE: If shadow mapping is disabled for the light then it must have no visible entities
+                // NOTE: If shadow mapping is disabled for the light then it must have no visible
+                // entities
                 if !point_light.shadows_enabled {
                     continue;
                 }
@@ -2196,7 +2222,8 @@ pub fn check_light_mesh_visibility(
                     // If we have an aabb and transform, do frustum culling
                     if let (Some(aabb), Some(transform)) = (maybe_aabb, maybe_transform) {
                         let model_to_world = transform.affine();
-                        // Do a cheap sphere vs obb test to prune out most meshes outside the sphere of the light
+                        // Do a cheap sphere vs obb test to prune out most meshes outside the sphere
+                        // of the light
                         if !light_sphere.intersects_obb(aabb, &model_to_world) {
                             continue;
                         }
@@ -2229,7 +2256,8 @@ pub fn check_light_mesh_visibility(
             {
                 visible_entities.entities.clear();
 
-                // NOTE: If shadow mapping is disabled for the light then it must have no visible entities
+                // NOTE: If shadow mapping is disabled for the light then it must have no visible
+                // entities
                 if !point_light.shadows_enabled {
                     continue;
                 }
@@ -2261,7 +2289,8 @@ pub fn check_light_mesh_visibility(
                     // If we have an aabb and transform, do frustum culling
                     if let (Some(aabb), Some(transform)) = (maybe_aabb, maybe_transform) {
                         let model_to_world = transform.affine();
-                        // Do a cheap sphere vs obb test to prune out most meshes outside the sphere of the light
+                        // Do a cheap sphere vs obb test to prune out most meshes outside the sphere
+                        // of the light
                         if !light_sphere.intersects_obb(aabb, &model_to_world) {
                             continue;
                         }

@@ -115,7 +115,8 @@ pub(crate) fn despawn_windows(
     }
 }
 
-/// The cached state of the window so we can check which properties were changed from within the app.
+/// The cached state of the window so we can check which properties were changed from within the
+/// app.
 #[derive(Debug, Clone, Component)]
 pub struct CachedWindow {
     pub window: Window,
@@ -125,7 +126,8 @@ pub struct CachedWindow {
 ///
 /// # Notes
 ///
-/// - [`Window::present_mode`] and [`Window::composite_alpha_mode`] changes are handled by the `bevy_render` crate.
+/// - [`Window::present_mode`] and [`Window::composite_alpha_mode`] changes are handled by the
+///   `bevy_render` crate.
 /// - [`Window::transparent`] cannot be changed after the window is created.
 /// - [`Window::canvas`] cannot be changed after the window is created.
 /// - [`Window::focused`] cannot be manually changed to `false` after the window is created.

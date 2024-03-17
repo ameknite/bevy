@@ -169,7 +169,8 @@ impl IRect {
     ///
     /// # Rounding Behaviour
     ///
-    /// If the full size contains odd numbers they will be rounded down to the nearest whole number when calculating the half size.
+    /// If the full size contains odd numbers they will be rounded down to the nearest whole number
+    /// when calculating the half size.
     ///
     /// # Examples
     ///
@@ -187,7 +188,8 @@ impl IRect {
     ///
     /// # Rounding Behaviour
     ///
-    /// If the (min + max) contains odd numbers they will be rounded down to the nearest whole number when calculating the center.
+    /// If the (min + max) contains odd numbers they will be rounded down to the nearest whole
+    /// number when calculating the center.
     ///
     /// # Examples
     ///
@@ -293,7 +295,8 @@ impl IRect {
     ///
     /// The inset is the extra border on all sides. A positive inset produces a larger rectangle,
     /// while a negative inset is allowed and produces a smaller rectangle. If the inset is negative
-    /// and its absolute value is larger than the rectangle half-size, the created rectangle is empty.
+    /// and its absolute value is larger than the rectangle half-size, the created rectangle is
+    /// empty.
     ///
     /// # Examples
     ///

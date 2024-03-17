@@ -52,7 +52,8 @@ fn prepare_view_upscaling_pipelines(
         };
         let pipeline = pipelines.specialize(&pipeline_cache, &blit_pipeline, key);
 
-        // Ensure the pipeline is loaded before continuing the frame to prevent frames without any GPU work submitted
+        // Ensure the pipeline is loaded before continuing the frame to prevent frames without any
+        // GPU work submitted
         pipeline_cache.block_on_render_pipeline(pipeline);
 
         commands

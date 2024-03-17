@@ -61,12 +61,13 @@ pub struct PostStartup;
 #[derive(ScheduleLabel, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct First;
 
-/// The schedule that contains logic that must run before [`Update`]. For example, a system that reads raw keyboard
-/// input OS events into an `Events` resource. This enables systems in [`Update`] to consume the events from the `Events`
-/// resource without actually knowing about (or taking a direct scheduler dependency on) the "os-level keyboard event system".
+/// The schedule that contains logic that must run before [`Update`]. For example, a system that
+/// reads raw keyboard input OS events into an `Events` resource. This enables systems in [`Update`]
+/// to consume the events from the `Events` resource without actually knowing about (or taking a
+/// direct scheduler dependency on) the "os-level keyboard event system".
 ///
-/// [`PreUpdate`] exists to do "engine/plugin preparation work" that ensures the APIs consumed in [`Update`] are "ready".
-/// [`PreUpdate`] abstracts out "pre work implementation details".
+/// [`PreUpdate`] exists to do "engine/plugin preparation work" that ensures the APIs consumed in
+/// [`Update`] are "ready". [`PreUpdate`] abstracts out "pre work implementation details".
 ///
 /// See the [`Main`] schedule for some details about how schedules are run.
 #[derive(ScheduleLabel, Clone, Debug, PartialEq, Eq, Hash)]
@@ -78,7 +79,8 @@ pub struct PreUpdate;
 #[derive(ScheduleLabel, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct StateTransition;
 
-/// Runs the [`FixedMain`] schedule in a loop according until all relevant elapsed time has been "consumed".
+/// Runs the [`FixedMain`] schedule in a loop according until all relevant elapsed time has been
+/// "consumed".
 ///
 /// See the [`Main`] schedule for some details about how schedules are run.
 #[derive(ScheduleLabel, Clone, Debug, PartialEq, Eq, Hash)]
@@ -145,9 +147,11 @@ pub struct Update;
 #[derive(ScheduleLabel, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct SpawnScene;
 
-/// The schedule that contains logic that must run after [`Update`]. For example, synchronizing "local transforms" in a hierarchy
-/// to "global" absolute transforms. This enables the [`PostUpdate`] transform-sync system to react to "local transform" changes in
-/// [`Update`] without the [`Update`] systems needing to know about (or add scheduler dependencies for) the "global transform sync system".
+/// The schedule that contains logic that must run after [`Update`]. For example, synchronizing
+/// "local transforms" in a hierarchy to "global" absolute transforms. This enables the
+/// [`PostUpdate`] transform-sync system to react to "local transform" changes in [`Update`] without
+/// the [`Update`] systems needing to know about (or add scheduler dependencies for) the "global
+/// transform sync system".
 ///
 /// [`PostUpdate`] exists to do "engine/plugin response work" to things that happened in [`Update`].
 /// [`PostUpdate`] abstracts out "implementation details" from users defining systems in [`Update`].
@@ -166,9 +170,11 @@ pub struct Last;
 /// their order.
 #[derive(Resource, Debug)]
 pub struct MainScheduleOrder {
-    /// The labels to run for the main phase of the [`Main`] schedule (in the order they will be run).
+    /// The labels to run for the main phase of the [`Main`] schedule (in the order they will be
+    /// run).
     pub labels: Vec<InternedScheduleLabel>,
-    /// The labels to run for the startup phase of the [`Main`] schedule (in the order they will be run).
+    /// The labels to run for the startup phase of the [`Main`] schedule (in the order they will be
+    /// run).
     pub startup_labels: Vec<InternedScheduleLabel>,
 }
 

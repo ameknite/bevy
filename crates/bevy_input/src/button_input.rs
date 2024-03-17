@@ -22,8 +22,8 @@ use bevy_ecs::schedule::State;
 ///
 /// ## Multiple systems
 ///
-/// In case multiple systems are checking for [`ButtonInput::just_pressed`] or [`ButtonInput::just_released`]
-/// but only one should react, for example in the case of triggering
+/// In case multiple systems are checking for [`ButtonInput::just_pressed`] or
+/// [`ButtonInput::just_released`] but only one should react, for example in the case of triggering
 /// [`State`] change, you should consider clearing the input state, either by:
 ///
 /// * Using [`ButtonInput::clear_just_pressed`] or [`ButtonInput::clear_just_released`] instead.
@@ -61,9 +61,10 @@ use bevy_ecs::schedule::State;
 /// ## Window focus
 ///
 /// `ButtonInput<KeyCode>` is tied to window focus. For example, if the user holds a button
-/// while the window loses focus, [`ButtonInput::just_released`] will be triggered. Similarly if the window
-/// regains focus, [`ButtonInput::just_pressed`] will be triggered. Currently this happens even if the
-/// focus switches from one Bevy window to another (for example because a new window was just spawned).
+/// while the window loses focus, [`ButtonInput::just_released`] will be triggered. Similarly if the
+/// window regains focus, [`ButtonInput::just_pressed`] will be triggered. Currently this happens
+/// even if the focus switches from one Bevy window to another (for example because a new window was
+/// just spawned).
 ///
 /// `ButtonInput<GamepadButton>` is independent of window focus.
 ///
@@ -79,8 +80,8 @@ use bevy_ecs::schedule::State;
 /// It may be preferable to use [`DetectChangesMut::bypass_change_detection`]
 /// to avoid causing the resource to always be marked as changed.
 ///
-///[`ResMut`]: bevy_ecs::system::ResMut
-///[`DetectChangesMut::bypass_change_detection`]: bevy_ecs::change_detection::DetectChangesMut::bypass_change_detection
+/// [`ResMut`]: bevy_ecs::system::ResMut
+/// [`DetectChangesMut::bypass_change_detection`]: bevy_ecs::change_detection::DetectChangesMut::bypass_change_detection
 #[derive(Debug, Clone, Resource, Reflect)]
 #[reflect(Default)]
 pub struct ButtonInput<T: Copy + Eq + Hash + Send + Sync + 'static> {
@@ -153,9 +154,11 @@ where
         inputs.into_iter().any(|it| self.just_pressed(it))
     }
 
-    /// Clears the `just_pressed` state of the `input` and returns `true` if the `input` has just been pressed.
+    /// Clears the `just_pressed` state of the `input` and returns `true` if the `input` has just
+    /// been pressed.
     ///
-    /// Future calls to [`ButtonInput::just_pressed`] for the given input will return false until a new press event occurs.
+    /// Future calls to [`ButtonInput::just_pressed`] for the given input will return false until a
+    /// new press event occurs.
     pub fn clear_just_pressed(&mut self, input: T) -> bool {
         self.just_pressed.remove(&input)
     }
@@ -170,9 +173,11 @@ where
         inputs.into_iter().any(|it| self.just_released(it))
     }
 
-    /// Clears the `just_released` state of the `input` and returns `true` if the `input` has just been released.
+    /// Clears the `just_released` state of the `input` and returns `true` if the `input` has just
+    /// been released.
     ///
-    /// Future calls to [`ButtonInput::just_released`] for the given input will return false until a new release event occurs.
+    /// Future calls to [`ButtonInput::just_released`] for the given input will return false until a
+    /// new release event occurs.
     pub fn clear_just_released(&mut self, input: T) -> bool {
         self.just_released.remove(&input)
     }

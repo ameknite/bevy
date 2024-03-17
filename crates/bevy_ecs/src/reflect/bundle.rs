@@ -64,7 +64,8 @@ impl ReflectBundle {
         (self.0.apply)(entity, bundle, registry);
     }
 
-    /// Uses reflection to set the value of this [`Bundle`] type in the entity to the given value or insert a new one if it does not exist.
+    /// Uses reflection to set the value of this [`Bundle`] type in the entity to the given value or
+    /// insert a new one if it does not exist.
     pub fn apply_or_insert(
         &self,
         entity: &mut EntityWorldMut,

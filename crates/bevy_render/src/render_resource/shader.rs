@@ -22,8 +22,9 @@ pub enum ShaderReflectError {
     #[error(transparent)]
     Validation(#[from] naga::WithSpan<naga::valid::ValidationError>),
 }
-/// A shader, as defined by its [`ShaderSource`](wgpu::ShaderSource) and [`ShaderStage`](naga::ShaderStage)
-/// This is an "unprocessed" shader. It can contain preprocessor directives.
+/// A shader, as defined by its [`ShaderSource`](wgpu::ShaderSource) and
+/// [`ShaderStage`](naga::ShaderStage) This is an "unprocessed" shader. It can contain preprocessor
+/// directives.
 #[derive(Asset, TypePath, Debug, Clone)]
 pub struct Shader {
     pub path: String,
@@ -269,7 +270,8 @@ impl AssetLoader for ShaderLoader {
             let ext = load_context.path().extension().unwrap().to_str().unwrap();
             let path = load_context.asset_path().to_string();
             // On windows, the path will inconsistently use \ or /.
-            // TODO: remove this once AssetPath forces cross-platform "slash" consistency. See #10511
+            // TODO: remove this once AssetPath forces cross-platform "slash" consistency. See
+            // #10511
             let path = path.replace(std::path::MAIN_SEPARATOR, "/");
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;

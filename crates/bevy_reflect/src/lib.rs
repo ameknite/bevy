@@ -27,7 +27,8 @@
 //!
 //! One of its primary purposes is to allow all implementors to be passed around
 //! as a `dyn Reflect` trait object.
-//! This allows any such type to be operated upon completely dynamically (at a small [runtime cost]).
+//! This allows any such type to be operated upon completely dynamically (at a small [runtime
+//! cost]).
 //!
 //! Implementing the trait is easily done using the provided [derive macro]:
 //!
@@ -49,10 +50,10 @@
 //! ## Requirements
 //!
 //! We can implement `Reflect` on any type that satisfies _both_ of the following conditions:
-//! * The type implements `Any`.
-//!   This is true if and only if the type itself has a [`'static` lifetime].
-//! * All fields and sub-elements themselves implement `Reflect`
-//!   (see the [derive macro documentation] for details on how to ignore certain fields when deriving).
+//! * The type implements `Any`. This is true if and only if the type itself has a [`'static`
+//!   lifetime].
+//! * All fields and sub-elements themselves implement `Reflect` (see the [derive macro
+//!   documentation] for details on how to ignore certain fields when deriving).
 //!
 //! Additionally, using the derive macro on enums requires a third condition to be met:
 //! * All fields and sub-elements must implement [`FromReflect`]—
@@ -62,8 +63,8 @@
 //!
 //! Since [`Reflect`] is meant to cover any and every type, this crate also comes with a few
 //! more traits to accompany `Reflect` and provide more specific interactions.
-//! We refer to these traits as the _reflection subtraits_ since they all have `Reflect` as a supertrait.
-//! The current list of reflection subtraits include:
+//! We refer to these traits as the _reflection subtraits_ since they all have `Reflect` as a
+//! supertrait. The current list of reflection subtraits include:
 //! * [`Tuple`]
 //! * [`Array`]
 //! * [`List`]
@@ -93,10 +94,12 @@
 //! Since most data is passed around as `dyn Reflect`,
 //! the `Reflect` trait has methods for going to and from these subtraits.
 //!
-//! [`Reflect::reflect_kind`], [`Reflect::reflect_ref`], [`Reflect::reflect_mut`], and [`Reflect::reflect_owned`] all return
-//! an enum that respectively contains zero-sized, immutable, mutable, and owned access to the type as a subtrait object.
+//! [`Reflect::reflect_kind`], [`Reflect::reflect_ref`], [`Reflect::reflect_mut`], and
+//! [`Reflect::reflect_owned`] all return an enum that respectively contains zero-sized, immutable,
+//! mutable, and owned access to the type as a subtrait object.
 //!
-//! For example, we can get out a `dyn Tuple` from our reflected tuple type using one of these methods.
+//! For example, we can get out a `dyn Tuple` from our reflected tuple type using one of these
+//! methods.
 //!
 //! ```
 //! # use bevy_reflect::{Reflect, ReflectRef};
@@ -179,9 +182,9 @@
 //!
 //! ## `FromReflect`
 //!
-//! It's important to remember that dynamic types are _not_ the concrete type they may be representing.
-//! A common mistake is to treat them like such when trying to cast back to the original type
-//! or when trying to make use of a reflected trait which expects the actual type.
+//! It's important to remember that dynamic types are _not_ the concrete type they may be
+//! representing. A common mistake is to treat them like such when trying to cast back to the
+//! original type or when trying to make use of a reflected trait which expects the actual type.
 //!
 //! ```should_panic
 //! # use bevy_reflect::{DynamicStruct, Reflect};
@@ -224,13 +227,14 @@
 //!
 //! When deriving, all active fields and sub-elements must also implement `FromReflect`.
 //!
-//! Fields can be given default values for when a field is missing in the passed value or even ignored.
-//! Ignored fields must either implement [`Default`] or have a default function specified
+//! Fields can be given default values for when a field is missing in the passed value or even
+//! ignored. Ignored fields must either implement [`Default`] or have a default function specified
 //! using `#[reflect(default = "path::to::function")]`.
 //!
 //! See the [derive macro documentation](derive@crate::FromReflect) for details.
 //!
-//! All primitives and simple types implement `FromReflect` by relying on their [`Default`] implementation.
+//! All primitives and simple types implement `FromReflect` by relying on their [`Default`]
+//! implementation.
 //!
 //! # Path navigation
 //!
@@ -257,12 +261,13 @@
 //!
 //! # Type Registration
 //!
-//! This crate also comes with a [`TypeRegistry`] that can be used to store and retrieve additional type metadata at runtime,
-//! such as helper types and trait implementations.
+//! This crate also comes with a [`TypeRegistry`] that can be used to store and retrieve additional
+//! type metadata at runtime, such as helper types and trait implementations.
 //!
-//! The [derive macro] for [`Reflect`] also generates an implementation of the [`GetTypeRegistration`] trait,
-//! which is used by the registry to generate a [`TypeRegistration`] struct for that type.
-//! We can then register additional [type data] we want associated with that type.
+//! The [derive macro] for [`Reflect`] also generates an implementation of the
+//! [`GetTypeRegistration`] trait, which is used by the registry to generate a [`TypeRegistration`]
+//! struct for that type. We can then register additional [type data] we want associated with that
+//! type.
 //!
 //! For example, we can register [`ReflectDefault`] on our type so that its `Default` implementation
 //! may be used dynamically.
@@ -285,8 +290,8 @@
 //! ```
 //!
 //! Because this operation is so common, the derive macro actually has a shorthand for it.
-//! By using the `#[reflect(Trait)]` attribute, the derive macro will automatically register a matching,
-//! in-scope `ReflectTrait` type within the `GetTypeRegistration` implementation.
+//! By using the `#[reflect(Trait)]` attribute, the derive macro will automatically register a
+//! matching, in-scope `ReflectTrait` type within the `GetTypeRegistration` implementation.
 //!
 //! ```
 //! use bevy_reflect::prelude::{Reflect, ReflectDefault};
@@ -300,11 +305,12 @@
 //!
 //! ## Reflecting Traits
 //!
-//! Type data doesn't have to be tied to a trait, but it's often extremely useful to create trait type data.
-//! These allow traits to be used directly on a `dyn Reflect` while utilizing the underlying type's implementation.
+//! Type data doesn't have to be tied to a trait, but it's often extremely useful to create trait
+//! type data. These allow traits to be used directly on a `dyn Reflect` while utilizing the
+//! underlying type's implementation.
 //!
-//! For any [object-safe] trait, we can easily generate a corresponding `ReflectTrait` type for our trait
-//! using the [`#[reflect_trait]`](reflect_trait) macro.
+//! For any [object-safe] trait, we can easily generate a corresponding `ReflectTrait` type for our
+//! trait using the [`#[reflect_trait]`](reflect_trait) macro.
 //!
 //! ```
 //! # use bevy_reflect::{Reflect, reflect_trait, TypeRegistry};
@@ -323,8 +329,8 @@
 //! # Serialization
 //!
 //! By using reflection, we are also able to get serialization capabilities for free.
-//! In fact, using [`bevy_reflect`] can result in faster compile times and reduced code generation over
-//! directly deriving the [`serde`] traits.
+//! In fact, using [`bevy_reflect`] can result in faster compile times and reduced code generation
+//! over directly deriving the [`serde`] traits.
 //!
 //! The way it works is by moving the serialization logic into common serializers and deserializers:
 //! * [`ReflectSerializer`]
@@ -332,21 +338,24 @@
 //! * [`UntypedReflectDeserializer`]
 //! * [`TypedReflectDeserializer`]
 //!
-//! All of these structs require a reference to the [registry] so that [type information] can be retrieved,
-//! as well as registered type data, such as [`ReflectSerialize`] and [`ReflectDeserialize`].
+//! All of these structs require a reference to the [registry] so that [type information] can be
+//! retrieved, as well as registered type data, such as [`ReflectSerialize`] and
+//! [`ReflectDeserialize`].
 //!
 //! The general entry point are the "untyped" versions of these structs.
-//! These will automatically extract the type information and pass them into their respective "typed" version.
+//! These will automatically extract the type information and pass them into their respective
+//! "typed" version.
 //!
 //! The output of the `ReflectSerializer` will be a map, where the key is the [type path]
 //! and the value is the serialized data.
 //! The `TypedReflectSerializer` will simply output the serialized data.
 //!
-//! The `UntypedReflectDeserializer` can be used to deserialize this map and return a `Box<dyn Reflect>`,
-//! where the underlying type will be a dynamic type representing some concrete type (except for value types).
+//! The `UntypedReflectDeserializer` can be used to deserialize this map and return a `Box<dyn
+//! Reflect>`, where the underlying type will be a dynamic type representing some concrete type
+//! (except for value types).
 //!
-//! Again, it's important to remember that dynamic types may need to be converted to their concrete counterparts
-//! in order to be used in certain cases.
+//! Again, it's important to remember that dynamic types may need to be converted to their concrete
+//! counterparts in order to be used in certain cases.
 //! This can be achieved using [`FromReflect`].
 //!
 //! ```
@@ -425,8 +434,8 @@
 //! This feature makes it so that the appropriate reflection traits are implemented on all the types
 //! necessary for the [Bevy] game engine.
 //! enables the optional dependencies: [`bevy_math`], [`glam`], and [`smallvec`].
-//! These dependencies are used by the [Bevy] game engine and must define their reflection implementations
-//! within this crate due to Rust's [orphan rule].
+//! These dependencies are used by the [Bevy] game engine and must define their reflection
+//! implementations within this crate due to Rust's [orphan rule].
 //!
 //! ## `documentation`
 //!
@@ -1708,10 +1717,8 @@ mod tests {
             let info = <SomeStruct as Typed>::type_info();
             assert_eq!(None, info.docs());
 
-            /*
-             * Block comments do not count as doc comments,
-             * and are therefore not reflected.
-             */
+            // Block comments do not count as doc comments,
+            // and are therefore not reflected.
             #[derive(Reflect)]
             struct SomeOtherStruct;
 

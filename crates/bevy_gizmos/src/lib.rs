@@ -18,10 +18,12 @@
 /// System set label for the systems handling the rendering of gizmos.
 #[derive(SystemSet, Clone, Debug, Hash, PartialEq, Eq)]
 pub enum GizmoRenderSystem {
-    /// Adds gizmos to the [`Transparent2d`](bevy_core_pipeline::core_2d::Transparent2d) render phase
+    /// Adds gizmos to the [`Transparent2d`](bevy_core_pipeline::core_2d::Transparent2d) render
+    /// phase
     #[cfg(feature = "bevy_sprite")]
     QueueLineGizmos2d,
-    /// Adds gizmos to the [`Transparent3d`](bevy_core_pipeline::core_3d::Transparent3d) render phase
+    /// Adds gizmos to the [`Transparent3d`](bevy_core_pipeline::core_3d::Transparent3d) render
+    /// phase
     #[cfg(feature = "bevy_pbr")]
     QueueLineGizmos3d,
 }
@@ -124,7 +126,8 @@ impl Plugin for GizmoPlugin {
             .init_asset::<LineGizmo>()
             .add_plugins(RenderAssetPlugin::<LineGizmo>::default())
             .init_resource::<LineGizmoHandles>()
-            // We insert the Resource GizmoConfigStore into the world implicitly here if it does not exist.
+            // We insert the Resource GizmoConfigStore into the world implicitly here if it does not
+            // exist.
             .init_gizmo_group::<DefaultGizmoConfigGroup>()
             .add_plugins(AabbGizmoPlugin)
             .add_plugins(LightGizmoPlugin);
@@ -168,14 +171,16 @@ impl Plugin for GizmoPlugin {
 
 /// A trait adding `init_gizmo_group<T>()` to the app
 pub trait AppGizmoBuilder {
-    /// Registers [`GizmoConfigGroup`] `T` in the app enabling the use of [Gizmos&lt;T&gt;](crate::gizmos::Gizmos).
+    /// Registers [`GizmoConfigGroup`] `T` in the app enabling the use of
+    /// [Gizmos&lt;T&gt;](crate::gizmos::Gizmos).
     ///
     /// Configurations can be set using the [`GizmoConfigStore`] [`Resource`].
     fn init_gizmo_group<T: GizmoConfigGroup + Default>(&mut self) -> &mut Self;
 
     /// Insert the [`GizmoConfigGroup`] in the app with the given value and [`GizmoConfig`].
     ///
-    /// This method should be preferred over [`AppGizmoBuilder::init_gizmo_group`] if and only if you need to configure fields upon initialization.
+    /// This method should be preferred over [`AppGizmoBuilder::init_gizmo_group`] if and only if
+    /// you need to configure fields upon initialization.
     fn insert_gizmo_group<T: GizmoConfigGroup>(
         &mut self,
         group: T,
@@ -336,7 +341,8 @@ fn extract_gizmo_data(
 struct LineGizmoUniform {
     line_width: f32,
     depth_bias: f32,
-    // Only used by gizmo line t if the current configs `line_joints` is set to `GizmoLineJoint::Round(_)`
+    // Only used by gizmo line t if the current configs `line_joints` is set to
+    // `GizmoLineJoint::Round(_)`
     joints_resolution: u32,
     /// WebGL2 structs must be 16 byte aligned.
     #[cfg(feature = "webgl")]
@@ -349,7 +355,8 @@ struct LineGizmo {
     colors: Vec<LinearRgba>,
     /// Whether this gizmo's topology is a line-strip or line-list
     strip: bool,
-    /// Whether this gizmo should draw line joints. This is only applicable if the gizmo's topology is line-strip.
+    /// Whether this gizmo should draw line joints. This is only applicable if the gizmo's topology
+    /// is line-strip.
     joints: GizmoLineJoint,
 }
 

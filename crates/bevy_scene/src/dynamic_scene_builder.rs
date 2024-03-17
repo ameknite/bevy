@@ -10,31 +10,35 @@ use bevy_reflect::Reflect;
 use bevy_utils::default;
 use std::collections::BTreeMap;
 
-/// A [`DynamicScene`] builder, used to build a scene from a [`World`] by extracting some entities and resources.
+/// A [`DynamicScene`] builder, used to build a scene from a [`World`] by extracting some entities
+/// and resources.
 ///
 /// # Component Extraction
 ///
-/// By default, all components registered with [`ReflectComponent`] type data in a world's [`AppTypeRegistry`] will be extracted.
-/// (this type data is added automatically during registration if [`Reflect`] is derived with the `#[reflect(Component)]` attribute).
-/// This can be changed by [specifying a filter](DynamicSceneBuilder::with_filter) or by explicitly
+/// By default, all components registered with [`ReflectComponent`] type data in a world's
+/// [`AppTypeRegistry`] will be extracted. (this type data is added automatically during
+/// registration if [`Reflect`] is derived with the `#[reflect(Component)]` attribute). This can be
+/// changed by [specifying a filter](DynamicSceneBuilder::with_filter) or by explicitly
 /// [allowing](DynamicSceneBuilder::allow)/[denying](DynamicSceneBuilder::deny) certain components.
 ///
 /// Extraction happens immediately and uses the filter as it exists during the time of extraction.
 ///
 /// # Resource Extraction
 ///
-/// By default, all resources registered with [`ReflectResource`] type data in a world's [`AppTypeRegistry`] will be extracted.
-/// (this type data is added automatically during registration if [`Reflect`] is derived with the `#[reflect(Resource)]` attribute).
-/// This can be changed by [specifying a filter](DynamicSceneBuilder::with_resource_filter) or by explicitly
-/// [allowing](DynamicSceneBuilder::allow_resource)/[denying](DynamicSceneBuilder::deny_resource) certain resources.
+/// By default, all resources registered with [`ReflectResource`] type data in a world's
+/// [`AppTypeRegistry`] will be extracted. (this type data is added automatically during
+/// registration if [`Reflect`] is derived with the `#[reflect(Resource)]` attribute). This can be
+/// changed by [specifying a filter](DynamicSceneBuilder::with_resource_filter) or by explicitly
+/// [allowing](DynamicSceneBuilder::allow_resource)/[denying](DynamicSceneBuilder::deny_resource)
+/// certain resources.
 ///
 /// Extraction happens immediately and uses the filter as it exists during the time of extraction.
 ///
 /// # Entity Order
 ///
-/// Extracted entities will always be stored in ascending order based on their [index](Entity::index).
-/// This means that inserting `Entity(1v0)` then `Entity(0v0)` will always result in the entities
-/// being ordered as `[Entity(0v0), Entity(1v0)]`.
+/// Extracted entities will always be stored in ascending order based on their
+/// [index](Entity::index). This means that inserting `Entity(1v0)` then `Entity(0v0)` will always
+/// result in the entities being ordered as `[Entity(0v0), Entity(1v0)]`.
 ///
 /// # Example
 /// ```
@@ -200,7 +204,8 @@ impl<'w> DynamicSceneBuilder<'w> {
 
     /// Despawns all entities with no components.
     ///
-    /// These were likely created because none of their components were present in the provided type registry upon extraction.
+    /// These were likely created because none of their components were present in the provided type
+    /// registry upon extraction.
     #[must_use]
     pub fn remove_empty_entities(mut self) -> Self {
         self.extracted_scene
@@ -238,7 +243,8 @@ impl<'w> DynamicSceneBuilder<'w> {
     ///     .build();
     /// ```
     ///
-    /// Note that components extracted from queried entities must still pass through the filter if one is set.
+    /// Note that components extracted from queried entities must still pass through the filter if
+    /// one is set.
     ///
     /// [`allow`]: Self::allow
     /// [`deny`]: Self::deny

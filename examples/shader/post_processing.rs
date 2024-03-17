@@ -3,7 +3,8 @@
 //!
 //! The example shader is a very simple implementation of chromatic aberration.
 //!
-//! This is a fairly low level example and assumes some familiarity with rendering concepts and wgpu.
+//! This is a fairly low level example and assumes some familiarity with rendering concepts and
+//! wgpu.
 
 use bevy::{
     core_pipeline::{
@@ -63,10 +64,10 @@ impl Plugin for PostProcessPlugin {
         };
 
         render_app
-            // Bevy's renderer uses a render graph which is a collection of nodes in a directed acyclic graph.
-            // It currently runs on each view/camera and executes each node in the specified order.
-            // It will make sure that any node that needs a dependency from another node
-            // only runs when that dependency is done.
+            // Bevy's renderer uses a render graph which is a collection of nodes in a directed
+            // acyclic graph. It currently runs on each view/camera and executes each
+            // node in the specified order. It will make sure that any node that needs a
+            // dependency from another node only runs when that dependency is done.
             //
             // Each node can execute arbitrary work, but it generally runs at least one render pass.
             // A node only has access to the render world, so if you need data from the main world
@@ -74,8 +75,8 @@ impl Plugin for PostProcessPlugin {
             // Add a [`Node`] to the [`RenderGraph`]
             // The Node needs to impl FromWorld
             //
-            // The [`ViewNodeRunner`] is a special [`Node`] that will automatically run the node for each view
-            // matching the [`ViewQuery`]
+            // The [`ViewNodeRunner`] is a special [`Node`] that will automatically run the node for
+            // each view matching the [`ViewQuery`]
             .add_render_graph_node::<ViewNodeRunner<PostProcessNode>>(
                 // Specify the label of the graph, in this case we want the graph for 3d
                 Core3d,
@@ -85,7 +86,8 @@ impl Plugin for PostProcessPlugin {
             .add_render_graph_edges(
                 Core3d,
                 // Specify the node ordering.
-                // This will automatically create all required node edges to enforce the given ordering.
+                // This will automatically create all required node edges to enforce the given
+                // ordering.
                 (
                     Node3d::Tonemapping,
                     PostProcessLabel,
@@ -173,13 +175,14 @@ impl ViewNode for PostProcessNode {
         //
         // Normally, you would create a bind_group in the Queue set,
         // but this doesn't work with the post_process_write().
-        // The reason it doesn't work is because each post_process_write will alternate the source/destination.
-        // The only way to have the correct source/destination for the bind_group
-        // is to make sure you get it during the node execution.
+        // The reason it doesn't work is because each post_process_write will alternate the
+        // source/destination. The only way to have the correct source/destination for the
+        // bind_group is to make sure you get it during the node execution.
         let bind_group = render_context.render_device().create_bind_group(
             "post_process_bind_group",
             &post_process_pipeline.layout,
-            // It's important for this to match the BindGroupLayout defined in the PostProcessPipeline
+            // It's important for this to match the BindGroupLayout defined in the
+            // PostProcessPipeline
             &BindGroupEntries::sequential((
                 // Make sure to use the source view
                 post_process.source,
@@ -244,7 +247,8 @@ impl FromWorld for PostProcessPipeline {
             ),
         );
 
-        // We can create the sampler here since it won't change at runtime and doesn't depend on the view
+        // We can create the sampler here since it won't change at runtime and doesn't depend on the
+        // view
         let sampler = render_device.create_sampler(&SamplerDescriptor::default());
 
         // Get the shader handle
@@ -270,8 +274,9 @@ impl FromWorld for PostProcessPipeline {
                         write_mask: ColorWrites::ALL,
                     })],
                 }),
-                // All of the following properties are not important for this effect so just use the default values.
-                // This struct doesn't have the Default trait implemented because not all field can have a default value.
+                // All of the following properties are not important for this effect so just use the
+                // default values. This struct doesn't have the Default trait
+                // implemented because not all field can have a default value.
                 primitive: PrimitiveState::default(),
                 depth_stencil: None,
                 multisample: MultisampleState::default(),
@@ -313,7 +318,8 @@ fn setup(
             ..default()
         },
         // Add the setting to the camera.
-        // This component is also used to determine on which camera to run the post processing effect.
+        // This component is also used to determine on which camera to run the post processing
+        // effect.
         PostProcessSettings {
             intensity: 0.02,
             ..default()
@@ -363,7 +369,8 @@ fn update_settings(mut settings: Query<&mut PostProcessSettings>, time: Res<Time
         intensity *= 0.015;
 
         // Set the intensity.
-        // This will then be extracted to the render world and uploaded to the gpu automatically by the [`UniformComponentPlugin`]
+        // This will then be extracted to the render world and uploaded to the gpu automatically by
+        // the [`UniformComponentPlugin`]
         setting.intensity = intensity;
     }
 }

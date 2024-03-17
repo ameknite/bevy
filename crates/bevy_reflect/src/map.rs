@@ -20,8 +20,8 @@ use crate::{
 /// # Hashing
 ///
 /// All keys are expected to return a valid hash value from [`Reflect::reflect_hash`].
-/// If using the [`#[derive(Reflect)]`](derive@crate::Reflect) macro, this can be done by adding `#[reflect(Hash)]`
-/// to the entire struct or enum.
+/// If using the [`#[derive(Reflect)]`](derive@crate::Reflect) macro, this can be done by adding
+/// `#[reflect(Hash)]` to the entire struct or enum.
 /// This is true even for manual implementors who do not use the hashed value,
 /// as it is still relied on by [`DynamicMap`].
 ///
@@ -56,7 +56,8 @@ pub trait Map: Reflect {
     /// Returns the key-value pair at `index` by reference, or `None` if out of bounds.
     fn get_at(&self, index: usize) -> Option<(&dyn Reflect, &dyn Reflect)>;
 
-    /// Returns the key-value pair at `index` by reference where the value is a mutable reference, or `None` if out of bounds.
+    /// Returns the key-value pair at `index` by reference where the value is a mutable reference,
+    /// or `None` if out of bounds.
     fn get_at_mut(&mut self, index: usize) -> Option<(&dyn Reflect, &mut dyn Reflect)>;
 
     /// Returns the number of elements in the map.
@@ -441,8 +442,8 @@ impl<'a> ExactSizeIterator for MapIter<'a> {}
 /// Returns true if and only if all of the following are true:
 /// - `b` is a map;
 /// - `b` is the same length as `a`;
-/// - For each key-value pair in `a`, `b` contains a value for the given key,
-///   and [`Reflect::reflect_partial_eq`] returns `Some(true)` for the two values.
+/// - For each key-value pair in `a`, `b` contains a value for the given key, and
+///   [`Reflect::reflect_partial_eq`] returns `Some(true)` for the two values.
 ///
 /// Returns [`None`] if the comparison couldn't even be performed.
 #[inline]

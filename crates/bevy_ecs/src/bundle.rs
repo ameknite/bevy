@@ -177,8 +177,10 @@ pub trait DynamicBundle {
 
 // SAFETY:
 // - `Bundle::component_ids` calls `ids` for C's component id (and nothing else)
-// - `Bundle::get_components` is called exactly once for C and passes the component's storage type based on it's associated constant.
-// - `Bundle::from_components` calls `func` exactly once for C, which is the exact value returned by `Bundle::component_ids`.
+// - `Bundle::get_components` is called exactly once for C and passes the component's storage type
+//   based on it's associated constant.
+// - `Bundle::from_components` calls `func` exactly once for C, which is the exact value returned by
+//   `Bundle::component_ids`.
 unsafe impl<C: Component> Bundle for C {
     fn component_ids(
         components: &mut Components,
@@ -250,7 +252,8 @@ macro_rules! tuple_impl {
 
 all_tuples!(tuple_impl, 0, 15, B);
 
-/// For a specific [`World`], this stores a unique value identifying a type of a registered [`Bundle`].
+/// For a specific [`World`], this stores a unique value identifying a type of a registered
+/// [`Bundle`].
 ///
 /// [`World`]: crate::world::World
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
@@ -359,14 +362,15 @@ impl BundleInfo {
     /// # Safety
     ///
     /// `bundle_component_status` must return the "correct" [`ComponentStatus`] for each component
-    /// in the [`Bundle`], with respect to the entity's original archetype (prior to the bundle being added)
-    /// For example, if the original archetype already has `ComponentA` and `T` also has `ComponentA`, the status
-    /// should be `Mutated`. If the original archetype does not have `ComponentA`, the status should be `Added`.
-    /// When "inserting" a bundle into an existing entity, [`AddBundle`]
-    /// should be used, which will report `Added` vs `Mutated` status based on the current archetype's structure.
-    /// When spawning a bundle, [`SpawnBundleStatus`] can be used instead, which removes the need
-    /// to look up the [`AddBundle`] in the archetype graph, which requires
-    /// ownership of the entity's current archetype.
+    /// in the [`Bundle`], with respect to the entity's original archetype (prior to the bundle
+    /// being added) For example, if the original archetype already has `ComponentA` and `T`
+    /// also has `ComponentA`, the status should be `Mutated`. If the original archetype does
+    /// not have `ComponentA`, the status should be `Added`. When "inserting" a bundle into an
+    /// existing entity, [`AddBundle`] should be used, which will report `Added` vs `Mutated`
+    /// status based on the current archetype's structure. When spawning a bundle,
+    /// [`SpawnBundleStatus`] can be used instead, which removes the need to look up the
+    /// [`AddBundle`] in the archetype graph, which requires ownership of the entity's current
+    /// archetype.
     ///
     /// `table` must be the "new" table for `entity`. `table_row` must have space allocated for the
     /// `entity`, `bundle` must match this [`BundleInfo`]'s type
@@ -554,7 +558,8 @@ impl<'w> BundleInserter<'w> {
         bundle_id: BundleId,
         change_tick: Tick,
     ) -> Self {
-        // SAFETY: We will not make any accesses to the command queue, component or resource data of this world
+        // SAFETY: We will not make any accesses to the command queue, component or resource data of
+        // this world
         let bundle_info = world.bundles.get_unchecked(bundle_id);
         let bundle_id = bundle_info.id();
         let new_archetype_id = bundle_info.add_bundle_to_archetype(
@@ -760,7 +765,8 @@ impl<'w> BundleInserter<'w> {
                         new_archetype
                             .set_entity_table_row(swapped_location.archetype_row, result.table_row);
                     } else {
-                        // SAFETY: the only two borrowed archetypes are above and we just did collision checks
+                        // SAFETY: the only two borrowed archetypes are above and we just did
+                        // collision checks
                         (*archetypes_ptr.add(swapped_location.archetype_id.index()))
                             .set_entity_table_row(swapped_location.archetype_row, result.table_row);
                     }
@@ -808,7 +814,8 @@ impl<'w> BundleInserter<'w> {
 
     #[inline]
     pub(crate) fn entities(&mut self) -> &mut Entities {
-        // SAFETY: No outstanding references to self.world, changes to entities cannot invalidate our internal pointers
+        // SAFETY: No outstanding references to self.world, changes to entities cannot invalidate
+        // our internal pointers
         unsafe { &mut self.world.world_mut().entities }
     }
 }
@@ -880,7 +887,8 @@ impl<'w> BundleSpawner<'w> {
         let archetype = self.archetype.as_mut();
         let bundle_info = self.bundle_info.as_ref();
 
-        // SAFETY: We do not make any structural changes to the archetype graph through self.world so this pointer always remain valid
+        // SAFETY: We do not make any structural changes to the archetype graph through self.world
+        // so this pointer always remain valid
         let location = {
             // SAFETY: Mutable references do not alias and will be dropped after this block
             let (sparse_sets, entities) = {
@@ -932,7 +940,8 @@ impl<'w> BundleSpawner<'w> {
 
     #[inline]
     pub(crate) fn entities(&mut self) -> &mut Entities {
-        // SAFETY: No outstanding references to self.world, changes to entities cannot invalidate our internal pointers
+        // SAFETY: No outstanding references to self.world, changes to entities cannot invalidate
+        // our internal pointers
         unsafe { &mut self.world.world_mut().entities }
     }
 

@@ -117,7 +117,8 @@ impl<S: SpecializedMeshPipeline> SpecializedMeshPipelines<S> {
                         err
                     })?;
                 // Different MeshVertexBufferLayouts can produce the same final VertexBufferLayout
-                // We want compatible vertex buffer layouts to use the same pipelines, so we must "deduplicate" them
+                // We want compatible vertex buffer layouts to use the same pipelines, so we must
+                // "deduplicate" them
                 let layout_map = match self
                     .vertex_layout_cache
                     .raw_entry_mut()

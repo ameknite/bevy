@@ -126,7 +126,8 @@ impl<'w> DeferredWorld<'w> {
     /// # Panics
     ///
     /// Panics if the resource does not exist.
-    /// Use [`get_resource_mut`](DeferredWorld::get_resource_mut) instead if you want to handle this case.
+    /// Use [`get_resource_mut`](DeferredWorld::get_resource_mut) instead if you want to handle this
+    /// case.
     #[inline]
     #[track_caller]
     pub fn resource_mut<R: Resource>(&mut self) -> Mut<'_, R> {
@@ -154,9 +155,11 @@ impl<'w> DeferredWorld<'w> {
     /// # Panics
     ///
     /// Panics if the resource does not exist.
-    /// Use [`get_non_send_resource_mut`](World::get_non_send_resource_mut) instead if you want to handle this case.
+    /// Use [`get_non_send_resource_mut`](World::get_non_send_resource_mut) instead if you want to
+    /// handle this case.
     ///
-    /// This function will panic if it isn't called from the same thread that the resource was inserted from.
+    /// This function will panic if it isn't called from the same thread that the resource was
+    /// inserted from.
     #[inline]
     #[track_caller]
     pub fn non_send_resource_mut<R: 'static>(&mut self) -> Mut<'_, R> {
@@ -175,7 +178,8 @@ impl<'w> DeferredWorld<'w> {
     /// Otherwise returns `None`.
     ///
     /// # Panics
-    /// This function will panic if it isn't called from the same thread that the resource was inserted from.
+    /// This function will panic if it isn't called from the same thread that the resource was
+    /// inserted from.
     #[inline]
     pub fn get_non_send_resource_mut<R: 'static>(&mut self) -> Option<Mut<'_, R>> {
         // SAFETY: &mut self ensure that there are no outstanding accesses to the resource
@@ -236,15 +240,17 @@ impl<'w> DeferredWorld<'w> {
     /// use this in cases where the actual types are not known at compile time.**
     ///
     /// # Panics
-    /// This function will panic if it isn't called from the same thread that the resource was inserted from.
+    /// This function will panic if it isn't called from the same thread that the resource was
+    /// inserted from.
     #[inline]
     pub fn get_non_send_mut_by_id(&mut self, component_id: ComponentId) -> Option<MutUntyped<'_>> {
         // SAFETY: &mut self ensure that there are no outstanding accesses to the resource
         unsafe { self.world.get_non_send_resource_mut_by_id(component_id) }
     }
 
-    /// Retrieves a mutable untyped reference to the given `entity`'s [`Component`] of the given [`ComponentId`].
-    /// Returns `None` if the `entity` does not have a [`Component`] of the given type.
+    /// Retrieves a mutable untyped reference to the given `entity`'s [`Component`] of the given
+    /// [`ComponentId`]. Returns `None` if the `entity` does not have a [`Component`] of the
+    /// given type.
     ///
     /// **You should prefer to use the typed API [`World::get_mut`] where possible and only
     /// use this in cases where the actual types are not known at compile time.**

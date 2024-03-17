@@ -103,7 +103,8 @@ impl UiSurface {
         }
     }
 
-    /// Update the `MeasureFunc` of the taffy node corresponding to the given [`Entity`] if the node exists.
+    /// Update the `MeasureFunc` of the taffy node corresponding to the given [`Entity`] if the node
+    /// exists.
     pub fn try_update_measure(
         &mut self,
         entity: Entity,
@@ -148,7 +149,8 @@ without UI components as a child of an entity with UI components, results may be
         }
     }
 
-    /// Set the ui node entities without a [`Parent`] as children to the root node in the taffy layout.
+    /// Set the ui node entities without a [`Parent`] as children to the root node in the taffy
+    /// layout.
     pub fn set_camera_children(
         &mut self,
         camera_id: Entity,
@@ -215,7 +217,8 @@ without UI components as a child of an entity with UI components, results may be
         }
     }
 
-    /// Removes each camera entity from the internal map and then removes their associated node from taffy
+    /// Removes each camera entity from the internal map and then removes their associated node from
+    /// taffy
     pub fn remove_camera_entities(&mut self, entities: impl IntoIterator<Item = Entity>) {
         for entity in entities {
             if let Some(node) = self.camera_entity_to_taffy.remove(&entity) {
@@ -234,7 +237,8 @@ without UI components as a child of an entity with UI components, results may be
     }
 
     /// Get the layout geometry for the taffy node corresponding to the ui node [`Entity`].
-    /// Does not compute the layout geometry, `compute_window_layouts` should be run before using this function.
+    /// Does not compute the layout geometry, `compute_window_layouts` should be run before using
+    /// this function.
     pub fn get_layout(&self, entity: Entity) -> Result<&taffy::layout::Layout, LayoutError> {
         if let Some(taffy_node) = self.entity_to_taffy.get(&entity) {
             self.taffy
@@ -266,7 +270,8 @@ pub struct UiLayoutSystemRemovedComponentParam<'w, 's> {
     removed_nodes: RemovedComponents<'w, 's, Node>,
 }
 
-/// Updates the UI's layout tree, computes the new layout geometry and then updates the sizes and transforms of all the UI nodes.
+/// Updates the UI's layout tree, computes the new layout geometry and then updates the sizes and
+/// transforms of all the UI nodes.
 #[allow(clippy::too_many_arguments)]
 pub fn ui_layout_system(
     primary_window: Query<(Entity, &Window), With<PrimaryWindow>>,
@@ -367,7 +372,8 @@ pub fn ui_layout_system(
     }
     scale_factor_events.clear();
 
-    // When a `ContentSize` component is removed from an entity, we need to remove the measure from the corresponding taffy node.
+    // When a `ContentSize` component is removed from an entity, we need to remove the measure from
+    // the corresponding taffy node.
     for entity in removed_components.removed_content_sizes.read() {
         ui_surface.try_remove_measure(entity);
     }
@@ -501,14 +507,17 @@ pub fn resolve_outlines_system(
 }
 
 #[inline]
-/// Round `value` to the nearest whole integer, with ties (values with a fractional part equal to 0.5) rounded towards positive infinity.
+/// Round `value` to the nearest whole integer, with ties (values with a fractional part equal to
+/// 0.5) rounded towards positive infinity.
 fn round_ties_up(value: f32) -> f32 {
     if value.fract() != -0.5 {
-        // The `round` function rounds ties away from zero. For positive numbers "away from zero" is towards positive infinity.
-        // So for all positive values, and negative values with a fractional part not equal to 0.5, `round` returns the correct result.
+        // The `round` function rounds ties away from zero. For positive numbers "away from zero" is
+        // towards positive infinity. So for all positive values, and negative values with a
+        // fractional part not equal to 0.5, `round` returns the correct result.
         value.round()
     } else {
-        // In the remaining cases, where `value` is negative and its fractional part is equal to 0.5, we use `ceil` to round it up towards positive infinity.
+        // In the remaining cases, where `value` is negative and its fractional part is equal to
+        // 0.5, we use `ceil` to round it up towards positive infinity.
         value.ceil()
     }
 }
@@ -516,7 +525,8 @@ fn round_ties_up(value: f32) -> f32 {
 #[inline]
 /// Rounds layout coordinates by rounding ties upwards.
 ///
-/// Rounding ties up avoids gaining a pixel when rounding bounds that span from negative to positive.
+/// Rounding ties up avoids gaining a pixel when rounding bounds that span from negative to
+/// positive.
 ///
 /// Example: The width between bounds of -50.5 and 49.5 before rounding is 100, using:
 /// - `f32::round`: width becomes 101 (rounds to -51 and 50).
@@ -592,7 +602,8 @@ mod tests {
         let mut ui_schedule = Schedule::default();
         ui_schedule.add_systems(
             (
-                // UI is driven by calculated camera target info, so we need to run the camera system first
+                // UI is driven by calculated camera target info, so we need to run the camera
+                // system first
                 bevy_render::camera::camera_system::<OrthographicProjection>,
                 update_target_camera_system,
                 apply_deferred,
@@ -698,7 +709,8 @@ mod tests {
             .spawn((NodeBundle::default(), TargetCamera(camera_entity)))
             .id();
 
-        // `ui_layout_system` should map `camera_entity` to a ui node in `UiSurface::camera_entity_to_taffy`
+        // `ui_layout_system` should map `camera_entity` to a ui node in
+        // `UiSurface::camera_entity_to_taffy`
         ui_schedule.run(&mut world);
 
         let ui_surface = world.resource::<UiSurface>();
@@ -727,7 +739,8 @@ mod tests {
 
         let ui_entity = world.spawn(NodeBundle::default()).id();
 
-        // `ui_layout_system` will insert a ui node into the internal layout tree corresponding to `ui_entity`
+        // `ui_layout_system` will insert a ui node into the internal layout tree corresponding to
+        // `ui_entity`
         ui_schedule.run(&mut world);
 
         // retrieve the ui node corresponding to `ui_entity` from ui surface
@@ -752,7 +765,8 @@ mod tests {
 
         let ui_parent_entity = world.spawn(NodeBundle::default()).id();
 
-        // `ui_layout_system` will insert a ui node into the internal layout tree corresponding to `ui_entity`
+        // `ui_layout_system` will insert a ui node into the internal layout tree corresponding to
+        // `ui_entity`
         ui_schedule.run(&mut world);
 
         let ui_surface = world.resource::<UiSurface>();
@@ -788,7 +802,8 @@ mod tests {
                 .map(|child_entity| (*child_entity, ui_surface.entity_to_taffy[child_entity])),
         );
 
-        // the children should have a corresponding ui node and that ui node's parent should be `ui_parent_node`
+        // the children should have a corresponding ui node and that ui node's parent should be
+        // `ui_parent_node`
         for node in child_node_map.values() {
             assert_eq!(ui_surface.taffy.parent(*node), Some(ui_parent_node));
         }
@@ -959,7 +974,8 @@ mod tests {
 
         let pos_inc = Vec2::splat(1.);
         let total_cameras = world.query::<&Camera>().iter(&world).len();
-        // add total cameras - 1 (the assumed default) to get an idea for how many nodes we should expect
+        // add total cameras - 1 (the assumed default) to get an idea for how many nodes we should
+        // expect
         let expected_max_taffy_node_count = get_taffy_node_count(&world) + total_cameras - 1;
 
         world.run_system_once(update_camera_viewports);
@@ -1057,7 +1073,8 @@ mod tests {
         // a node without a content size does not need to be measured
         assert!(!ui_surface.taffy.needs_measure(ui_node));
 
-        // Without a content size, the node has no width or height constraints so the length of both dimensions is 0.
+        // Without a content size, the node has no width or height constraints so the length of both
+        // dimensions is 0.
         let layout = ui_surface.get_layout(ui_entity).unwrap();
         assert_eq!(layout.size.width, 0.);
         assert_eq!(layout.size.height, 0.);

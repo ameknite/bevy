@@ -27,8 +27,8 @@ impl Font {
         let height = bounds.height() as usize + 2;
         let mut alpha = vec![0.0; width * height];
         outlined_glyph.draw(|x, y, v| {
-            // Displace the glyph by 1 pixel on each axis so that it is drawn in the center of the texture.
-            // This leaves a pixel wide transparent border around the glyph.
+            // Displace the glyph by 1 pixel on each axis so that it is drawn in the center of the
+            // texture. This leaves a pixel wide transparent border around the glyph.
             alpha[(y + 1) as usize * width + x as usize + 1] = v;
         });
 

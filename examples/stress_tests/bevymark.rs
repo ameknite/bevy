@@ -63,7 +63,8 @@ struct Args {
     #[argh(switch)]
     vary_per_instance: bool,
 
-    /// the number of different textures from which to randomly select the material color. 0 means no textures.
+    /// the number of different textures from which to randomly select the material color. 0 means
+    /// no textures.
     #[argh(option, default = "1")]
     material_texture_count: usize,
 
@@ -339,8 +340,8 @@ fn bird_velocity_transform(
     let mut velocity = Vec3::new(MAX_VELOCITY * (velocity_rng.gen::<f32>() - 0.5), 0., 0.);
 
     if let Some(waves) = waves {
-        // Step the movement and handle collisions as if the wave had been spawned at fixed time intervals
-        // and with dt-spaced frames of simulation
+        // Step the movement and handle collisions as if the wave had been spawned at fixed time
+        // intervals and with dt-spaced frames of simulation
         for _ in 0..(waves * (FIXED_TIMESTEP / dt).round() as usize) {
             step_movement(&mut translation, &mut velocity, dt);
             handle_collision(half_extents, &translation, &mut velocity);

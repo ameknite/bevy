@@ -1,4 +1,5 @@
-//! This example shows how to align the orientations of objects in 3D space along two axes using the `Transform::align` API.
+//! This example shows how to align the orientations of objects in 3D space along two axes using the
+//! `Transform::align` API.
 
 use bevy::{
     color::{
@@ -255,7 +256,8 @@ fn build_direction(height: f32, theta: f32) -> Vec3 {
 }
 
 // This is where `Transform::align` is actually used!
-// Note that the choice of `Vec3::X` and `Vec3::Y` here matches the use of those in `draw_cube_axes`.
+// Note that the choice of `Vec3::X` and `Vec3::Y` here matches the use of those in
+// `draw_cube_axes`.
 fn random_axes_target_alignment(random_axes: &RandomAxes) -> Transform {
     let RandomAxes(first, second) = random_axes;
     Transform::IDENTITY.aligned_by(Vec3::X, *first, Vec3::Y, *second)

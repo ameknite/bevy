@@ -51,7 +51,8 @@ struct CustomMaterial {
 }
 
 /// The Material trait is very configurable, but comes with sensible defaults for all methods.
-/// You only need to implement functions for features that need non-default behavior. See the Material api docs for details!
+/// You only need to implement functions for features that need non-default behavior. See the
+/// Material api docs for details!
 impl Material for CustomMaterial {
     fn fragment_shader() -> ShaderRef {
         "shaders/custom_material.wgsl".into()

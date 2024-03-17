@@ -202,8 +202,8 @@ fn main() {
                 .run()
                 .unwrap();
 
-                // Don't use automatic position as it's "random" on Windows and breaks screenshot comparison
-                // using the cursor position
+                // Don't use automatic position as it's "random" on Windows and breaks screenshot
+                // comparison using the cursor position
                 let sh = Shell::new().unwrap();
                 cmd!(
                     sh,
@@ -222,7 +222,8 @@ fn main() {
                 .unwrap();
 
                 // Sending extra WindowResize events. They are not sent on CI with xvfb x11 server
-                // This is needed for example split_screen that uses the window size to set the panels
+                // This is needed for example split_screen that uses the window size to set the
+                // panels
                 cmd!(
                     sh,
                     "git apply --ignore-whitespace tools/example-showcase/extra-window-resized-events.patch"

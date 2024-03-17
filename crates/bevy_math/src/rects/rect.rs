@@ -281,7 +281,8 @@ impl Rect {
     ///
     /// The inset is the extra border on all sides. A positive inset produces a larger rectangle,
     /// while a negative inset is allowed and produces a smaller rectangle. If the inset is negative
-    /// and its absolute value is larger than the rectangle half-size, the created rectangle is empty.
+    /// and its absolute value is larger than the rectangle half-size, the created rectangle is
+    /// empty.
     ///
     /// # Examples
     ///

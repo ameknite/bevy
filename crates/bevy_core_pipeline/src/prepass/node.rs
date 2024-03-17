@@ -56,7 +56,8 @@ impl ViewNode for PrepassNode {
             None,
         ];
 
-        // If all color attachments are none: clear the color attachment list so that no fragment shader is required
+        // If all color attachments are none: clear the color attachment list so that no fragment
+        // shader is required
         if color_attachments.iter().all(Option::is_none) {
             color_attachments.clear();
         }

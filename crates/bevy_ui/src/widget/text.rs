@@ -114,7 +114,8 @@ fn create_text_measure(
 /// * All measures are regenerated if the primary window's scale factor or [`UiScale`] is changed.
 /// * Changes that only modify the colors of a `Text` do not require a new `Measure`. This system
 /// is only able to detect that a `Text` component has changed and will regenerate the `Measure` on
-/// color changes. This can be expensive, particularly for large blocks of text, and the [`bypass_change_detection`](bevy_ecs::change_detection::DetectChangesMut::bypass_change_detection)
+/// color changes. This can be expensive, particularly for large blocks of text, and the
+/// [`bypass_change_detection`](bevy_ecs::change_detection::DetectChangesMut::bypass_change_detection)
 /// method should be called when only changing the `Text`'s colors.
 pub fn measure_text_system(
     mut last_scale_factor: Local<f32>,
@@ -207,14 +208,15 @@ fn queue_text(
     }
 }
 
-/// Updates the layout and size information for a UI text node on changes to the size value of its [`Node`] component,
-/// or when the `needs_recompute` field of [`TextFlags`] is set to true.
+/// Updates the layout and size information for a UI text node on changes to the size value of its
+/// [`Node`] component, or when the `needs_recompute` field of [`TextFlags`] is set to true.
 /// This information is computed by the [`TextPipeline`] and then stored in [`TextLayoutInfo`].
 ///
 /// ## World Resources
 ///
 /// [`ResMut<Assets<Image>>`](Assets<Image>) -- This system only adds new [`Image`] assets.
-/// It does not modify or observe existing ones. The exception is when adding new glyphs to a [`bevy_text::FontAtlas`].
+/// It does not modify or observe existing ones. The exception is when adding new glyphs to a
+/// [`bevy_text::FontAtlas`].
 #[allow(clippy::too_many_arguments)]
 pub fn text_system(
     mut textures: ResMut<Assets<Image>>,

@@ -47,8 +47,8 @@ impl Circle {
 
     /// Finds the point on the circle that is closest to the given `point`.
     ///
-    /// If the point is outside the circle, the returned point will be on the perimeter of the circle.
-    /// Otherwise, it will be inside the circle and returned as is.
+    /// If the point is outside the circle, the returned point will be on the perimeter of the
+    /// circle. Otherwise, it will be inside the circle and returned as is.
     #[inline(always)]
     pub fn closest_point(&self, point: Vec2) -> Vec2 {
         let distance_squared = point.length_squared();
@@ -106,13 +106,15 @@ impl Ellipse {
         }
     }
 
-    /// Returns the length of the semi-major axis. This corresponds to the longest radius of the ellipse.
+    /// Returns the length of the semi-major axis. This corresponds to the longest radius of the
+    /// ellipse.
     #[inline(always)]
     pub fn semi_major(self) -> f32 {
         self.half_size.max_element()
     }
 
-    /// Returns the length of the semi-minor axis. This corresponds to the shortest radius of the ellipse.
+    /// Returns the length of the semi-minor axis. This corresponds to the shortest radius of the
+    /// ellipse.
     #[inline(always)]
     pub fn semi_minor(self) -> f32 {
         self.half_size.min_element()
@@ -289,7 +291,8 @@ pub struct Triangle2d {
 impl Primitive2d for Triangle2d {}
 
 impl Default for Triangle2d {
-    /// Returns the default [`Triangle2d`] with the vertices `[0.0, 0.5]`, `[-0.5, -0.5]`, and `[0.5, -0.5]`.
+    /// Returns the default [`Triangle2d`] with the vertices `[0.0, 0.5]`, `[-0.5, -0.5]`, and
+    /// `[0.5, -0.5]`.
     fn default() -> Self {
         Self {
             vertices: [Vec2::Y * 0.5, Vec2::new(-0.5, -0.5), Vec2::new(0.5, -0.5)],
@@ -343,7 +346,8 @@ impl Triangle2d {
     /// Compute the circle passing through all three vertices of the triangle.
     /// The vector in the returned tuple is the circumcenter.
     pub fn circumcircle(&self) -> (Circle, Vec2) {
-        // We treat the triangle as translated so that vertex A is at the origin. This simplifies calculations.
+        // We treat the triangle as translated so that vertex A is at the origin. This simplifies
+        // calculations.
         //
         //     A = (0, 0)
         //        *
@@ -454,8 +458,8 @@ impl Rectangle {
 
     /// Finds the point on the rectangle that is closest to the given `point`.
     ///
-    /// If the point is outside the rectangle, the returned point will be on the perimeter of the rectangle.
-    /// Otherwise, it will be inside the rectangle and returned as is.
+    /// If the point is outside the rectangle, the returned point will be on the perimeter of the
+    /// rectangle. Otherwise, it will be inside the rectangle and returned as is.
     #[inline(always)]
     pub fn closest_point(&self, point: Vec2) -> Vec2 {
         // Clamp point coordinates to the rectangle
@@ -533,7 +537,8 @@ pub struct RegularPolygon {
 impl Primitive2d for RegularPolygon {}
 
 impl Default for RegularPolygon {
-    /// Returns the default [`RegularPolygon`] with six sides (a hexagon) and a circumradius of `0.5`.
+    /// Returns the default [`RegularPolygon`] with six sides (a hexagon) and a circumradius of
+    /// `0.5`.
     fn default() -> Self {
         Self {
             circumcircle: Circle { radius: 0.5 },
@@ -653,7 +658,8 @@ impl RegularPolygon {
 
 /// A 2D capsule primitive, also known as a stadium or pill shape.
 ///
-/// A two-dimensional capsule is defined as a neighborhood of points at a distance (radius) from a line
+/// A two-dimensional capsule is defined as a neighborhood of points at a distance (radius) from a
+/// line
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[cfg_attr(feature = "serialize", derive(serde::Serialize, serde::Deserialize))]
 #[doc(alias = "stadium", alias = "pill")]

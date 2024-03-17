@@ -50,9 +50,9 @@ impl RayCast3d {
             (aabb.max.z, aabb.min.z)
         };
 
-        // Calculate the minimum/maximum time for each axis based on how much the direction goes that
-        // way. These values can get arbitrarily large, or even become NaN, which is handled by the
-        // min/max operations below
+        // Calculate the minimum/maximum time for each axis based on how much the direction goes
+        // that way. These values can get arbitrarily large, or even become NaN, which is
+        // handled by the min/max operations below
         let tmin_x = (min_x - self.ray.origin.x) * self.direction_recip.x;
         let tmin_y = (min_y - self.ray.origin.y) * self.direction_recip.y;
         let tmin_z = (min_z - self.ray.origin.z) * self.direction_recip.z;
@@ -152,7 +152,8 @@ pub struct BoundingSphereCast {
 }
 
 impl BoundingSphereCast {
-    /// Construct a [`BoundingSphereCast`] from a [`BoundingSphere`], origin, [`Dir3`], and max distance.
+    /// Construct a [`BoundingSphereCast`] from a [`BoundingSphere`], origin, [`Dir3`], and max
+    /// distance.
     pub fn new(sphere: BoundingSphere, origin: Vec3, direction: Dir3, max: f32) -> Self {
         Self::from_ray(sphere, Ray3d { origin, direction }, max)
     }

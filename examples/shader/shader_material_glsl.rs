@@ -57,8 +57,9 @@ struct CustomMaterial {
 }
 
 /// The Material trait is very configurable, but comes with sensible defaults for all methods.
-/// You only need to implement functions for features that need non-default behavior. See the Material api docs for details!
-/// When using the GLSL shading language for your shader, the specialize method must be overridden.
+/// You only need to implement functions for features that need non-default behavior. See the
+/// Material api docs for details! When using the GLSL shading language for your shader, the
+/// specialize method must be overridden.
 impl Material for CustomMaterial {
     fn vertex_shader() -> ShaderRef {
         "shaders/custom_material.vert".into()

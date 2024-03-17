@@ -80,7 +80,8 @@ impl ArchetypeId {
     pub const EMPTY: ArchetypeId = ArchetypeId(0);
     /// # Safety:
     ///
-    /// This must always have an all-1s bit pattern to ensure soundness in fast entity id space allocation.
+    /// This must always have an all-1s bit pattern to ensure soundness in fast entity id space
+    /// allocation.
     pub const INVALID: ArchetypeId = ArchetypeId(u32::MAX);
 
     /// Create an `ArchetypeId` from a plain value.
@@ -813,7 +814,8 @@ impl Archetypes {
     }
 
     /// Returns the number of components that are stored in archetypes.
-    /// Note that if some component `T` is stored in more than one archetype, it will be counted once for each archetype it's present in.
+    /// Note that if some component `T` is stored in more than one archetype, it will be counted
+    /// once for each archetype it's present in.
     #[inline]
     pub fn archetype_components_len(&self) -> usize {
         self.archetype_component_count

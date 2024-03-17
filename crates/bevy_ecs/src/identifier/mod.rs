@@ -1,7 +1,7 @@
 //! A module for the unified [`Identifier`] ID struct, for use as a representation
-//! of multiple types of IDs in a single, packed type. Allows for describing an [`crate::entity::Entity`],
-//! or other IDs that can be packed and expressed within a `u64` sized type.
-//! [`Identifier`]s cannot be created directly, only able to be converted from other
+//! of multiple types of IDs in a single, packed type. Allows for describing an
+//! [`crate::entity::Entity`], or other IDs that can be packed and expressed within a `u64` sized
+//! type. [`Identifier`]s cannot be created directly, only able to be converted from other
 //! compatible IDs.
 use self::{error::IdentifierError, kinds::IdKind, masks::IdentifierMask};
 use std::{hash::Hash, num::NonZeroU32};
@@ -93,7 +93,8 @@ impl Identifier {
     ///
     /// # Panics
     ///
-    /// This method will likely panic if given `u64` values that did not come from [`Identifier::to_bits`].
+    /// This method will likely panic if given `u64` values that did not come from
+    /// [`Identifier::to_bits`].
     #[inline(always)]
     pub const fn from_bits(value: u64) -> Self {
         let id = Self::try_from_bits(value);

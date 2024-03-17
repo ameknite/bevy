@@ -138,7 +138,8 @@ impl AsBindGroup for BindlessMaterial {
     ) -> Result<UnpreparedBindGroup<Self::Data>, AsBindGroupError> {
         // we implement as_bind_group directly because
         panic!("bindless texture arrays can't be owned")
-        // or rather, they can be owned, but then you can't make a `&'a [&'a TextureView]` from a vec of them in get_binding().
+        // or rather, they can be owned, but then you can't make a `&'a [&'a TextureView]` from a
+        // vec of them in get_binding().
     }
 
     fn bind_group_layout_entries(_: &RenderDevice) -> Vec<BindGroupLayoutEntry>
@@ -164,8 +165,8 @@ impl AsBindGroup for BindlessMaterial {
                 ty: BindingType::Sampler(SamplerBindingType::Filtering),
                 count: None,
                 // Note: as textures, multiple samplers can also be bound onto one binding slot.
-                // One may need to pay attention to the limit of sampler binding amount on some platforms.
-                // count: NonZeroU32::new(MAX_TEXTURE_COUNT as u32),
+                // One may need to pay attention to the limit of sampler binding amount on some
+                // platforms. count: NonZeroU32::new(MAX_TEXTURE_COUNT as u32),
             },
         ]
     }

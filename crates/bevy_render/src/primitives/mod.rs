@@ -77,7 +77,8 @@ impl Aabb {
     /// Calculate the relative radius of the AABB with respect to a plane
     #[inline]
     pub fn relative_radius(&self, p_normal: &Vec3A, model: &Mat3A) -> f32 {
-        // NOTE: dot products on Vec3A use SIMD and even with the overhead of conversion are net faster than Vec3
+        // NOTE: dot products on Vec3A use SIMD and even with the overhead of conversion are net
+        // faster than Vec3
         let half_extents = self.half_extents;
         Vec3A::new(
             p_normal.dot(model.x_axis),
@@ -135,8 +136,10 @@ impl Sphere {
 /// - the signed distance along the normal from the bisecting plane to the origin of 3D space.
 ///
 /// The distance can also be seen as:
-/// - the distance along the inverse of the normal from the origin of 3D space to the bisecting plane,
-/// - the opposite of the distance along the normal from the origin of 3D space to the bisecting plane.
+/// - the distance along the inverse of the normal from the origin of 3D space to the bisecting
+///   plane,
+/// - the opposite of the distance along the normal from the origin of 3D space to the bisecting
+///   plane.
 ///
 /// Any point `p` is considered to be within the `HalfSpace` when the length of the projection
 /// of p on the normal is greater or equal than the opposite of the distance,
@@ -147,7 +150,8 @@ impl Sphere {
 /// It includes all the points from the bisecting plane towards `NEG_Z`, and the distance
 /// from the plane to the origin is `-8.0` along `NEG_Z`.
 ///
-/// It is used to define a [`Frustum`], but is also a useful mathematical primitive for rendering tasks such as  light computation.
+/// It is used to define a [`Frustum`], but is also a useful mathematical primitive for rendering
+/// tasks such as  light computation.
 #[derive(Clone, Copy, Debug, Default)]
 pub struct HalfSpace {
     normal_d: Vec4,
@@ -157,7 +161,8 @@ impl HalfSpace {
     /// Constructs a `HalfSpace` from a 4D vector whose first 3 components
     /// represent the bisecting plane's unit normal, and the last component is
     /// the signed distance along the normal from the plane to the origin.
-    /// The constructor ensures the normal vector is normalized and the distance is appropriately scaled.
+    /// The constructor ensures the normal vector is normalized and the distance is appropriately
+    /// scaled.
     #[inline]
     pub fn new(normal_d: Vec4) -> Self {
         Self {

@@ -25,16 +25,18 @@ use std::{
 
 /// A data type that can be used to store data for an [entity].
 ///
-/// `Component` is a [derivable trait]: this means that a data type can implement it by applying a `#[derive(Component)]` attribute to it.
-/// However, components must always satisfy the `Send + Sync + 'static` trait bounds.
+/// `Component` is a [derivable trait]: this means that a data type can implement it by applying a
+/// `#[derive(Component)]` attribute to it. However, components must always satisfy the `Send + Sync
+/// + 'static` trait bounds.
 ///
 /// [entity]: crate::entity
 /// [derivable trait]: https://doc.rust-lang.org/book/appendix-03-derivable-traits.html
 ///
 /// # Examples
 ///
-/// Components can take many forms: they are usually structs, but can also be of every other kind of data type, like enums or zero sized types.
-/// The following examples show how components are laid out in code.
+/// Components can take many forms: they are usually structs, but can also be of every other kind of
+/// data type, like enums or zero sized types. The following examples show how components are laid
+/// out in code.
 ///
 /// ```
 /// # use bevy_ecs::component::Component;
@@ -67,7 +69,8 @@ use std::{
 ///
 /// # Component and data access
 ///
-/// See the [`entity`] module level documentation to learn how to add or remove components from an entity.
+/// See the [`entity`] module level documentation to learn how to add or remove components from an
+/// entity.
 ///
 /// See the documentation for [`Query`] to learn how to access component data from a system.
 ///
@@ -76,11 +79,13 @@ use std::{
 ///
 /// # Choosing a storage type
 ///
-/// Components can be stored in the world using different strategies with their own performance implications.
-/// By default, components are added to the [`Table`] storage, which is optimized for query iteration.
+/// Components can be stored in the world using different strategies with their own performance
+/// implications. By default, components are added to the [`Table`] storage, which is optimized for
+/// query iteration.
 ///
-/// Alternatively, components can be added to the [`SparseSet`] storage, which is optimized for component insertion and removal.
-/// This is achieved by adding an additional `#[component(storage = "SparseSet")]` attribute to the derive one:
+/// Alternatively, components can be added to the [`SparseSet`] storage, which is optimized for
+/// component insertion and removal. This is achieved by adding an additional `#[component(storage =
+/// "SparseSet")]` attribute to the derive one:
 ///
 /// ```
 /// # use bevy_ecs::component::Component;
@@ -95,10 +100,11 @@ use std::{
 ///
 /// # Implementing the trait for foreign types
 ///
-/// As a consequence of the [orphan rule], it is not possible to separate into two different crates the implementation of `Component` from the definition of a type.
-/// This means that it is not possible to directly have a type defined in a third party library as a component.
-/// This important limitation can be easily worked around using the [newtype pattern]:
-/// this makes it possible to locally define and implement `Component` for a tuple struct that wraps the foreign type.
+/// As a consequence of the [orphan rule], it is not possible to separate into two different crates
+/// the implementation of `Component` from the definition of a type. This means that it is not
+/// possible to directly have a type defined in a third party library as a component. This important
+/// limitation can be easily worked around using the [newtype pattern]: this makes it possible to
+/// locally define and implement `Component` for a tuple struct that wraps the foreign type.
 /// The following example gives a demonstration of this pattern.
 ///
 /// ```
@@ -120,10 +126,10 @@ use std::{
 /// [newtype pattern]: https://doc.rust-lang.org/book/ch19-03-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types
 ///
 /// # `!Sync` Components
-/// A `!Sync` type cannot implement `Component`. However, it is possible to wrap a `Send` but not `Sync`
-/// type in [`SyncCell`] or the currently unstable [`Exclusive`] to make it `Sync`. This forces only
-/// having mutable access (`&mut T` only, never `&T`), but makes it safe to reference across multiple
-/// threads.
+/// A `!Sync` type cannot implement `Component`. However, it is possible to wrap a `Send` but not
+/// `Sync` type in [`SyncCell`] or the currently unstable [`Exclusive`] to make it `Sync`. This
+/// forces only having mutable access (`&mut T` only, never `&T`), but makes it safe to reference
+/// across multiple threads.
 ///
 /// This will fail to compile since `RefCell` is `!Sync`.
 /// ```compile_fail
@@ -203,7 +209,8 @@ impl ComponentHooks {
 
     /// Register a [`ComponentHook`] that will be run when this component is added (with `.insert`)
     /// or replaced. The hook won't run if the component is already present and is only mutated.
-    /// An `on_insert` hook always runs after any `on_add` hooks (if the entity didn't already have the component).
+    /// An `on_insert` hook always runs after any `on_add` hooks (if the entity didn't already have
+    /// the component).
     ///
     /// Will panic if the component already has an `on_insert` hook
     pub fn on_insert(&mut self, hook: ComponentHook) -> &mut Self {
@@ -349,8 +356,8 @@ impl ComponentInfo {
 ///
 /// While the distinction between `ComponentId` and [`TypeId`] may seem superficial, breaking them
 /// into two separate but related concepts allows components to exist outside of Rust's type system.
-/// Each Rust type registered as a `Component` will have a corresponding `ComponentId`, but additional
-/// `ComponentId`s may exist in a `World` to track components which cannot be
+/// Each Rust type registered as a `Component` will have a corresponding `ComponentId`, but
+/// additional `ComponentId`s may exist in a `World` to track components which cannot be
 /// represented as Rust types for scripting or other advanced use-cases.
 ///
 /// A `ComponentId` is tightly coupled to its parent `World`. Attempting to use a `ComponentId` from
@@ -372,7 +379,8 @@ impl ComponentId {
     /// Creates a new [`ComponentId`].
     ///
     /// The `index` is a unique value associated with each type of component in a given world.
-    /// Usually, this value is taken from a counter incremented for each type of component registered with the world.
+    /// Usually, this value is taken from a counter incremented for each type of component
+    /// registered with the world.
     #[inline]
     pub const fn new(index: usize) -> ComponentId {
         ComponentId(index)
@@ -596,7 +604,8 @@ impl Components {
         self.components.len()
     }
 
-    /// Returns `true` if there are no components registered with this instance. Otherwise, this returns `false`.
+    /// Returns `true` if there are no components registered with this instance. Otherwise, this
+    /// returns `false`.
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.components.len() == 0
@@ -604,7 +613,8 @@ impl Components {
 
     /// Gets the metadata associated with the given component.
     ///
-    /// This will return an incorrect result if `id` did not come from the same world as `self`. It may return `None` or a garbage value.
+    /// This will return an incorrect result if `id` did not come from the same world as `self`. It
+    /// may return `None` or a garbage value.
     #[inline]
     pub fn get_info(&self, id: ComponentId) -> Option<&ComponentInfo> {
         self.components.get(id.0)
@@ -612,7 +622,8 @@ impl Components {
 
     /// Returns the name associated with the given component.
     ///
-    /// This will return an incorrect result if `id` did not come from the same world as `self`. It may return `None` or a garbage value.
+    /// This will return an incorrect result if `id` did not come from the same world as `self`. It
+    /// may return `None` or a garbage value.
     #[inline]
     pub fn get_name(&self, id: ComponentId) -> Option<&str> {
         self.get_info(id).map(|descriptor| descriptor.name())
@@ -799,12 +810,14 @@ impl Tick {
 
     /// Returns `true` if this `Tick` occurred since the system's `last_run`.
     ///
-    /// `this_run` is the current tick of the system, used as a reference to help deal with wraparound.
+    /// `this_run` is the current tick of the system, used as a reference to help deal with
+    /// wraparound.
     #[inline]
     pub fn is_newer_than(self, last_run: Tick, this_run: Tick) -> bool {
-        // This works even with wraparound because the world tick (`this_run`) is always "newer" than
-        // `last_run` and `self.tick`, and we scan periodically to clamp `ComponentTicks` values
-        // so they never get older than `u32::MAX` (the difference would overflow).
+        // This works even with wraparound because the world tick (`this_run`) is always "newer"
+        // than `last_run` and `self.tick`, and we scan periodically to clamp
+        // `ComponentTicks` values so they never get older than `u32::MAX` (the difference
+        // would overflow).
         //
         // The clamp here ensures determinism (since scans could differ between app runs).
         let ticks_since_insert = this_run.relative_to(self).tick.min(MAX_CHANGE_AGE);
@@ -826,8 +839,8 @@ impl Tick {
     #[inline]
     pub(crate) fn check_tick(&mut self, tick: Tick) -> bool {
         let age = tick.relative_to(*self);
-        // This comparison assumes that `age` has not overflowed `u32::MAX` before, which will be true
-        // so long as this check always runs before that can happen.
+        // This comparison assumes that `age` has not overflowed `u32::MAX` before, which will be
+        // true so long as this check always runs before that can happen.
         if age.get() > Self::MAX.get() {
             *self = tick.relative_to(Self::MAX);
             true
@@ -860,7 +873,8 @@ impl<'a> TickCells<'a> {
     }
 }
 
-/// Records when a component or resource was added and when it was last mutably dereferenced (or added).
+/// Records when a component or resource was added and when it was last mutably dereferenced (or
+/// added).
 #[derive(Copy, Clone, Debug)]
 #[cfg_attr(feature = "bevy_reflect", derive(Reflect), reflect(Debug))]
 pub struct ComponentTicks {
@@ -875,7 +889,8 @@ impl ComponentTicks {
         self.added.is_newer_than(last_run, this_run)
     }
 
-    /// Returns `true` if the component or resource was added or mutably dereferenced after the system last ran.
+    /// Returns `true` if the component or resource was added or mutably dereferenced after the
+    /// system last ran.
     #[inline]
     pub fn is_changed(&self, last_run: Tick, this_run: Tick) -> bool {
         self.changed.is_newer_than(last_run, this_run)
@@ -903,8 +918,9 @@ impl ComponentTicks {
     /// Manually sets the change tick.
     ///
     /// This is normally done automatically via the [`DerefMut`](std::ops::DerefMut) implementation
-    /// on [`Mut<T>`](crate::change_detection::Mut), [`ResMut<T>`](crate::change_detection::ResMut), etc.
-    /// However, components and resources that make use of interior mutability might require manual updates.
+    /// on [`Mut<T>`](crate::change_detection::Mut), [`ResMut<T>`](crate::change_detection::ResMut),
+    /// etc. However, components and resources that make use of interior mutability might
+    /// require manual updates.
     ///
     /// # Example
     /// ```no_run

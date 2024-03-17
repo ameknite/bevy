@@ -83,8 +83,9 @@ fn update_winit(
         ApplicationWithRedraw => {
             // Sending a `RequestRedraw` event is useful when you want the app to update the next
             // frame regardless of any user input. For example, your application might use
-            // `WinitSettings::desktop_app()` to reduce power use, but UI animations need to play even
-            // when there are no inputs, so you send redraw requests while the animation is playing.
+            // `WinitSettings::desktop_app()` to reduce power use, but UI animations need to play
+            // even when there are no inputs, so you send redraw requests while the
+            // animation is playing.
             event.send(RequestRedraw);
             WinitSettings::desktop_app()
         }

@@ -23,8 +23,7 @@ pub fn enum_hash<TEnum: Enum>(value: &TEnum) -> Option<u64> {
 /// - `b` is an enum;
 /// - `b` is the same variant as `a`;
 /// - For each field in `a`, `b` contains a field with the same name and
-///   [`Reflect::reflect_partial_eq`] returns `Some(true)` for the two field
-///   values.
+///   [`Reflect::reflect_partial_eq`] returns `Some(true)` for the two field values.
 #[inline]
 pub fn enum_partial_eq<TEnum: Enum>(a: &TEnum, b: &dyn Reflect) -> Option<bool> {
     // Both enums?

@@ -67,8 +67,8 @@ compile_error!(
     Consider either disabling the \"file_watcher\" feature or enabling \"multi-threaded\""
 );
 
-/// Provides "asset" loading and processing functionality. An [`Asset`] is a "runtime value" that is loaded from an [`AssetSource`],
-/// which can be something like a filesystem, a network, etc.
+/// Provides "asset" loading and processing functionality. An [`Asset`] is a "runtime value" that is
+/// loaded from an [`AssetSource`], which can be something like a filesystem, a network, etc.
 ///
 /// Supports flexible "modes", such as [`AssetMode::Processed`] and
 /// [`AssetMode::Unprocessed`] that enable using the asset workflow that best suits your project.
@@ -79,12 +79,13 @@ pub struct AssetPlugin {
     pub file_path: String,
     /// The default file path to use (relative to the project root) for processed assets.
     pub processed_file_path: String,
-    /// If set, will override the default "watch for changes" setting. By default "watch for changes" will be `false` unless
-    /// the `watch` cargo feature is set. `watch` can be enabled manually, or it will be automatically enabled if a specific watcher
+    /// If set, will override the default "watch for changes" setting. By default "watch for
+    /// changes" will be `false` unless the `watch` cargo feature is set. `watch` can be
+    /// enabled manually, or it will be automatically enabled if a specific watcher
     /// like `file_watcher` is enabled.
     ///
-    /// Most use cases should leave this set to [`None`] and enable a specific watcher feature such as `file_watcher` to enable
-    /// watching for dev-scenarios.
+    /// Most use cases should leave this set to [`None`] and enable a specific watcher feature such
+    /// as `file_watcher` to enable watching for dev-scenarios.
     pub watch_for_changes_override: Option<bool>,
     /// The [`AssetMode`] to use for this server.
     pub mode: AssetMode,
@@ -92,21 +93,28 @@ pub struct AssetPlugin {
 
 #[derive(Debug)]
 pub enum AssetMode {
-    /// Loads assets from their [`AssetSource`]'s default [`AssetReader`] without any "preprocessing".
+    /// Loads assets from their [`AssetSource`]'s default [`AssetReader`] without any
+    /// "preprocessing".
     ///
     /// [`AssetReader`]: io::AssetReader
     /// [`AssetSource`]: io::AssetSource
     Unprocessed,
-    /// Assets will be "pre-processed". This enables assets to be imported / converted / optimized ahead of time.
+    /// Assets will be "pre-processed". This enables assets to be imported / converted / optimized
+    /// ahead of time.
     ///
-    /// Assets will be read from their unprocessed [`AssetSource`] (defaults to the `assets` folder),
-    /// processed according to their [`AssetMeta`], and written to their processed [`AssetSource`] (defaults to the `imported_assets/Default` folder).
+    /// Assets will be read from their unprocessed [`AssetSource`] (defaults to the `assets`
+    /// folder), processed according to their [`AssetMeta`], and written to their processed
+    /// [`AssetSource`] (defaults to the `imported_assets/Default` folder).
     ///
-    /// By default, this assumes the processor _has already been run_. It will load assets from their final processed [`AssetReader`].
+    /// By default, this assumes the processor _has already been run_. It will load assets from
+    /// their final processed [`AssetReader`].
     ///
-    /// When developing an app, you should enable the `asset_processor` cargo feature, which will run the asset processor at startup. This should generally
-    /// be used in combination with the `file_watcher` cargo feature, which enables hot-reloading of assets that have changed. When both features are enabled,
-    /// changes to "original/source assets" will be detected, the asset will be re-processed, and then the final processed asset will be hot-reloaded in the app.
+    /// When developing an app, you should enable the `asset_processor` cargo feature, which will
+    /// run the asset processor at startup. This should generally be used in combination with
+    /// the `file_watcher` cargo feature, which enables hot-reloading of assets that have changed.
+    /// When both features are enabled, changes to "original/source assets" will be detected,
+    /// the asset will be re-processed, and then the final processed asset will be hot-reloaded in
+    /// the app.
     ///
     /// [`AssetMeta`]: meta::AssetMeta
     /// [`AssetSource`]: io::AssetSource
@@ -114,17 +122,21 @@ pub enum AssetMode {
     Processed,
 }
 
-/// Configures how / if meta files will be checked. If an asset's meta file is not checked, the default meta for the asset
-/// will be used.
-// TODO: To avoid breaking Bevy 0.12 users in 0.12.1, this is a Resource. In Bevy 0.13 this should be changed to a field on AssetPlugin (if it is still needed).
+/// Configures how / if meta files will be checked. If an asset's meta file is not checked, the
+/// default meta for the asset will be used.
+// TODO: To avoid breaking Bevy 0.12 users in 0.12.1, this is a Resource. In Bevy 0.13 this should
+// be changed to a field on AssetPlugin (if it is still needed).
 #[derive(Debug, Default, Clone, Resource)]
 pub enum AssetMetaCheck {
-    /// Always check if assets have meta files. If the meta does not exist, the default meta will be used.
+    /// Always check if assets have meta files. If the meta does not exist, the default meta will
+    /// be used.
     #[default]
     Always,
-    /// Only look up meta files for the provided paths. The default meta will be used for any paths not contained in this set.
+    /// Only look up meta files for the provided paths. The default meta will be used for any paths
+    /// not contained in this set.
     Paths(HashSet<AssetPath<'static>>),
-    /// Never check if assets have meta files and always use the default meta. If meta files exist, they will be ignored and the default meta will be used.
+    /// Never check if assets have meta files and always use the default meta. If meta files exist,
+    /// they will be ignored and the default meta will be used.
     Never,
 }
 
@@ -141,8 +153,9 @@ impl Default for AssetPlugin {
 
 impl AssetPlugin {
     const DEFAULT_UNPROCESSED_FILE_PATH: &'static str = "assets";
-    /// NOTE: this is in the Default sub-folder to make this forward compatible with "import profiles"
-    /// and to allow us to put the "processor transaction log" at `imported_assets/log`
+    /// NOTE: this is in the Default sub-folder to make this forward compatible with "import
+    /// profiles" and to allow us to put the "processor transaction log" at
+    /// `imported_assets/log`
     const DEFAULT_PROCESSED_FILE_PATH: &'static str = "imported_assets/Default";
 }
 
@@ -283,8 +296,8 @@ pub trait AssetApp {
     fn register_asset_processor<P: Process>(&mut self, processor: P) -> &mut Self;
     /// Registers the given [`AssetSourceBuilder`] with the given `id`.
     ///
-    /// Note that asset sources must be registered before adding [`AssetPlugin`] to your application,
-    /// since registered asset sources are built at that point and not after.
+    /// Note that asset sources must be registered before adding [`AssetPlugin`] to your
+    /// application, since registered asset sources are built at that point and not after.
     fn register_asset_source(
         &mut self,
         id: impl Into<AssetSourceId<'static>>,
@@ -303,14 +316,16 @@ pub trait AssetApp {
     /// modify the same underlying asset.
     fn init_asset<A: Asset>(&mut self) -> &mut Self;
     /// Registers the asset type `T` using `[App::register]`,
-    /// and adds [`ReflectAsset`] type data to `T` and [`ReflectHandle`] type data to [`Handle<T>`] in the type registry.
+    /// and adds [`ReflectAsset`] type data to `T` and [`ReflectHandle`] type data to [`Handle<T>`]
+    /// in the type registry.
     ///
-    /// This enables reflection code to access assets. For detailed information, see the docs on [`ReflectAsset`] and [`ReflectHandle`].
+    /// This enables reflection code to access assets. For detailed information, see the docs on
+    /// [`ReflectAsset`] and [`ReflectHandle`].
     fn register_asset_reflect<A>(&mut self) -> &mut Self
     where
         A: Asset + Reflect + FromReflect + GetTypeRegistration;
-    /// Preregisters a loader for the given extensions, that will block asset loads until a real loader
-    /// is registered.
+    /// Preregisters a loader for the given extensions, that will block asset loads until a real
+    /// loader is registered.
     fn preregister_asset_loader<L: AssetLoader>(&mut self, extensions: &[&str]) -> &mut Self;
 }
 
@@ -417,7 +432,8 @@ impl AssetApp for App {
 #[derive(SystemSet, Hash, Debug, PartialEq, Eq, Clone)]
 pub struct TrackAssets;
 
-/// A system set where events accumulated in [`Assets`] are applied to the [`AssetEvent`] [`Events`] resource.
+/// A system set where events accumulated in [`Assets`] are applied to the [`AssetEvent`] [`Events`]
+/// resource.
 ///
 /// [`Events`]: bevy_ecs::event::Events
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemSet)]
@@ -539,7 +555,8 @@ mod tests {
         }
     }
 
-    /// A dummy [`CoolText`] asset reader that only succeeds after `failure_count` times it's read from for each asset.
+    /// A dummy [`CoolText`] asset reader that only succeeds after `failure_count` times it's read
+    /// from for each asset.
     #[derive(Default, Clone)]
     pub struct UnstableMemoryAssetReader {
         pub attempt_counters: Arc<std::sync::Mutex<HashMap<Box<Path>, usize>>>,
@@ -659,7 +676,8 @@ mod tests {
 
     #[test]
     fn load_dependencies() {
-        // The particular usage of GatedReader in this test will cause deadlocking if running single-threaded
+        // The particular usage of GatedReader in this test will cause deadlocking if running
+        // single-threaded
         #[cfg(not(feature = "multi-threaded"))]
         panic!("This test requires the \"multi-threaded\" feature, otherwise it will deadlock.\ncargo test --package bevy_asset --features multi-threaded");
 
@@ -924,7 +942,8 @@ mod tests {
             "CoolText asset entities should be despawned when no more handles exist"
         );
         app.update();
-        // this requires a second update because the parent asset was freed in the previous app.update()
+        // this requires a second update because the parent asset was freed in the previous
+        // app.update()
         assert_eq!(
             app.world.resource::<Assets<SubText>>().len(),
             0,
@@ -980,7 +999,8 @@ mod tests {
 
     #[test]
     fn failure_load_states() {
-        // The particular usage of GatedReader in this test will cause deadlocking if running single-threaded
+        // The particular usage of GatedReader in this test will cause deadlocking if running
+        // single-threaded
         #[cfg(not(feature = "multi-threaded"))]
         panic!("This test requires the \"multi-threaded\" feature, otherwise it will deadlock.\ncargo test --package bevy_asset --features multi-threaded");
 
@@ -1145,7 +1165,8 @@ mod tests {
 
     #[test]
     fn manual_asset_management() {
-        // The particular usage of GatedReader in this test will cause deadlocking if running single-threaded
+        // The particular usage of GatedReader in this test will cause deadlocking if running
+        // single-threaded
         #[cfg(not(feature = "multi-threaded"))]
         panic!("This test requires the \"multi-threaded\" feature, otherwise it will deadlock.\ncargo test --package bevy_asset --features multi-threaded");
 
@@ -1207,7 +1228,8 @@ mod tests {
         let a = CoolText {
             text: "a".to_string(),
             embedded: empty,
-            // this dependency is behind a manual load gate, which should prevent 'a' from emitting a LoadedWithDependencies event
+            // this dependency is behind a manual load gate, which should prevent 'a' from emitting
+            // a LoadedWithDependencies event
             dependencies: vec![dep_handle.clone()],
             sub_texts: Vec::new(),
         };
@@ -1246,7 +1268,8 @@ mod tests {
 
     #[test]
     fn load_folder() {
-        // The particular usage of GatedReader in this test will cause deadlocking if running single-threaded
+        // The particular usage of GatedReader in this test will cause deadlocking if running
+        // single-threaded
         #[cfg(not(feature = "multi-threaded"))]
         panic!("This test requires the \"multi-threaded\" feature, otherwise it will deadlock.\ncargo test --package bevy_asset --features multi-threaded");
 
@@ -1338,7 +1361,8 @@ mod tests {
         });
     }
 
-    /// Tests that `AssetLoadFailedEvent<A>` events are emitted and can be used to retry failed assets.
+    /// Tests that `AssetLoadFailedEvent<A>` events are emitted and can be used to retry failed
+    /// assets.
     #[test]
     fn load_error_events() {
         #[derive(Resource, Default)]

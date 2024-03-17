@@ -158,7 +158,8 @@ impl TaskPool {
         FakeTask
     }
 
-    /// Spawns a static future on the JS event loop. This is exactly the same as [`TaskPool::spawn`].
+    /// Spawns a static future on the JS event loop. This is exactly the same as
+    /// [`TaskPool::spawn`].
     pub fn spawn_local<T>(&self, future: impl Future<Output = T> + 'static) -> FakeTask
     where
         T: 'static,

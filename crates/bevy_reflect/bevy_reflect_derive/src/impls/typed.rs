@@ -6,7 +6,8 @@ use crate::{
     utility::wrap_in_option,
 };
 
-/// Returns an expression for a `NonGenericTypeCell` or `GenericTypeCell`  to generate `'static` references.
+/// Returns an expression for a `NonGenericTypeCell` or `GenericTypeCell`  to generate `'static`
+/// references.
 fn static_type_cell(
     meta: &ReflectMeta,
     property: TypedProperty,

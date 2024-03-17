@@ -68,7 +68,8 @@ fn setup(
                     camera: Camera {
                         // Renders cameras with different priorities to prevent ambiguities
                         order: index as isize,
-                        // Don't clear after the first camera because the first camera already cleared the entire window
+                        // Don't clear after the first camera because the first camera already
+                        // cleared the entire window
                         clear_color: if index > 0 {
                             ClearColorConfig::None
                         } else {
@@ -182,7 +183,8 @@ fn set_camera_viewports(
 ) {
     // We need to dynamically resize the camera's viewports whenever the window size changes
     // so then each camera always takes up half the screen.
-    // A resize_event is sent when the window is first created, allowing us to reuse this system for initial setup.
+    // A resize_event is sent when the window is first created, allowing us to reuse this system for
+    // initial setup.
     for resize_event in resize_events.read() {
         let window = windows.get(resize_event.window).unwrap();
         let size = window.physical_size() / 2;

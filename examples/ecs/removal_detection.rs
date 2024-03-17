@@ -1,4 +1,5 @@
-//! This example shows how you can know when a [`Component`] has been removed, so you can react to it.
+//! This example shows how you can know when a [`Component`] has been removed, so you can react to
+//! it.
 
 use bevy::prelude::*;
 

@@ -30,7 +30,8 @@ use systems::{propagate_transforms, sync_simple_transforms};
 ///
 /// * To place or move an entity, you should set its [`Transform`].
 /// * To get the global transform of an entity, you should get its [`GlobalTransform`].
-/// * For transform hierarchies to work correctly, you must have both a [`Transform`] and a [`GlobalTransform`].
+/// * For transform hierarchies to work correctly, you must have both a [`Transform`] and a
+///   [`GlobalTransform`].
 ///   * You may use the [`TransformBundle`] to guarantee this.
 ///
 /// ## [`Transform`] and [`GlobalTransform`]
@@ -94,7 +95,8 @@ pub struct TransformPlugin;
 impl Plugin for TransformPlugin {
     fn build(&self, app: &mut App) {
         // A set for `propagate_transforms` to mark it as ambiguous with `sync_simple_transforms`.
-        // Used instead of the `SystemTypeSet` as that would not allow multiple instances of the system.
+        // Used instead of the `SystemTypeSet` as that would not allow multiple instances of the
+        // system.
         #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemSet)]
         struct PropagateTransformsSet;
 
@@ -113,7 +115,8 @@ impl Plugin for TransformPlugin {
                         .in_set(TransformSystem::TransformPropagate)
                         // FIXME: https://github.com/bevyengine/bevy/issues/4381
                         // These systems cannot access the same entities,
-                        // due to subtle query filtering that is not yet correctly computed in the ambiguity detector
+                        // due to subtle query filtering that is not yet correctly computed in the
+                        // ambiguity detector
                         .ambiguous_with(PropagateTransformsSet),
                     propagate_transforms.in_set(PropagateTransformsSet),
                 ),

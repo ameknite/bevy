@@ -61,7 +61,8 @@ pub fn render_system(world: &mut World, state: &mut SystemState<Query<Entity, Wi
         let _span = info_span!("present_frames").entered();
 
         // Remove ViewTarget components to ensure swap chain TextureViews are dropped.
-        // If all TextureViews aren't dropped before present, acquiring the next swap chain texture will fail.
+        // If all TextureViews aren't dropped before present, acquiring the next swap chain texture
+        // will fail.
         let view_entities = state.get(world).iter().collect::<Vec<_>>();
         for view_entity in view_entities {
             world.entity_mut(view_entity).remove::<ViewTarget>();
@@ -98,7 +99,8 @@ pub fn render_system(world: &mut World, state: &mut SystemState<Query<Entity, Wi
                 panic!("The TimeSender channel should always be empty during render. You might need to add the bevy::core::time_system to your app.",);
             }
             bevy_time::TrySendError::Disconnected(_) => {
-                // ignore disconnected errors, the main world probably just got dropped during shutdown
+                // ignore disconnected errors, the main world probably just got dropped during
+                // shutdown
             }
         }
     }
@@ -311,7 +313,8 @@ pub struct RenderContext<'w> {
 impl<'w> RenderContext<'w> {
     /// Creates a new [`RenderContext`] from a [`RenderDevice`].
     pub fn new(render_device: RenderDevice, adapter_info: AdapterInfo) -> Self {
-        // HACK: Parallel command encoding is currently bugged on AMD + Windows + Vulkan with wgpu 0.19.1
+        // HACK: Parallel command encoding is currently bugged on AMD + Windows + Vulkan with wgpu
+        // 0.19.1
         #[cfg(target_os = "windows")]
         let force_serial =
             adapter_info.driver.contains("AMD") && adapter_info.backend == wgpu::Backend::Vulkan;

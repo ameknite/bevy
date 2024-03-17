@@ -183,7 +183,8 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
         }
     }
 
-    /// Draws the shortest arc between two points (`from` and `to`) relative to a specified `center` point.
+    /// Draws the shortest arc between two points (`from` and `to`) relative to a specified `center`
+    /// point.
     ///
     /// # Arguments
     ///
@@ -231,7 +232,8 @@ impl<'w, 's, T: GizmoConfigGroup> Gizmos<'w, 's, T> {
         self.arc_from_to(center, from, to, color, |x| x)
     }
 
-    /// Draws the longest arc between two points (`from` and `to`) relative to a specified `center` point.
+    /// Draws the longest arc between two points (`from` and `to`) relative to a specified `center`
+    /// point.
     ///
     /// # Arguments
     /// - `center`: The center point around which the arc is drawn.

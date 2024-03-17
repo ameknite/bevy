@@ -8,10 +8,10 @@ use bevy_reflect::{std_traits::ReflectDefault, Reflect};
 /// Describe the position of an entity relative to the reference frame.
 ///
 /// * To place or move an entity, you should set its [`Transform`].
-/// * [`GlobalTransform`] is fully managed by bevy, you cannot mutate it, use
-///   [`Transform`] instead.
+/// * [`GlobalTransform`] is fully managed by bevy, you cannot mutate it, use [`Transform`] instead.
 /// * To get the global transform of an entity, you should get its [`GlobalTransform`].
-/// * For transform hierarchies to work correctly, you must have both a [`Transform`] and a [`GlobalTransform`].
+/// * For transform hierarchies to work correctly, you must have both a [`Transform`] and a
+///   [`GlobalTransform`].
 ///   * You may use the [`TransformBundle`](crate::TransformBundle) to guarantee this.
 ///
 /// ## [`Transform`] and [`GlobalTransform`]

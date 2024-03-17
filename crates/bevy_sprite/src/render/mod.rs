@@ -301,7 +301,8 @@ pub struct ExtractedSprite {
     /// Change the on-screen size of the sprite
     pub custom_size: Option<Vec2>,
     /// Asset ID of the [`Image`] of this sprite
-    /// PERF: storing an `AssetId` instead of `Handle<Image>` enables some optimizations (`ExtractedSprite` becomes `Copy` and doesn't need to be dropped)
+    /// PERF: storing an `AssetId` instead of `Handle<Image>` enables some optimizations
+    /// (`ExtractedSprite` becomes `Copy` and doesn't need to be dropped)
     pub image_handle_id: AssetId<Image>,
     pub flip_x: bool,
     pub flip_y: bool,
@@ -375,7 +376,8 @@ pub fn extract_sprites(
                 }
             };
 
-            // PERF: we don't check in this function that the `Image` asset is ready, since it should be in most cases and hashing the handle is expensive
+            // PERF: we don't check in this function that the `Image` asset is ready, since it
+            // should be in most cases and hashing the handle is expensive
             extracted_sprites.sprites.insert(
                 entity,
                 ExtractedSprite {
@@ -599,9 +601,9 @@ pub fn prepare_sprites(
             let mut batch_image_size = Vec2::ZERO;
             let mut batch_image_handle = AssetId::invalid();
 
-            // Iterate through the phase items and detect when successive sprites that can be batched.
-            // Spawn an entity with a `SpriteBatch` component for each possible batch.
-            // Compatible items share the same entity.
+            // Iterate through the phase items and detect when successive sprites that can be
+            // batched. Spawn an entity with a `SpriteBatch` component for each possible
+            // batch. Compatible items share the same entity.
             for item_index in 0..transparent_phase.items.len() {
                 let item = &transparent_phase.items[item_index];
                 let Some(extracted_sprite) = extracted_sprites.sprites.get(&item.entity) else {

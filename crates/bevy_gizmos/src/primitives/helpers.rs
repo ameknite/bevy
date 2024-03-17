@@ -74,7 +74,10 @@ pub(crate) fn draw_semi_sphere<T: GizmoConfigGroup>(
 ///
 /// # Note
 ///
-/// This function is necessary to use instead of `gizmos.circle` for certain primitives to ensure that points align correctly. For example, the major circles of a torus are drawn with this method, and using `gizmos.circle` would result in the minor circles not being positioned precisely on the major circles' segment points.
+/// This function is necessary to use instead of `gizmos.circle` for certain primitives to ensure
+/// that points align correctly. For example, the major circles of a torus are drawn with this
+/// method, and using `gizmos.circle` would result in the minor circles not being positioned
+/// precisely on the major circles' segment points.
 pub(crate) fn draw_circle_3d<T: GizmoConfigGroup>(
     gizmos: &mut Gizmos<'_, '_, T>,
     radius: f32,

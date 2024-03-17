@@ -25,7 +25,8 @@ impl AssetSaver for CompressedImageSaver {
         image: SavedAsset<'a, Self::Asset>,
         _settings: &'a Self::Settings,
     ) -> bevy_utils::BoxedFuture<'a, Result<ImageLoaderSettings, Self::Error>> {
-        // PERF: this should live inside the future, but CompressorParams and Compressor are not Send / can't be owned by the BoxedFuture (which _is_ Send)
+        // PERF: this should live inside the future, but CompressorParams and Compressor are not
+        // Send / can't be owned by the BoxedFuture (which _is_ Send)
         let mut compressor_params = basis_universal::CompressorParams::new();
         compressor_params.set_basis_format(basis_universal::BasisTextureFormat::UASTC4x4);
         compressor_params.set_generate_mipmaps(true);
@@ -43,8 +44,9 @@ impl AssetSaver for CompressedImageSaver {
         source_image.init(&image.data, size.x, size.y, 4);
 
         let mut compressor = basis_universal::Compressor::new(4);
-        // SAFETY: the CompressorParams are "valid" to the best of our knowledge. The basis-universal
-        // library bindings note that invalid params might produce undefined behavior.
+        // SAFETY: the CompressorParams are "valid" to the best of our knowledge. The
+        // basis-universal library bindings note that invalid params might produce undefined
+        // behavior.
         unsafe {
             compressor.init(&compressor_params);
             compressor.process().unwrap();

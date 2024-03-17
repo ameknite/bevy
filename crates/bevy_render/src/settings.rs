@@ -19,14 +19,15 @@ pub enum WgpuSettingsPriority {
     WebGL2,
 }
 
-/// Provides configuration for renderer initialization. Use [`RenderDevice::features`](RenderDevice::features),
+/// Provides configuration for renderer initialization. Use
+/// [`RenderDevice::features`](RenderDevice::features),
 /// [`RenderDevice::limits`](RenderDevice::limits), and the [`RenderAdapterInfo`]
 /// resource to get runtime information about the actual adapter, backend, features, and limits.
 /// NOTE: [`Backends::DX12`](Backends::DX12), [`Backends::METAL`](Backends::METAL), and
 /// [`Backends::VULKAN`](Backends::VULKAN) are enabled by default for non-web and the best choice
 /// is automatically selected. Web using the `webgl` feature uses [`Backends::GL`](Backends::GL).
-/// NOTE: If you want to use [`Backends::GL`](Backends::GL) in a native app on `Windows` and/or `macOS`, you must
-/// use [`ANGLE`](https://github.com/gfx-rs/wgpu#angle). This is because wgpu requires EGL to
+/// NOTE: If you want to use [`Backends::GL`](Backends::GL) in a native app on `Windows` and/or
+/// `macOS`, you must use [`ANGLE`](https://github.com/gfx-rs/wgpu#angle). This is because wgpu requires EGL to
 /// create a GL context without a window and only ANGLE supports that.
 #[derive(Clone)]
 pub struct WgpuSettings {
@@ -48,7 +49,8 @@ pub struct WgpuSettings {
     /// Allows you to choose which minor version of GLES3 to use (3.0, 3.1, 3.2, or automatic)
     /// This only applies when using ANGLE and the GL backend.
     pub gles3_minor_version: Gles3MinorVersion,
-    /// These are for controlling WGPU's debug information to eg. enable validation and shader debug info in release builds.
+    /// These are for controlling WGPU's debug information to eg. enable validation and shader
+    /// debug info in release builds.
     pub instance_flags: InstanceFlags,
 }
 
@@ -117,7 +119,8 @@ impl Default for WgpuSettings {
     }
 }
 
-/// An enum describing how the renderer will initialize resources. This is used when creating the [`RenderPlugin`](crate::RenderPlugin).
+/// An enum describing how the renderer will initialize resources. This is used when creating the
+/// [`RenderPlugin`](crate::RenderPlugin).
 pub enum RenderCreation {
     /// Allows renderer resource initialization to happen outside of the rendering plugin.
     Manual(

@@ -80,8 +80,8 @@ impl<'w> Drop for WorldCell<'w> {
         let mut access = self.access.borrow_mut();
 
         {
-            // SAFETY: `WorldCell` does not hand out `UnsafeWorldCell` to anywhere else so this is the only
-            // `UnsafeWorldCell` and we have exclusive access to it.
+            // SAFETY: `WorldCell` does not hand out `UnsafeWorldCell` to anywhere else so this is
+            // the only `UnsafeWorldCell` and we have exclusive access to it.
             let world = unsafe { self.world.world_mut() };
             let world_cached_access = &mut world.archetype_component_access;
 

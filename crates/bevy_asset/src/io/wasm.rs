@@ -14,7 +14,8 @@ pub struct HttpWasmAssetReader {
 }
 
 impl HttpWasmAssetReader {
-    /// Creates a new `WasmAssetReader`. The path provided will be used to build URLs to query for assets.
+    /// Creates a new `WasmAssetReader`. The path provided will be used to build URLs to query for
+    /// assets.
     pub fn new<P: AsRef<Path>>(path: P) -> Self {
         Self {
             root_path: path.as_ref().to_owned(),

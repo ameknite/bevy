@@ -16,7 +16,8 @@ use std::{
 };
 
 /// A type that can be stored in an [`Events<E>`] resource
-/// You can conveniently access events using the [`EventReader`] and [`EventWriter`] system parameter.
+/// You can conveniently access events using the [`EventReader`] and [`EventWriter`] system
+/// parameter.
 ///
 /// Events must be thread-safe.
 pub trait Event: Send + Sync + 'static {}
@@ -101,7 +102,8 @@ struct EventInstance<E: Event> {
 ///
 /// If no [ordering](https://github.com/bevyengine/bevy/blob/main/examples/ecs/ecs_guide.rs)
 /// is applied between writing and reading systems, there is a risk of a race condition.
-/// This means that whether the events arrive before or after the next [`Events::update`] is unpredictable.
+/// This means that whether the events arrive before or after the next [`Events::update`] is
+/// unpredictable.
 ///
 /// This collection is meant to be paired with a system that calls
 /// [`Events::update`] exactly once per update/frame.
@@ -162,7 +164,6 @@ struct EventInstance<E: Event> {
 ///
 /// [Example usage.](https://github.com/bevyengine/bevy/blob/latest/examples/ecs/event.rs)
 /// [Example usage standalone.](https://github.com/bevyengine/bevy/blob/latest/crates/bevy_ecs/examples/events.rs)
-///
 #[derive(Debug, Resource)]
 pub struct Events<E: Event> {
     /// Holds the oldest still active events.
@@ -434,7 +435,8 @@ impl<'w, 's, E: Event> EventReader<'w, 's, E> {
         self.reader.read_with_id(&self.events)
     }
 
-    /// Determines the number of events available to be read from this [`EventReader`] without consuming any.
+    /// Determines the number of events available to be read from this [`EventReader`] without
+    /// consuming any.
     pub fn len(&self) -> usize {
         self.reader.len(&self.events)
     }
@@ -443,8 +445,9 @@ impl<'w, 's, E: Event> EventReader<'w, 's, E> {
     ///
     /// # Example
     ///
-    /// The following example shows a useful pattern where some behavior is triggered if new events are available.
-    /// [`EventReader::clear()`] is used so the same events don't re-trigger the behavior the next time the system runs.
+    /// The following example shows a useful pattern where some behavior is triggered if new events
+    /// are available. [`EventReader::clear()`] is used so the same events don't re-trigger the
+    /// behavior the next time the system runs.
     ///
     /// ```
     /// # use bevy_ecs::prelude::*;
@@ -494,14 +497,15 @@ impl<'w, 's, E: Event> EventReader<'w, 's, E> {
 ///
 /// # Concurrency
 ///
-/// `EventWriter` param has [`ResMut<Events<T>>`](Events) inside. So two systems declaring `EventWriter<T>` params
-/// for the same event type won't be executed concurrently.
+/// `EventWriter` param has [`ResMut<Events<T>>`](Events) inside. So two systems declaring
+/// `EventWriter<T>` params for the same event type won't be executed concurrently.
 ///
 /// # Untyped events
 ///
 /// `EventWriter` can only send events of one specific type, which must be known at compile-time.
 /// This is not a problem most of the time, but you may find a situation where you cannot know
-/// ahead of time every kind of event you'll need to send. In this case, you can use the "type-erased event" pattern.
+/// ahead of time every kind of event you'll need to send. In this case, you can use the
+/// "type-erased event" pattern.
 ///
 /// ```
 /// # use bevy_ecs::{prelude::*, event::Events};
@@ -522,7 +526,8 @@ impl<'w, 's, E: Event> EventReader<'w, 's, E> {
 ///     });
 /// }
 /// ```
-/// Note that this is considered *non-idiomatic*, and should only be used when `EventWriter` will not work.
+/// Note that this is considered *non-idiomatic*, and should only be used when `EventWriter` will
+/// not work.
 #[derive(SystemParam)]
 pub struct EventWriter<'w, E: Event> {
     events: ResMut<'w, Events<E>>,
@@ -631,7 +636,8 @@ impl<E: Event> ManualEventReader<E> {
         // The number of events in this reader is the difference between the most recent event
         // and the last event seen by it. This will be at most the number of events contained
         // with the events (any others have already been dropped)
-        // TODO: Warn when there are dropped events, or return e.g. a `Result<usize, (usize, usize)>`
+        // TODO: Warn when there are dropped events, or return e.g. a `Result<usize, (usize,
+        // usize)>`
         events
             .event_count
             .saturating_sub(self.last_event_count)
@@ -694,7 +700,8 @@ impl<'a, E: Event> ExactSizeIterator for EventIterator<'a, E> {
     }
 }
 
-/// An iterator that yields any unread events (and their IDs) from an [`EventReader`] or [`ManualEventReader`].
+/// An iterator that yields any unread events (and their IDs) from an [`EventReader`] or
+/// [`ManualEventReader`].
 #[derive(Debug)]
 pub struct EventIteratorWithId<'a, E: Event> {
     reader: &'a mut ManualEventReader<E>,

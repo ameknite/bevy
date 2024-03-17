@@ -39,8 +39,8 @@ pub struct EntityRef<'w>(UnsafeEntityCell<'w>);
 impl<'w> EntityRef<'w> {
     /// # Safety
     /// - `cell` must have permission to read every component of the entity.
-    /// - No mutable accesses to any of the entity's components may exist
-    ///   at the same time as the returned [`EntityRef`].
+    /// - No mutable accesses to any of the entity's components may exist at the same time as the
+    ///   returned [`EntityRef`].
     #[inline]
     pub(crate) unsafe fn new(cell: UnsafeEntityCell<'w>) -> Self {
         Self(cell)
@@ -96,7 +96,8 @@ impl<'w> EntityRef<'w> {
     /// ## Notes
     ///
     /// - If you know the concrete type of the component, you should prefer [`Self::contains`].
-    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using [`Self::contains_id`].
+    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using
+    ///   [`Self::contains_id`].
     #[inline]
     pub fn contains_type_id(&self, type_id: TypeId) -> bool {
         self.0.contains_type_id(type_id)
@@ -120,19 +121,19 @@ impl<'w> EntityRef<'w> {
         unsafe { self.0.get_ref::<T>() }
     }
 
-    /// Retrieves the change ticks for the given component. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given component. This can be useful for implementing
+    /// change detection in custom runtimes.
     #[inline]
     pub fn get_change_ticks<T: Component>(&self) -> Option<ComponentTicks> {
         // SAFETY: We have read-only access to all components of this entity.
         unsafe { self.0.get_change_ticks::<T>() }
     }
 
-    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for
+    /// implementing change detection in custom runtimes.
     ///
-    /// **You should prefer to use the typed API [`EntityRef::get_change_ticks`] where possible and only
-    /// use this in cases where the actual component types are not known at
+    /// **You should prefer to use the typed API [`EntityRef::get_change_ticks`] where possible and
+    /// only use this in cases where the actual component types are not known at
     /// compile time.**
     #[inline]
     pub fn get_change_ticks_by_id(&self, component_id: ComponentId) -> Option<ComponentTicks> {
@@ -267,8 +268,8 @@ pub struct EntityMut<'w>(UnsafeEntityCell<'w>);
 impl<'w> EntityMut<'w> {
     /// # Safety
     /// - `cell` must have permission to mutate every component of the entity.
-    /// - No accesses to any of the entity's components may exist
-    ///   at the same time as the returned [`EntityMut`].
+    /// - No accesses to any of the entity's components may exist at the same time as the returned
+    ///   [`EntityMut`].
     pub(crate) unsafe fn new(cell: UnsafeEntityCell<'w>) -> Self {
         Self(cell)
     }
@@ -335,7 +336,8 @@ impl<'w> EntityMut<'w> {
     /// ## Notes
     ///
     /// - If you know the concrete type of the component, you should prefer [`Self::contains`].
-    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using [`Self::contains_id`].
+    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using
+    ///   [`Self::contains_id`].
     #[inline]
     pub fn contains_type_id(&self, type_id: TypeId) -> bool {
         self.0.contains_type_id(type_id)
@@ -365,18 +367,18 @@ impl<'w> EntityMut<'w> {
         unsafe { self.0.get_mut() }
     }
 
-    /// Retrieves the change ticks for the given component. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given component. This can be useful for implementing
+    /// change detection in custom runtimes.
     #[inline]
     pub fn get_change_ticks<T: Component>(&self) -> Option<ComponentTicks> {
         self.as_readonly().get_change_ticks::<T>()
     }
 
-    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for
+    /// implementing change detection in custom runtimes.
     ///
-    /// **You should prefer to use the typed API [`EntityWorldMut::get_change_ticks`] where possible and only
-    /// use this in cases where the actual component types are not known at
+    /// **You should prefer to use the typed API [`EntityWorldMut::get_change_ticks`] where possible
+    /// and only use this in cases where the actual component types are not known at
     /// compile time.**
     #[inline]
     pub fn get_change_ticks_by_id(&self, component_id: ComponentId) -> Option<ComponentTicks> {
@@ -498,10 +500,13 @@ impl<'w> EntityWorldMut<'w> {
 
     /// # Safety
     ///
-    ///  - `entity` must be valid for `world`: the generation should match that of the entity at the same index.
-    ///  - `location` must be sourced from `world`'s `Entities` and must exactly match the location for `entity`
+    ///  - `entity` must be valid for `world`: the generation should match that of the entity at the
+    ///    same index.
+    ///  - `location` must be sourced from `world`'s `Entities` and must exactly match the location
+    ///    for `entity`
     ///
-    ///  The above is trivially satisfied if `location` was sourced from `world.entities().get(entity)`.
+    ///  The above is trivially satisfied if `location` was sourced from
+    /// `world.entities().get(entity)`.
     #[inline]
     pub(crate) unsafe fn new(
         world: &'w mut World,
@@ -569,7 +574,8 @@ impl<'w> EntityWorldMut<'w> {
     /// ## Notes
     ///
     /// - If you know the concrete type of the component, you should prefer [`Self::contains`].
-    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using [`Self::contains_id`].
+    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using
+    ///   [`Self::contains_id`].
     #[inline]
     pub fn contains_type_id(&self, type_id: TypeId) -> bool {
         self.as_unsafe_entity_cell_readonly()
@@ -600,18 +606,18 @@ impl<'w> EntityWorldMut<'w> {
         unsafe { self.as_unsafe_entity_cell().get_mut() }
     }
 
-    /// Retrieves the change ticks for the given component. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given component. This can be useful for implementing
+    /// change detection in custom runtimes.
     #[inline]
     pub fn get_change_ticks<T: Component>(&self) -> Option<ComponentTicks> {
         EntityRef::from(self).get_change_ticks::<T>()
     }
 
-    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for
+    /// implementing change detection in custom runtimes.
     ///
-    /// **You should prefer to use the typed API [`EntityWorldMut::get_change_ticks`] where possible and only
-    /// use this in cases where the actual component types are not known at
+    /// **You should prefer to use the typed API [`EntityWorldMut::get_change_ticks`] where possible
+    /// and only use this in cases where the actual component types are not known at
     /// compile time.**
     #[inline]
     pub fn get_change_ticks_by_id(&self, component_id: ComponentId) -> Option<ComponentTicks> {
@@ -703,7 +709,8 @@ impl<'w> EntityWorldMut<'w> {
     /// This will overwrite any previous value(s) of the same component type.
     ///
     /// You should prefer to use the typed API [`EntityWorldMut::insert`] where possible.
-    /// If your [`Bundle`] only has one component, use the cached API [`EntityWorldMut::insert_by_id`].
+    /// If your [`Bundle`] only has one component, use the cached API
+    /// [`EntityWorldMut::insert_by_id`].
     ///
     /// If possible, pass a sorted slice of `ComponentId` to maximize caching potential.
     ///
@@ -754,8 +761,9 @@ impl<'w> EntityWorldMut<'w> {
         // SAFETY: We just ensured this bundle exists
         let bundle_info = unsafe { world.bundles.get_unchecked(bundle_id) };
         let old_location = self.location;
-        // SAFETY: `archetype_id` exists because it is referenced in the old `EntityLocation` which is valid,
-        // components exist in `bundle_info` because `Bundles::init_info` initializes a `BundleInfo` containing all components of the bundle type `T`
+        // SAFETY: `archetype_id` exists because it is referenced in the old `EntityLocation` which
+        // is valid, components exist in `bundle_info` because `Bundles::init_info`
+        // initializes a `BundleInfo` containing all components of the bundle type `T`
         let new_archetype_id = unsafe {
             remove_bundle_from_archetype(
                 &mut world.archetypes,
@@ -841,7 +849,6 @@ impl<'w> EntityWorldMut<'w> {
     /// this fn as if the code here was written inline
     ///
     /// when DROP is true removed components will be dropped otherwise they will be forgotten
-    ///
     // We use a const generic here so that we are less reliant on
     // inlining for rustc to optimize out the `match DROP`
     #[allow(clippy::too_many_arguments)]
@@ -1009,7 +1016,8 @@ impl<'w> EntityWorldMut<'w> {
         let bundle_info = self.world.bundles.init_info::<T>(components, storages);
 
         // SAFETY: Components exist in `bundle_info` because `Bundles::init_info`
-        // initializes a: EntityLocation `BundleInfo` containing all components of the bundle type `T`.
+        // initializes a: EntityLocation `BundleInfo` containing all components of the bundle type
+        // `T`.
         self.location = unsafe { self.remove_bundle(bundle_info) };
 
         self
@@ -1126,7 +1134,8 @@ impl<'w> EntityWorldMut<'w> {
         world.flush_commands();
     }
 
-    /// Ensures any commands triggered by the actions of Self are applied, equivalent to [`World::flush_commands`]
+    /// Ensures any commands triggered by the actions of Self are applied, equivalent to
+    /// [`World::flush_commands`]
     pub fn flush(self) -> Entity {
         self.world.flush_commands();
         self.entity
@@ -1140,7 +1149,8 @@ impl<'w> EntityWorldMut<'w> {
 
     /// Returns this entity's world.
     ///
-    /// See [`EntityWorldMut::world_scope`] or [`EntityWorldMut::into_world_mut`] for a safe alternative.
+    /// See [`EntityWorldMut::world_scope`] or [`EntityWorldMut::into_world_mut`] for a safe
+    /// alternative.
     ///
     /// # Safety
     /// Caller must not modify the world in a way that changes the current entity's location
@@ -1229,7 +1239,6 @@ impl<'w> EntityWorldMut<'w> {
     /// # let mut entity = world.get_entity_mut(entity_id).unwrap();
     /// entity.entry::<Comp>().and_modify(|mut c| c.0 += 1);
     /// assert_eq!(world.query::<&Comp>().single(&world).0, 5);
-    ///
     /// ```
     pub fn entry<'a, T: Component>(&'a mut self) -> Entry<'w, 'a, T> {
         if self.contains::<T>() {
@@ -1595,7 +1604,8 @@ impl<'w, 'a, T: Component> VacantEntry<'w, 'a, T> {
     }
 }
 
-/// Provides read-only access to a single entity and some of its components defined by the contained [`Access`].
+/// Provides read-only access to a single entity and some of its components defined by the contained
+/// [`Access`].
 #[derive(Clone)]
 pub struct FilteredEntityRef<'w> {
     entity: UnsafeEntityCell<'w>,
@@ -1674,7 +1684,8 @@ impl<'w> FilteredEntityRef<'w> {
     /// ## Notes
     ///
     /// - If you know the concrete type of the component, you should prefer [`Self::contains`].
-    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using [`Self::contains_id`].
+    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using
+    ///   [`Self::contains_id`].
     #[inline]
     pub fn contains_type_id(&self, type_id: TypeId) -> bool {
         self.entity.contains_type_id(type_id)
@@ -1704,8 +1715,8 @@ impl<'w> FilteredEntityRef<'w> {
             .then(|| unsafe { self.entity.get_ref().debug_checked_unwrap() })
     }
 
-    /// Retrieves the change ticks for the given component. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given component. This can be useful for implementing
+    /// change detection in custom runtimes.
     #[inline]
     pub fn get_change_ticks<T: Component>(&self) -> Option<ComponentTicks> {
         let id = self.entity.world().components().get_id(TypeId::of::<T>())?;
@@ -1715,8 +1726,8 @@ impl<'w> FilteredEntityRef<'w> {
             .then(|| unsafe { self.entity.get_change_ticks::<T>().debug_checked_unwrap() })
     }
 
-    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for
+    /// implementing change detection in custom runtimes.
     ///
     /// **You should prefer to use the typed API [`Self::get_change_ticks`] where possible and only
     /// use this in cases where the actual component types are not known at
@@ -1751,7 +1762,8 @@ impl<'w> FilteredEntityRef<'w> {
 impl<'w> From<FilteredEntityMut<'w>> for FilteredEntityRef<'w> {
     fn from(entity_mut: FilteredEntityMut<'w>) -> Self {
         // SAFETY:
-        // - `FilteredEntityMut` guarantees exclusive access to all components in the new `FilteredEntityRef`.
+        // - `FilteredEntityMut` guarantees exclusive access to all components in the new
+        //   `FilteredEntityRef`.
         unsafe { FilteredEntityRef::new(entity_mut.entity, entity_mut.access) }
     }
 }
@@ -1759,7 +1771,8 @@ impl<'w> From<FilteredEntityMut<'w>> for FilteredEntityRef<'w> {
 impl<'a> From<&'a FilteredEntityMut<'_>> for FilteredEntityRef<'a> {
     fn from(entity_mut: &'a FilteredEntityMut<'_>) -> Self {
         // SAFETY:
-        // - `FilteredEntityMut` guarantees exclusive access to all components in the new `FilteredEntityRef`.
+        // - `FilteredEntityMut` guarantees exclusive access to all components in the new
+        //   `FilteredEntityRef`.
         unsafe { FilteredEntityRef::new(entity_mut.entity, entity_mut.access.clone()) }
     }
 }
@@ -1767,7 +1780,8 @@ impl<'a> From<&'a FilteredEntityMut<'_>> for FilteredEntityRef<'a> {
 impl<'a> From<EntityRef<'a>> for FilteredEntityRef<'a> {
     fn from(entity: EntityRef<'a>) -> Self {
         // SAFETY:
-        // - `EntityRef` guarantees exclusive access to all components in the new `FilteredEntityRef`.
+        // - `EntityRef` guarantees exclusive access to all components in the new
+        //   `FilteredEntityRef`.
         unsafe {
             let mut access = Access::default();
             access.read_all();
@@ -1779,7 +1793,8 @@ impl<'a> From<EntityRef<'a>> for FilteredEntityRef<'a> {
 impl<'a> From<&'a EntityRef<'_>> for FilteredEntityRef<'a> {
     fn from(entity: &'a EntityRef<'_>) -> Self {
         // SAFETY:
-        // - `EntityRef` guarantees exclusive access to all components in the new `FilteredEntityRef`.
+        // - `EntityRef` guarantees exclusive access to all components in the new
+        //   `FilteredEntityRef`.
         unsafe {
             let mut access = Access::default();
             access.read_all();
@@ -1791,7 +1806,8 @@ impl<'a> From<&'a EntityRef<'_>> for FilteredEntityRef<'a> {
 impl<'a> From<EntityMut<'a>> for FilteredEntityRef<'a> {
     fn from(entity: EntityMut<'a>) -> Self {
         // SAFETY:
-        // - `EntityMut` guarantees exclusive access to all components in the new `FilteredEntityRef`.
+        // - `EntityMut` guarantees exclusive access to all components in the new
+        //   `FilteredEntityRef`.
         unsafe {
             let mut access = Access::default();
             access.read_all();
@@ -1803,7 +1819,8 @@ impl<'a> From<EntityMut<'a>> for FilteredEntityRef<'a> {
 impl<'a> From<&'a EntityMut<'_>> for FilteredEntityRef<'a> {
     fn from(entity: &'a EntityMut<'_>) -> Self {
         // SAFETY:
-        // - `EntityMut` guarantees exclusive access to all components in the new `FilteredEntityRef`.
+        // - `EntityMut` guarantees exclusive access to all components in the new
+        //   `FilteredEntityRef`.
         unsafe {
             let mut access = Access::default();
             access.read_all();
@@ -1836,7 +1853,8 @@ impl<'a> From<&'a EntityWorldMut<'_>> for FilteredEntityRef<'a> {
     }
 }
 
-/// Provides mutable access to a single entity and some of its components defined by the contained [`Access`].
+/// Provides mutable access to a single entity and some of its components defined by the contained
+/// [`Access`].
 pub struct FilteredEntityMut<'w> {
     entity: UnsafeEntityCell<'w>,
     access: Access<ComponentId>,
@@ -1928,7 +1946,8 @@ impl<'w> FilteredEntityMut<'w> {
     /// ## Notes
     ///
     /// - If you know the concrete type of the component, you should prefer [`Self::contains`].
-    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using [`Self::contains_id`].
+    /// - If you have a [`ComponentId`] instead of a [`TypeId`], consider using
+    ///   [`Self::contains_id`].
     #[inline]
     pub fn contains_type_id(&self, type_id: TypeId) -> bool {
         self.entity.contains_type_id(type_id)
@@ -1961,15 +1980,15 @@ impl<'w> FilteredEntityMut<'w> {
             .then(|| unsafe { self.entity.get_mut().debug_checked_unwrap() })
     }
 
-    /// Retrieves the change ticks for the given component. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given component. This can be useful for implementing
+    /// change detection in custom runtimes.
     #[inline]
     pub fn get_change_ticks<T: Component>(&self) -> Option<ComponentTicks> {
         self.as_readonly().get_change_ticks::<T>()
     }
 
-    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for implementing change
-    /// detection in custom runtimes.
+    /// Retrieves the change ticks for the given [`ComponentId`]. This can be useful for
+    /// implementing change detection in custom runtimes.
     ///
     /// **You should prefer to use the typed API [`Self::get_change_ticks`] where possible and only
     /// use this in cases where the actual component types are not known at
@@ -2014,7 +2033,8 @@ impl<'w> FilteredEntityMut<'w> {
 impl<'a> From<EntityMut<'a>> for FilteredEntityMut<'a> {
     fn from(entity: EntityMut<'a>) -> Self {
         // SAFETY:
-        // - `EntityMut` guarantees exclusive access to all components in the new `FilteredEntityMut`.
+        // - `EntityMut` guarantees exclusive access to all components in the new
+        //   `FilteredEntityMut`.
         unsafe {
             let mut access = Access::default();
             access.read_all();
@@ -2027,7 +2047,8 @@ impl<'a> From<EntityMut<'a>> for FilteredEntityMut<'a> {
 impl<'a> From<&'a mut EntityMut<'_>> for FilteredEntityMut<'a> {
     fn from(entity: &'a mut EntityMut<'_>) -> Self {
         // SAFETY:
-        // - `EntityMut` guarantees exclusive access to all components in the new `FilteredEntityMut`.
+        // - `EntityMut` guarantees exclusive access to all components in the new
+        //   `FilteredEntityMut`.
         unsafe {
             let mut access = Access::default();
             access.read_all();
@@ -2231,14 +2252,15 @@ fn sorted_remove<T: Eq + Ord + Copy>(source: &mut Vec<T>, remove: &[T]) {
 /// Moves component data out of storage.
 ///
 /// This function leaves the underlying memory unchanged, but the component behind
-/// returned pointer is semantically owned by the caller and will not be dropped in its original location.
-/// Caller is responsible to drop component data behind returned pointer.
+/// returned pointer is semantically owned by the caller and will not be dropped in its original
+/// location. Caller is responsible to drop component data behind returned pointer.
 ///
 /// # Safety
 /// - `location.table_row` must be in bounds of column of component id `component_id`
 /// - `component_id` must be valid
 /// - `components` must come from the same world as `self`
-/// - The relevant table row **must be removed** by the caller once all components are taken, without dropping the value
+/// - The relevant table row **must be removed** by the caller once all components are taken,
+///   without dropping the value
 #[inline]
 pub(crate) unsafe fn take_component<'a>(
     storages: &'a mut Storages,
@@ -2258,7 +2280,8 @@ pub(crate) unsafe fn take_component<'a>(
             // SAFETY:
             // - archetypes only store valid table_rows
             // - index is in bounds as promised by caller
-            // - promote is safe because the caller promises to remove the table row without dropping it immediately afterwards
+            // - promote is safe because the caller promises to remove the table row without
+            //   dropping it immediately afterwards
             unsafe {
                 components
                     .get_data_unchecked_mut(location.table_row)
@@ -2383,8 +2406,8 @@ mod tests {
         let id = entity.id();
         let res = std::panic::catch_unwind(AssertUnwindSafe(|| {
             entity.world_scope(|w| {
-                // Change the entity's `EntityLocation`, which invalidates the original `EntityWorldMut`.
-                // This will get updated at the end of the scope.
+                // Change the entity's `EntityLocation`, which invalidates the original
+                // `EntityWorldMut`. This will get updated at the end of the scope.
                 w.entity_mut(id).insert(TestComponent(0));
 
                 // Ensure that the entity location still gets updated even in case of a panic.

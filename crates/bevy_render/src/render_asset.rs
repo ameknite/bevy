@@ -88,11 +88,13 @@ impl Default for RenderAssetUsages {
     /// Returns the default render asset usage flags:
     /// `RenderAssetUsages::MAIN_WORLD | RenderAssetUsages::RENDER_WORLD`
     ///
-    /// This default configuration ensures the asset persists in the main world, even after being prepared for rendering.
+    /// This default configuration ensures the asset persists in the main world, even after being
+    /// prepared for rendering.
     ///
-    /// If your asset does not change, consider using `RenderAssetUsages::RENDER_WORLD` exclusively. This will cause
-    /// the asset to be unloaded from the main world once it has been prepared for rendering. If the asset does not need
-    /// to reach the render world at all, use `RenderAssetUsages::MAIN_WORLD` exclusively.
+    /// If your asset does not change, consider using `RenderAssetUsages::RENDER_WORLD` exclusively.
+    /// This will cause the asset to be unloaded from the main world once it has been prepared
+    /// for rendering. If the asset does not need to reach the render world at all, use
+    /// `RenderAssetUsages::MAIN_WORLD` exclusively.
     fn default() -> Self {
         RenderAssetUsages::MAIN_WORLD | RenderAssetUsages::RENDER_WORLD
     }
@@ -196,10 +198,11 @@ impl Typed for RenderAssetUsages {
 /// Therefore it sets up the [`ExtractSchedule`] and
 /// [`RenderSet::PrepareAssets`] steps for the specified [`RenderAsset`].
 ///
-/// The `AFTER` generic parameter can be used to specify that `A::prepare_asset` should not be run until
-/// `prepare_assets::<AFTER>` has completed. This allows the `prepare_asset` function to depend on another
-/// prepared [`RenderAsset`], for example `Mesh::prepare_asset` relies on `RenderAssets::<Image>` for morph
-/// targets, so the plugin is created as `RenderAssetPlugin::<Mesh, Image>::default()`.
+/// The `AFTER` generic parameter can be used to specify that `A::prepare_asset` should not be run
+/// until `prepare_assets::<AFTER>` has completed. This allows the `prepare_asset` function to
+/// depend on another prepared [`RenderAsset`], for example `Mesh::prepare_asset` relies on
+/// `RenderAssets::<Image>` for morph targets, so the plugin is created as
+/// `RenderAssetPlugin::<Mesh, Image>::default()`.
 pub struct RenderAssetPlugin<A: RenderAsset, AFTER: RenderAssetDependency + 'static = ()> {
     phantom: PhantomData<fn() -> (A, AFTER)>,
 }

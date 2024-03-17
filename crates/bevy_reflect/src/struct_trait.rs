@@ -91,7 +91,6 @@ impl StructInfo {
     /// # Arguments
     ///
     /// * `fields`: The fields of this struct in the order they are defined
-    ///
     pub fn new<T: Reflect + TypePath>(fields: &[NamedField]) -> Self {
         let field_indices = fields
             .iter()
@@ -492,8 +491,7 @@ impl Debug for DynamicStruct {
 /// Returns true if and only if all of the following are true:
 /// - `b` is a struct;
 /// - For each field in `a`, `b` contains a field with the same name and
-///   [`Reflect::reflect_partial_eq`] returns `Some(true)` for the two field
-///   values.
+///   [`Reflect::reflect_partial_eq`] returns `Some(true)` for the two field values.
 ///
 /// Returns [`None`] if the comparison couldn't even be performed.
 #[inline]

@@ -66,8 +66,8 @@ impl Default for TextSettings {
 }
 
 /// Text is rendered for two different view projections, a [`Text2dBundle`] is rendered with a
-/// `BottomToTop` y axis, while UI is rendered with a `TopToBottom` y axis. This matters for text because
-/// the glyph positioning is different in either layout.
+/// `BottomToTop` y axis, while UI is rendered with a `TopToBottom` y axis. This matters for text
+/// because the glyph positioning is different in either layout.
 pub enum YAxisOrientation {
     TopToBottom,
     BottomToTop,
@@ -91,7 +91,8 @@ impl Plugin for TextPlugin {
                     update_text2d_layout
                         .after(font_atlas_set::remove_dropped_font_atlas_sets)
                         // Potential conflict: `Assets<Image>`
-                        // In practice, they run independently since `bevy_render::camera_update_system`
+                        // In practice, they run independently since
+                        // `bevy_render::camera_update_system`
                         // will only ever observe its own render target, and `update_text2d_layout`
                         // will never modify a pre-existing `Image` asset.
                         .ambiguous_with(CameraUpdateSystem),

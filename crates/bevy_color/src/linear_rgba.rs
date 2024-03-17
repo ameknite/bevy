@@ -98,7 +98,8 @@ impl LinearRgba {
         }
     }
 
-    /// Construct a new [`LinearRgba`] color from (r, g, b) components, with the default alpha (1.0).
+    /// Construct a new [`LinearRgba`] color from (r, g, b) components, with the default alpha
+    /// (1.0).
     ///
     /// # Arguments
     ///
@@ -114,7 +115,8 @@ impl LinearRgba {
         }
     }
 
-    /// Construct a new [`LinearRgba`] color with the same value for all channels and an alpha of 1.0.
+    /// Construct a new [`LinearRgba`] color with the same value for all channels and an alpha of
+    /// 1.0.
     ///
     /// A value of 0.0 is black, and a value of 1.0 is white.
     pub const fn gray(value: f32) -> Self {
@@ -322,7 +324,8 @@ impl Div<f32> for LinearRgba {
 }
 
 // [`LinearRgba`] is intended to be used with shaders
-// So it's the only color type that implements [`ShaderType`] to make it easier to use inside shaders
+// So it's the only color type that implements [`ShaderType`] to make it easier to use inside
+// shaders
 impl encase::ShaderType for LinearRgba {
     type ExtraMetadata = ();
 
@@ -405,7 +408,8 @@ unsafe impl Zeroable for LinearRgba {
     }
 }
 
-/// The [`Pod`] trait is [`bytemuck`]'s marker for types that can be safely transmuted from a byte array.
+/// The [`Pod`] trait is [`bytemuck`]'s marker for types that can be safely transmuted from a byte
+/// array.
 ///
 /// It is intended to only be implemented for types which are "Plain Old Data".
 ///

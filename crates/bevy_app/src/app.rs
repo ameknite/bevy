@@ -64,12 +64,14 @@ pub struct App {
     /// The main ECS [`World`] of the [`App`].
     /// This stores and provides access to all the main data of the application.
     /// The systems of the [`App`] will run using this [`World`].
-    /// If additional separate [`World`]-[`Schedule`] pairs are needed, you can use [`sub_app`](App::insert_sub_app)s.
+    /// If additional separate [`World`]-[`Schedule`] pairs are needed, you can use
+    /// [`sub_app`](App::insert_sub_app)s.
     pub world: World,
     /// The [runner function](Self::set_runner) is primarily responsible for managing
     /// the application's event loop and advancing the [`Schedule`].
     /// Typically, it is not configured manually, but set by one of Bevy's built-in plugins.
-    /// See `bevy::winit::WinitPlugin` and [`ScheduleRunnerPlugin`](crate::schedule_runner::ScheduleRunnerPlugin).
+    /// See `bevy::winit::WinitPlugin` and
+    /// [`ScheduleRunnerPlugin`](crate::schedule_runner::ScheduleRunnerPlugin).
     pub runner: Box<dyn FnOnce(App) + Send>, // Send bound is required to make App Send
     /// The schedule that systems are added to by default.
     ///
@@ -95,7 +97,8 @@ impl Debug for App {
 
 /// A [`SubApp`] contains its own [`Schedule`] and [`World`] separate from the main [`App`].
 /// This is useful for situations where data and data processing should be kept completely separate
-/// from the main application. The primary use of this feature in bevy is to enable pipelined rendering.
+/// from the main application. The primary use of this feature in bevy is to enable pipelined
+/// rendering.
 ///
 /// # Example
 ///
@@ -140,8 +143,8 @@ pub struct SubApp {
     /// The [`SubApp`]'s instance of [`App`]
     pub app: App,
 
-    /// A function that allows access to both the main [`App`] [`World`] and the [`SubApp`]. This is
-    /// useful for moving data between the sub app and the main app.
+    /// A function that allows access to both the main [`App`] [`World`] and the [`SubApp`]. This
+    /// is useful for moving data between the sub app and the main app.
     extract: Box<dyn Fn(&mut World, &mut App) + Send>,
 }
 
@@ -222,7 +225,8 @@ impl App {
 
     /// Creates a new empty [`App`] with minimal default configuration.
     ///
-    /// This constructor should be used if you wish to provide custom scheduling, exit handling, cleanup, etc.
+    /// This constructor should be used if you wish to provide custom scheduling, exit handling,
+    /// cleanup, etc.
     pub fn empty() -> App {
         let mut world = World::new();
         world.init_resource::<Schedules>();
@@ -289,7 +293,8 @@ impl App {
     ///
     /// # Panics
     ///
-    /// Panics if called from `Plugin::build()`, because it would prevent other plugins to properly build.
+    /// Panics if called from `Plugin::build()`, because it would prevent other plugins to properly
+    /// build.
     pub fn run(&mut self) {
         #[cfg(feature = "trace")]
         let _bevy_app_run_span = info_span!("bevy_app").entered();
@@ -349,11 +354,11 @@ impl App {
     /// If the [`State`] already exists, nothing happens.
     ///
     /// Adds [`State<S>`] and [`NextState<S>`] resources, [`OnEnter`] and [`OnExit`] schedules
-    /// for each state variant (if they don't already exist), an instance of [`apply_state_transition::<S>`] in
-    /// [`StateTransition`] so that transitions happen before [`Update`](crate::Update) and
-    /// a instance of [`run_enter_schedule::<S>`] in [`StateTransition`] with a
-    /// [`run_once`](`run_once_condition`) condition to run the on enter schedule of the
-    /// initial state.
+    /// for each state variant (if they don't already exist), an instance of
+    /// [`apply_state_transition::<S>`] in [`StateTransition`] so that transitions happen before
+    /// [`Update`](crate::Update) and a instance of [`run_enter_schedule::<S>`] in
+    /// [`StateTransition`] with a [`run_once`](`run_once_condition`) condition to run the on
+    /// enter schedule of the initial state.
     ///
     /// If you would like to control how other systems run based on the current state,
     /// you can emulate this behavior using the [`in_state`] [`Condition`].
@@ -376,8 +381,8 @@ impl App {
         }
 
         // The OnEnter, OnExit, and OnTransition schedules are lazily initialized
-        // (i.e. when the first system is added to them), and World::try_run_schedule is used to fail
-        // gracefully if they aren't present.
+        // (i.e. when the first system is added to them), and World::try_run_schedule is used to
+        // fail gracefully if they aren't present.
 
         self
     }
@@ -386,11 +391,11 @@ impl App {
     /// overrides any [`State`] previously added of the same type.
     ///
     /// Adds [`State<S>`] and [`NextState<S>`] resources, [`OnEnter`] and [`OnExit`] schedules
-    /// for each state variant (if they don't already exist), an instance of [`apply_state_transition::<S>`] in
-    /// [`StateTransition`] so that transitions happen before [`Update`](crate::Update) and
-    /// a instance of [`run_enter_schedule::<S>`] in [`StateTransition`] with a
-    /// [`run_once`](`run_once_condition`) condition to run the on enter schedule of the
-    /// initial state.
+    /// for each state variant (if they don't already exist), an instance of
+    /// [`apply_state_transition::<S>`] in [`StateTransition`] so that transitions happen before
+    /// [`Update`](crate::Update) and a instance of [`run_enter_schedule::<S>`] in
+    /// [`StateTransition`] with a [`run_once`](`run_once_condition`) condition to run the on
+    /// enter schedule of the initial state.
     ///
     /// If you would like to control how other systems run based on the current state,
     /// you can emulate this behavior using the [`in_state`] [`Condition`].
@@ -411,8 +416,8 @@ impl App {
             );
 
         // The OnEnter, OnExit, and OnTransition schedules are lazily initialized
-        // (i.e. when the first system is added to them), and World::try_run_schedule is used to fail
-        // gracefully if they aren't present.
+        // (i.e. when the first system is added to them), and World::try_run_schedule is used to
+        // fail gracefully if they aren't present.
 
         self
     }
@@ -453,7 +458,8 @@ impl App {
         self
     }
 
-    /// Configures a collection of system sets in the provided schedule, adding any sets that do not exist.
+    /// Configures a collection of system sets in the provided schedule, adding any sets that do not
+    /// exist.
     #[track_caller]
     pub fn configure_sets(
         &mut self,
@@ -508,12 +514,14 @@ impl App {
         self
     }
 
-    /// Inserts a [`Resource`] to the current [`App`] and overwrites any [`Resource`] previously added of the same type.
+    /// Inserts a [`Resource`] to the current [`App`] and overwrites any [`Resource`] previously
+    /// added of the same type.
     ///
-    /// A [`Resource`] in Bevy represents globally unique data. [`Resource`]s must be added to Bevy apps
-    /// before using them. This happens with [`insert_resource`](Self::insert_resource).
+    /// A [`Resource`] in Bevy represents globally unique data. [`Resource`]s must be added to Bevy
+    /// apps before using them. This happens with [`insert_resource`](Self::insert_resource).
     ///
-    /// See [`init_resource`](Self::init_resource) for [`Resource`]s that implement [`Default`] or [`FromWorld`].
+    /// See [`init_resource`](Self::init_resource) for [`Resource`]s that implement [`Default`] or
+    /// [`FromWorld`].
     ///
     /// # Examples
     ///
@@ -592,7 +600,8 @@ impl App {
         self
     }
 
-    /// Initialize a non-send [`Resource`] with standard starting values by adding it to the [`World`].
+    /// Initialize a non-send [`Resource`] with standard starting values by adding it to the
+    /// [`World`].
     ///
     /// The [`Resource`] must implement the [`FromWorld`] trait.
     /// If the [`Default`] trait is implemented, the [`FromWorld`] trait will use
@@ -644,7 +653,8 @@ impl App {
             })?;
         }
 
-        // Reserve that position in the plugin registry. if a plugin adds plugins, they will be correctly ordered
+        // Reserve that position in the plugin registry. if a plugin adds plugins, they will be
+        // correctly ordered
         let plugin_position_in_registry = self.plugin_registry.len();
         self.plugin_registry.push(Box::new(PlaceholderPlugin));
 
@@ -673,7 +683,8 @@ impl App {
     ///
     /// This can be used to read the settings of any already added plugins.
     /// This vector will be length zero if no plugins of that type have been added.
-    /// If multiple copies of the same plugin are added to the [`App`], they will be listed in insertion order in this vector.
+    /// If multiple copies of the same plugin are added to the [`App`], they will be listed in
+    /// insertion order in this vector.
     ///
     /// ```
     /// # use bevy_app::prelude::*;
@@ -765,12 +776,15 @@ impl App {
         self
     }
 
-    /// Adds the type data `D` to type `T` in the [`TypeRegistry`](bevy_reflect::TypeRegistry) resource.
+    /// Adds the type data `D` to type `T` in the [`TypeRegistry`](bevy_reflect::TypeRegistry)
+    /// resource.
     ///
-    /// Most of the time [`App::register_type`] can be used instead to register a type you derived [`Reflect`](bevy_reflect::Reflect) for.
-    /// However, in cases where you want to add a piece of type data that was not included in the list of `#[reflect(...)]` type data in the derive,
-    /// or where the type is generic and cannot register e.g. `ReflectSerialize` unconditionally without knowing the specific type parameters,
-    /// this method can be used to insert additional type data.
+    /// Most of the time [`App::register_type`] can be used instead to register a type you derived
+    /// [`Reflect`](bevy_reflect::Reflect) for. However, in cases where you want to add a piece
+    /// of type data that was not included in the list of `#[reflect(...)]` type data in the derive,
+    /// or where the type is generic and cannot register e.g. `ReflectSerialize` unconditionally
+    /// without knowing the specific type parameters, this method can be used to insert
+    /// additional type data.
     ///
     /// # Example
     /// ```
@@ -808,8 +822,8 @@ impl App {
         }
     }
 
-    /// Retrieves a `SubApp` inside this [`App`] with the given label, if it exists. Otherwise returns
-    /// an [`Err`] containing the given label.
+    /// Retrieves a `SubApp` inside this [`App`] with the given label, if it exists. Otherwise
+    /// returns an [`Err`] containing the given label.
     pub fn get_sub_app_mut(&mut self, label: impl AppLabel) -> Result<&mut App, impl AppLabel> {
         self.sub_apps
             .get_mut(&label.intern())
@@ -839,8 +853,8 @@ impl App {
         self.sub_apps.remove(&label.intern())
     }
 
-    /// Retrieves a `SubApp` inside this [`App`] with the given label, if it exists. Otherwise returns
-    /// an [`Err`] containing the given label.
+    /// Retrieves a `SubApp` inside this [`App`] with the given label, if it exists. Otherwise
+    /// returns an [`Err`] containing the given label.
     pub fn get_sub_app(&self, label: impl AppLabel) -> Result<&App, impl AppLabel> {
         self.sub_apps
             .get(&label.intern())
@@ -860,7 +874,8 @@ impl App {
         self
     }
 
-    /// Initializes a new empty `schedule` to the [`App`] under the provided `label` if it does not exists.
+    /// Initializes a new empty `schedule` to the [`App`] under the provided `label` if it does not
+    /// exists.
     ///
     /// See [`App::add_schedule`] to pass in a pre-constructed schedule.
     pub fn init_schedule(&mut self, label: impl ScheduleLabel) -> &mut Self {
@@ -1043,9 +1058,9 @@ fn run_once(mut app: App) {
 /// An event that indicates the [`App`] should exit. This will fully exit the app process at the
 /// start of the next tick of the schedule.
 ///
-/// You can also use this event to detect that an exit was requested. In order to receive it, systems
-/// subscribing to this event should run after it was emitted and before the schedule of the same
-/// frame is over. This is important since [`App::run()`] might never return.
+/// You can also use this event to detect that an exit was requested. In order to receive it,
+/// systems subscribing to this event should run after it was emitted and before the schedule of the
+/// same frame is over. This is important since [`App::run()`] might never return.
 ///
 /// If you don't require access to other components or resources, consider implementing the [`Drop`]
 /// trait on components/resources for code that runs on exit. That saves you from worrying about

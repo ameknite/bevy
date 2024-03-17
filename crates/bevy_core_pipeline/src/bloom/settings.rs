@@ -160,7 +160,8 @@ impl Default for BloomSettings {
 /// # Considerations
 /// * Changing these settings creates a physically inaccurate image
 /// * Changing these settings makes it easy to make the final result look worse
-/// * Non-default prefilter settings should be used in conjunction with [`BloomCompositeMode::Additive`]
+/// * Non-default prefilter settings should be used in conjunction with
+///   [`BloomCompositeMode::Additive`]
 #[derive(Default, Clone, Reflect)]
 pub struct BloomPrefilterSettings {
     /// Baseline of the quadratic threshold curve (default: 0.0).
@@ -168,7 +169,8 @@ pub struct BloomPrefilterSettings {
     /// RGB values under the threshold curve will not contribute to the effect.
     pub threshold: f32,
 
-    /// Controls how much to blend between the thresholded and non-thresholded colors (default: 0.0).
+    /// Controls how much to blend between the thresholded and non-thresholded colors (default:
+    /// 0.0).
     ///
     /// 0.0 = Abrupt threshold, no blending
     /// 1.0 = Fully soft threshold

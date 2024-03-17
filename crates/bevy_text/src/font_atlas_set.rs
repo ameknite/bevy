@@ -12,7 +12,8 @@ type FontSizeKey = FloatOrd;
 
 #[derive(Default, Resource)]
 pub struct FontAtlasSets {
-    // PERF: in theory this could be optimized with Assets storage ... consider making some fast "simple" AssetMap
+    // PERF: in theory this could be optimized with Assets storage ... consider making some fast
+    // "simple" AssetMap
     pub(crate) sets: HashMap<AssetId<Font>, FontAtlasSet>,
 }
 

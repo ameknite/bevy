@@ -413,8 +413,8 @@ pub fn extract_ui_material_nodes<M: UiMaterial>(
                 continue;
             }
 
-            // Both vertical and horizontal percentage border values are calculated based on the width of the parent node
-            // <https://developer.mozilla.org/en-US/docs/Web/CSS/border-width>
+            // Both vertical and horizontal percentage border values are calculated based on the
+            // width of the parent node <https://developer.mozilla.org/en-US/docs/Web/CSS/border-width>
             let parent_width = uinode.size().x;
             let left =
                 resolve_border_thickness(style.border.left, parent_width, ui_logical_viewport_size)
@@ -547,8 +547,8 @@ pub fn prepare_uimaterial_nodes<M: UiMaterial>(
 
                     // Don't try to cull nodes that have a rotation
                     // In a rotation around the Z-axis, this value is 0.0 for an angle of 0.0 or π
-                    // In those two cases, the culling check can proceed normally as corners will be on
-                    // horizontal / vertical lines
+                    // In those two cases, the culling check can proceed normally as corners will be
+                    // on horizontal / vertical lines
                     // For all other angles, bypass the culling check
                     // This does not properly handles all rotations on all axis
                     if extracted_uinode.transform.x_axis[1] == 0.0 {

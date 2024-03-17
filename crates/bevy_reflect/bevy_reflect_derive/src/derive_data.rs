@@ -497,7 +497,8 @@ impl<'a> ReflectStruct<'a> {
 
     /// Returns the `GetTypeRegistration` impl as a `TokenStream`.
     ///
-    /// Returns a specific implementation for structs and this method should be preferred over the generic [`get_type_registration`](ReflectMeta) method
+    /// Returns a specific implementation for structs and this method should be preferred over the
+    /// generic [`get_type_registration`](ReflectMeta) method
     pub fn get_type_registration(
         &self,
         where_clause_options: &WhereClauseOptions,
@@ -580,7 +581,8 @@ impl<'a> ReflectEnum<'a> {
 
     /// Returns the `GetTypeRegistration` impl as a `TokenStream`.
     ///
-    /// Returns a specific implementation for enums and this method should be preferred over the generic [`get_type_registration`](crate::ReflectMeta) method
+    /// Returns a specific implementation for enums and this method should be preferred over the
+    /// generic [`get_type_registration`](crate::ReflectMeta) method
     pub fn get_type_registration(
         &self,
         where_clause_options: &WhereClauseOptions,
@@ -646,7 +648,6 @@ impl<'a> EnumVariant<'a> {
 /// let module_path = type_path.module_path();
 /// # Ok::<(), syn::Error>(())
 /// ```
-///
 pub(crate) enum ReflectTypePath<'a> {
     /// Types without a crate/module that can be named from any scope (e.g. `bool`).
     Primitive(&'a Ident),

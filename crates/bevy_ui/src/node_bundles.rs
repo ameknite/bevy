@@ -43,14 +43,16 @@ pub struct NodeBundle {
     pub transform: Transform,
     /// The global transform of the node
     ///
-    /// This component is automatically updated by the [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
+    /// This component is automatically updated by the
+    /// [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
     /// To alter the position of the `NodeBundle`, use the properties of the [`Style`] component.
     pub global_transform: GlobalTransform,
     /// Describes the visibility properties of the node
     pub visibility: Visibility,
     /// Inherited visibility of an entity.
     pub inherited_visibility: InheritedVisibility,
-    /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
+    /// Algorithmically-computed indication of whether an entity is visible and should be extracted
+    /// for rendering
     pub view_visibility: ViewVisibility,
     /// Indicates the depth at which the node should appear in the UI
     pub z_index: ZIndex,
@@ -80,7 +82,8 @@ impl Default for NodeBundle {
 /// # Extra behaviours
 ///
 /// You may add one or both of the following components to enable additional behaviours:
-/// - [`ImageScaleMode`](bevy_sprite::ImageScaleMode) to enable either slicing or tiling of the texture
+/// - [`ImageScaleMode`](bevy_sprite::ImageScaleMode) to enable either slicing or tiling of the
+///   texture
 /// - [`TextureAtlas`] to draw a specific section of the texture
 #[derive(Bundle, Debug, Default)]
 pub struct ImageBundle {
@@ -106,13 +109,15 @@ pub struct ImageBundle {
     pub transform: Transform,
     /// The global transform of the node
     ///
-    /// This component is automatically updated by the [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
+    /// This component is automatically updated by the
+    /// [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
     pub global_transform: GlobalTransform,
     /// Describes the visibility properties of the node
     pub visibility: Visibility,
     /// Inherited visibility of an entity.
     pub inherited_visibility: InheritedVisibility,
-    /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
+    /// Algorithmically-computed indication of whether an entity is visible and should be extracted
+    /// for rendering
     pub view_visibility: ViewVisibility,
     /// Indicates the depth at which the node should appear in the UI
     pub z_index: ZIndex,
@@ -123,7 +128,8 @@ pub struct ImageBundle {
 /// # Extra behaviours
 ///
 /// You may add the following components to enable additional behaviours
-/// - [`ImageScaleMode`](bevy_sprite::ImageScaleMode) to enable either slicing or tiling of the texture
+/// - [`ImageScaleMode`](bevy_sprite::ImageScaleMode) to enable either slicing or tiling of the
+///   texture
 ///
 /// This bundle is identical to [`ImageBundle`] with an additional [`TextureAtlas`] component.
 #[deprecated(
@@ -152,17 +158,20 @@ pub struct AtlasImageBundle {
     /// The transform of the node
     ///
     /// This component is automatically managed by the UI layout system.
-    /// To alter the position of the `AtlasImageBundle`, use the properties of the [`Style`] component.
+    /// To alter the position of the `AtlasImageBundle`, use the properties of the [`Style`]
+    /// component.
     pub transform: Transform,
     /// The global transform of the node
     ///
-    /// This component is automatically updated by the [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
+    /// This component is automatically updated by the
+    /// [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
     pub global_transform: GlobalTransform,
     /// Describes the visibility properties of the node
     pub visibility: Visibility,
     /// Inherited visibility of an entity.
     pub inherited_visibility: InheritedVisibility,
-    /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
+    /// Algorithmically-computed indication of whether an entity is visible and should be extracted
+    /// for rendering
     pub view_visibility: ViewVisibility,
     /// Indicates the depth at which the node should appear in the UI
     pub z_index: ZIndex,
@@ -197,13 +206,15 @@ pub struct TextBundle {
     pub transform: Transform,
     /// The global transform of the node
     ///
-    /// This component is automatically updated by the [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
+    /// This component is automatically updated by the
+    /// [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
     pub global_transform: GlobalTransform,
     /// Describes the visibility properties of the node
     pub visibility: Visibility,
     /// Inherited visibility of an entity.
     pub inherited_visibility: InheritedVisibility,
-    /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
+    /// Algorithmically-computed indication of whether an entity is visible and should be extracted
+    /// for rendering
     pub view_visibility: ViewVisibility,
     /// Indicates the depth at which the node should appear in the UI
     pub z_index: ZIndex,
@@ -275,7 +286,8 @@ impl TextBundle {
     }
 
     /// Returns this [`TextBundle`] with soft wrapping disabled.
-    /// Hard wrapping, where text contains an explicit linebreak such as the escape sequence `\n`, will still occur.
+    /// Hard wrapping, where text contains an explicit linebreak such as the escape sequence `\n`,
+    /// will still occur.
     pub const fn with_no_wrap(mut self) -> Self {
         self.text.linebreak_behavior = BreakLineOn::NoWrap;
         self
@@ -297,7 +309,8 @@ where
 /// # Extra behaviours
 ///
 /// You may add one or both of the following components to enable additional behaviours:
-/// - [`ImageScaleMode`](bevy_sprite::ImageScaleMode) to enable either slicing or tiling of the texture
+/// - [`ImageScaleMode`](bevy_sprite::ImageScaleMode) to enable either slicing or tiling of the
+///   texture
 /// - [`TextureAtlas`] to draw a specific section of the texture
 #[derive(Bundle, Clone, Debug)]
 pub struct ButtonBundle {
@@ -323,13 +336,15 @@ pub struct ButtonBundle {
     pub transform: Transform,
     /// The global transform of the node
     ///
-    /// This component is automatically updated by the [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
+    /// This component is automatically updated by the
+    /// [`TransformPropagate`](`bevy_transform::TransformSystem::TransformPropagate`) systems.
     pub global_transform: GlobalTransform,
     /// Describes the visibility properties of the node
     pub visibility: Visibility,
     /// Inherited visibility of an entity.
     pub inherited_visibility: InheritedVisibility,
-    /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
+    /// Algorithmically-computed indication of whether an entity is visible and should be extracted
+    /// for rendering
     pub view_visibility: ViewVisibility,
     /// Indicates the depth at which the node should appear in the UI
     pub z_index: ZIndex,
@@ -384,7 +399,8 @@ pub struct MaterialNodeBundle<M: UiMaterial> {
     pub visibility: Visibility,
     /// Inherited visibility of an entity.
     pub inherited_visibility: InheritedVisibility,
-    /// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering
+    /// Algorithmically-computed indication of whether an entity is visible and should be extracted
+    /// for rendering
     pub view_visibility: ViewVisibility,
     /// Indicates the depth at which the node should appear in the UI
     pub z_index: ZIndex,

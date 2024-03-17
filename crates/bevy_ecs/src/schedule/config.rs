@@ -295,8 +295,9 @@ where
         self.into_configs().in_set(set)
     }
 
-    /// Runs before all systems in `set`. If `self` has any systems that produce [`Commands`](crate::system::Commands)
-    /// or other [`Deferred`](crate::system::Deferred) operations, all systems in `set` will see their effect.
+    /// Runs before all systems in `set`. If `self` has any systems that produce
+    /// [`Commands`](crate::system::Commands) or other [`Deferred`](crate::system::Deferred)
+    /// operations, all systems in `set` will see their effect.
     ///
     /// If automatically inserting [`apply_deferred`](crate::schedule::apply_deferred) like
     /// this isn't desired, use [`before_ignore_deferred`](Self::before_ignore_deferred) instead.
@@ -307,8 +308,9 @@ where
         self.into_configs().before(set)
     }
 
-    /// Run after all systems in `set`. If `set` has any systems that produce [`Commands`](crate::system::Commands)
-    /// or other [`Deferred`](crate::system::Deferred) operations, all systems in `self` will see their effect.
+    /// Run after all systems in `set`. If `set` has any systems that produce
+    /// [`Commands`](crate::system::Commands) or other [`Deferred`](crate::system::Deferred)
+    /// operations, all systems in `self` will see their effect.
     ///
     /// If automatically inserting [`apply_deferred`](crate::schedule::apply_deferred) like
     /// this isn't desired, use [`after_ignore_deferred`](Self::after_ignore_deferred) instead.
@@ -360,7 +362,8 @@ where
     ///
     /// Because the conditions are evaluated separately for each system, there is no guarantee
     /// that all evaluations in a single schedule run will yield the same result. If another
-    /// system is run inbetween two evaluations it could cause the result of the condition to change.
+    /// system is run inbetween two evaluations it could cause the result of the condition to
+    /// change.
     ///
     /// Use [`run_if`](IntoSystemSetConfigs::run_if) on a [`SystemSet`] if you want to make sure
     /// that either all or none of the systems are run, or you don't want to evaluate the run
@@ -419,8 +422,9 @@ where
     ///
     /// Ordering constraints will be applied between the successive elements.
     ///
-    /// If the preceding node on a edge has deferred parameters, a [`apply_deferred`](crate::schedule::apply_deferred)
-    /// will be inserted on the edge. If this behavior is not desired consider using
+    /// If the preceding node on a edge has deferred parameters, a
+    /// [`apply_deferred`](crate::schedule::apply_deferred) will be inserted on the edge. If
+    /// this behavior is not desired consider using
     /// [`chain_ignore_deferred`](Self::chain_ignore_deferred) instead.
     fn chain(self) -> SystemConfigs {
         self.into_configs().chain()
@@ -430,7 +434,8 @@ where
     ///
     /// Ordering constraints will be applied between the successive elements.
     ///
-    /// Unlike [`chain`](Self::chain) this will **not** add [`apply_deferred`](crate::schedule::apply_deferred) on the edges.
+    /// Unlike [`chain`](Self::chain) this will **not** add
+    /// [`apply_deferred`](crate::schedule::apply_deferred) on the edges.
     fn chain_ignore_deferred(self) -> SystemConfigs {
         self.into_configs().chain_ignore_deferred()
     }
@@ -570,8 +575,9 @@ where
         self.into_configs().in_set(set)
     }
 
-    /// Runs before all systems in `set`. If `self` has any systems that produce [`Commands`](crate::system::Commands)
-    /// or other [`Deferred`](crate::system::Deferred) operations, all systems in `set` will see their effect.
+    /// Runs before all systems in `set`. If `self` has any systems that produce
+    /// [`Commands`](crate::system::Commands) or other [`Deferred`](crate::system::Deferred)
+    /// operations, all systems in `set` will see their effect.
     ///
     /// If automatically inserting [`apply_deferred`](crate::schedule::apply_deferred) like
     /// this isn't desired, use [`before_ignore_deferred`](Self::before_ignore_deferred) instead.
@@ -579,8 +585,9 @@ where
         self.into_configs().before(set)
     }
 
-    /// Runs before all systems in `set`. If `set` has any systems that produce [`Commands`](crate::system::Commands)
-    /// or other [`Deferred`](crate::system::Deferred) operations, all systems in `self` will see their effect.
+    /// Runs before all systems in `set`. If `set` has any systems that produce
+    /// [`Commands`](crate::system::Commands) or other [`Deferred`](crate::system::Deferred)
+    /// operations, all systems in `self` will see their effect.
     ///
     /// If automatically inserting [`apply_deferred`](crate::schedule::apply_deferred) like
     /// this isn't desired, use [`after_ignore_deferred`](Self::after_ignore_deferred) instead.
@@ -635,7 +642,8 @@ where
     ///
     /// Ordering constraints will be applied between the successive elements.
     ///
-    /// Unlike [`chain`](Self::chain) this will **not** add [`apply_deferred`](crate::schedule::apply_deferred) on the edges.
+    /// Unlike [`chain`](Self::chain) this will **not** add
+    /// [`apply_deferred`](crate::schedule::apply_deferred) on the edges.
     fn chain_ignore_deferred(self) -> SystemConfigs {
         self.into_configs().chain_ignore_deferred()
     }

@@ -35,13 +35,14 @@
 //! A gradient in HSL space from red to violet will produce a rainbow. The LCH color space is
 //! more perceptually accurate than HSL, but is less intuitive to work with.
 //!
-//! HSV and HWB are very closely related to HSL in their derivation, having identical definitions for
-//! hue. Where HSL uses saturation and lightness, HSV uses a slightly modified definition of saturation,
-//! and an analog of lightness in the form of value. In contrast, HWB instead uses whiteness and blackness
-//! parameters, which can be used to lighten and darken a particular hue respectively.
+//! HSV and HWB are very closely related to HSL in their derivation, having identical definitions
+//! for hue. Where HSL uses saturation and lightness, HSV uses a slightly modified definition of
+//! saturation, and an analog of lightness in the form of value. In contrast, HWB instead uses
+//! whiteness and blackness parameters, which can be used to lighten and darken a particular hue
+//! respectively.
 //!
-//! Oklab and Oklch are perceptually uniform color spaces that are designed to be used for tasks such
-//! as image processing. They are not as widely used as the other color spaces, but are useful
+//! Oklab and Oklch are perceptually uniform color spaces that are designed to be used for tasks
+//! such as image processing. They are not as widely used as the other color spaces, but are useful
 //! for tasks such as color correction and image analysis, where it is important to be able
 //! to do things like change color saturation without causing hue shifts.
 //!
@@ -50,7 +51,6 @@
 //! a form of chromaticity, while `y` defines an illuminance level.
 //!
 //! See also the [Wikipedia article on color spaces](https://en.wikipedia.org/wiki/Color_space).
-//!
 #![doc = include_str!("../docs/conversion.md")]
 //! <div>
 #![doc = include_str!("../docs/diagrams/model_graph.svg")]

@@ -63,7 +63,7 @@ use std::{
 /// #    eventwriter:
 /// EventWriter<'w, SomeEvent>
 /// # }
-///```
+/// ```
 /// ## `PhantomData`
 ///
 /// [`PhantomData`] is a special type of `SystemParam` that does nothing.
@@ -110,7 +110,8 @@ use std::{
 /// (ignoring lifetimes for simplicity).
 /// This assumption is due to type inference reasons, so that the derived [`SystemParam`] can be
 /// used as an argument to a function system.
-/// If the compiler cannot validate this property for `[ParamType]`, it will error in the form shown above.
+/// If the compiler cannot validate this property for `[ParamType]`, it will error in the form shown
+/// above.
 ///
 /// This will most commonly occur when working with `SystemParam`s generically, as the requirement
 /// has not been proven to the compiler.
@@ -118,10 +119,9 @@ use std::{
 /// # Safety
 ///
 /// The implementor must ensure the following is true.
-/// - [`SystemParam::init_state`] correctly registers all [`World`] accesses used
-///   by [`SystemParam::get_param`] with the provided [`system_meta`](SystemMeta).
-/// - None of the world accesses may conflict with any prior accesses registered
-///   on `system_meta`.
+/// - [`SystemParam::init_state`] correctly registers all [`World`] accesses used by
+///   [`SystemParam::get_param`] with the provided [`system_meta`](SystemMeta).
+/// - None of the world accesses may conflict with any prior accesses registered on `system_meta`.
 pub unsafe trait SystemParam: Sized {
     /// Used to store data which persists across invocations of a system.
     type State: Send + Sync + 'static;
@@ -129,14 +129,16 @@ pub unsafe trait SystemParam: Sized {
     /// The item type returned when constructing this system param.
     /// The value of this associated type should be `Self`, instantiated with new lifetimes.
     ///
-    /// You could think of `SystemParam::Item<'w, 's>` as being an *operation* that changes the lifetimes bound to `Self`.
+    /// You could think of `SystemParam::Item<'w, 's>` as being an *operation* that changes the
+    /// lifetimes bound to `Self`.
     type Item<'world, 'state>: SystemParam<State = Self::State>;
 
     /// Registers any [`World`] access used by this [`SystemParam`]
     /// and creates a new instance of this param's [`State`](Self::State).
     fn init_state(world: &mut World, system_meta: &mut SystemMeta) -> Self::State;
 
-    /// For the specified [`Archetype`], registers the components accessed by this [`SystemParam`] (if applicable).
+    /// For the specified [`Archetype`], registers the components accessed by this [`SystemParam`]
+    /// (if applicable).
     #[inline]
     fn new_archetype(
         _state: &mut Self::State,
@@ -146,7 +148,8 @@ pub unsafe trait SystemParam: Sized {
     }
 
     /// Applies any deferred mutations stored in this [`SystemParam`]'s state.
-    /// This is used to apply [`Commands`] during [`apply_deferred`](crate::prelude::apply_deferred).
+    /// This is used to apply [`Commands`] during
+    /// [`apply_deferred`](crate::prelude::apply_deferred).
     ///
     /// [`Commands`]: crate::prelude::Commands
     #[inline]
@@ -159,9 +162,10 @@ pub unsafe trait SystemParam: Sized {
     ///
     /// # Safety
     ///
-    /// - The passed [`UnsafeWorldCell`] must have access to any world data
-    ///   registered in [`init_state`](SystemParam::init_state).
-    /// - `world` must be the same `World` that was used to initialize [`state`](SystemParam::init_state).
+    /// - The passed [`UnsafeWorldCell`] must have access to any world data registered in
+    ///   [`init_state`](SystemParam::init_state).
+    /// - `world` must be the same `World` that was used to initialize
+    ///   [`state`](SystemParam::init_state).
     unsafe fn get_param<'world, 'state>(
         state: &'state mut Self::State,
         system_meta: &SystemMeta,
@@ -173,10 +177,12 @@ pub unsafe trait SystemParam: Sized {
 /// A [`SystemParam`] that only reads a given [`World`].
 ///
 /// # Safety
-/// This must only be implemented for [`SystemParam`] impls that exclusively read the World passed in to [`SystemParam::get_param`]
+/// This must only be implemented for [`SystemParam`] impls that exclusively read the World passed
+/// in to [`SystemParam::get_param`]
 pub unsafe trait ReadOnlySystemParam: SystemParam {}
 
-/// Shorthand way of accessing the associated type [`SystemParam::Item`] for a given [`SystemParam`].
+/// Shorthand way of accessing the associated type [`SystemParam::Item`] for a given
+/// [`SystemParam`].
 pub type SystemParamItem<'w, 's, P> = <P as SystemParam>::Item<'w, 's>;
 
 // SAFETY: QueryState is constrained to read-only fetches, so it only reads World.
@@ -253,12 +259,14 @@ fn assert_component_access_compatibility(
 
 /// A collection of potentially conflicting [`SystemParam`]s allowed by disjoint access.
 ///
-/// Allows systems to safely access and interact with up to 8 mutually exclusive [`SystemParam`]s, such as
-/// two queries that reference the same mutable data or an event reader and writer of the same type.
+/// Allows systems to safely access and interact with up to 8 mutually exclusive [`SystemParam`]s,
+/// such as two queries that reference the same mutable data or an event reader and writer of the
+/// same type.
 ///
-/// Each individual [`SystemParam`] can be accessed by using the functions `p0()`, `p1()`, ..., `p7()`,
-/// according to the order they are defined in the `ParamSet`. This ensures that there's either
-/// only one mutable reference to a parameter at a time or any number of immutable references.
+/// Each individual [`SystemParam`] can be accessed by using the functions `p0()`, `p1()`, ...,
+/// `p7()`, according to the order they are defined in the `ParamSet`. This ensures that there's
+/// either only one mutable reference to a parameter at a time or any number of immutable
+/// references.
 ///
 /// # Examples
 ///
@@ -292,7 +300,8 @@ fn assert_component_access_compatibility(
 /// ```
 ///
 /// Conflicting `SystemParam`s like these can be placed in a `ParamSet`,
-/// which leverages the borrow checker to ensure that only one of the contained parameters are accessed at a given time.
+/// which leverages the borrow checker to ensure that only one of the contained parameters are
+/// accessed at a given time.
 ///
 /// ```
 /// # use bevy_ecs::prelude::*;
@@ -400,10 +409,10 @@ impl_param_set!();
 /// ```
 ///
 /// # `!Sync` Resources
-/// A `!Sync` type cannot implement `Resource`. However, it is possible to wrap a `Send` but not `Sync`
-/// type in [`SyncCell`] or the currently unstable [`Exclusive`] to make it `Sync`. This forces only
-/// having mutable access (`&mut T` only, never `&T`), but makes it safe to reference across multiple
-/// threads.
+/// A `!Sync` type cannot implement `Resource`. However, it is possible to wrap a `Send` but not
+/// `Sync` type in [`SyncCell`] or the currently unstable [`Exclusive`] to make it `Sync`. This
+/// forces only having mutable access (`&mut T` only, never `&T`), but makes it safe to reference
+/// across multiple threads.
 ///
 /// This will fail to compile since `RefCell` is `!Sync`.
 /// ```compile_fail
@@ -1169,7 +1178,8 @@ unsafe impl<'a, T: 'static> SystemParam for NonSendMut<'a, T> {
     }
 }
 
-// SAFETY: this impl defers to `NonSendMut`, which initializes and validates the correct world access.
+// SAFETY: this impl defers to `NonSendMut`, which initializes and validates the correct world
+// access.
 unsafe impl<'a, T: 'static> SystemParam for Option<NonSendMut<'a, T>> {
     type State = ComponentId;
     type Item<'w, 's> = Option<NonSendMut<'w, T>>;
@@ -1285,7 +1295,8 @@ unsafe impl<'a> SystemParam for &'a Bundles {
 /// - `this_run` copies the current value of [`World::read_change_tick`]
 ///
 /// Component change ticks that are more recent than `last_run` will be detected by the system.
-/// Those can be read by calling [`last_changed`](crate::change_detection::DetectChanges::last_changed)
+/// Those can be read by calling
+/// [`last_changed`](crate::change_detection::DetectChanges::last_changed)
 /// on a [`Mut<T>`](crate::change_detection::Mut) or [`ResMut<T>`](ResMut).
 #[derive(Debug)]
 pub struct SystemChangeTick {
@@ -1453,7 +1464,6 @@ pub mod lifetimeless {
 /// #    bevy_ecs::system::assert_is_system(do_thing_generically::<T>);
 /// # }
 /// ```
-///
 pub struct StaticSystemParam<'w, 's, P: SystemParam>(SystemParamItem<'w, 's, P>);
 
 impl<'w, 's, P: SystemParam> Deref for StaticSystemParam<'w, 's, P> {

@@ -17,8 +17,10 @@ use bevy_app::{Plugin, PluginGroup, PluginGroupBuilder};
 /// * [`WinitPlugin`](crate::winit::WinitPlugin) - with feature `bevy_winit`
 /// * [`RenderPlugin`](crate::render::RenderPlugin) - with feature `bevy_render`
 /// * [`ImagePlugin`](crate::render::texture::ImagePlugin) - with feature `bevy_render`
-/// * [`PipelinedRenderingPlugin`](crate::render::pipelined_rendering::PipelinedRenderingPlugin) - with feature `bevy_render` when not targeting `wasm32`
-/// * [`CorePipelinePlugin`](crate::core_pipeline::CorePipelinePlugin) - with feature `bevy_core_pipeline`
+/// * [`PipelinedRenderingPlugin`](crate::render::pipelined_rendering::PipelinedRenderingPlugin) -
+///   with feature `bevy_render` when not targeting `wasm32`
+/// * [`CorePipelinePlugin`](crate::core_pipeline::CorePipelinePlugin) - with feature
+///   `bevy_core_pipeline`
 /// * [`SpritePlugin`](crate::sprite::SpritePlugin) - with feature `bevy_sprite`
 /// * [`TextPlugin`](crate::text::TextPlugin) - with feature `bevy_text`
 /// * [`UiPlugin`](crate::ui::UiPlugin) - with feature `bevy_ui`
@@ -73,8 +75,8 @@ impl PluginGroup for DefaultPlugins {
         {
             group = group
                 .add(bevy_render::RenderPlugin::default())
-                // NOTE: Load this after renderer initialization so that it knows about the supported
-                // compressed texture formats
+                // NOTE: Load this after renderer initialization so that it knows about the
+                // supported compressed texture formats
                 .add(bevy_render::texture::ImagePlugin::default());
 
             #[cfg(all(not(target_arch = "wasm32"), feature = "multi-threaded"))]

@@ -20,8 +20,8 @@ pub use bevy_ecs_macros::States;
 /// You can access the current state of type `T` with the [`State<T>`] resource,
 /// and the queued state with the [`NextState<T>`] resource.
 ///
-/// State transitions typically occur in the [`OnEnter<T::Variant>`] and [`OnExit<T::Variant>`] schedules,
-/// which can be run via the [`apply_state_transition::<T>`] system.
+/// State transitions typically occur in the [`OnEnter<T::Variant>`] and [`OnExit<T::Variant>`]
+/// schedules, which can be run via the [`apply_state_transition::<T>`] system.
 ///
 /// # Example
 ///
@@ -35,7 +35,6 @@ pub use bevy_ecs_macros::States;
 ///   SettingsMenu,
 ///   InGame,
 /// }
-///
 /// ```
 pub trait States: 'static + Send + Sync + Clone + PartialEq + Eq + Hash + Debug {}
 
@@ -176,7 +175,8 @@ impl<S: States> NextState<S> {
 
 /// Event sent when any state transition of `S` happens.
 ///
-/// If you know exactly what state you want to respond to ahead of time, consider [`OnEnter`], [`OnTransition`], or [`OnExit`]
+/// If you know exactly what state you want to respond to ahead of time, consider [`OnEnter`],
+/// [`OnTransition`], or [`OnExit`]
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Event)]
 pub struct StateTransitionEvent<S: States> {
     /// the state we were in before
@@ -197,7 +197,8 @@ pub fn run_enter_schedule<S: States>(world: &mut World) {
 /// - Takes the new state value from [`NextState<S>`] and updates [`State<S>`].
 /// - Sends a relevant [`StateTransitionEvent`]
 /// - Runs the [`OnExit(exited_state)`] schedule, if it exists.
-/// - Runs the [`OnTransition { from: exited_state, to: entered_state }`](OnTransition), if it exists.
+/// - Runs the [`OnTransition { from: exited_state, to: entered_state }`](OnTransition), if it
+///   exists.
 /// - Runs the [`OnEnter(entered_state)`] schedule, if it exists.
 pub fn apply_state_transition<S: States>(world: &mut World) {
     // We want to take the `NextState` resource,

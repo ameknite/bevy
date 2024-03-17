@@ -1,8 +1,8 @@
 //! Provides scene definition, instantiation and serialization/deserialization.
 //!
 //! Scenes are collections of entities and their associated components that can be
-//! instantiated or removed from a world to allow composition. Scenes can be serialized/deserialized,
-//! for example to save part of the world state to a file.
+//! instantiated or removed from a world to allow composition. Scenes can be
+//! serialized/deserialized, for example to save part of the world state to a file.
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 mod bundle;

@@ -8,7 +8,8 @@ use rand::{
 
 /// Exposes methods to uniformly sample a variety of primitive shapes.
 pub trait ShapeSample {
-    /// The type of vector returned by the sample methods, [`Vec2`] for 2D shapes and [`Vec3`] for 3D shapes.
+    /// The type of vector returned by the sample methods, [`Vec2`] for 2D shapes and [`Vec3`] for
+    /// 3D shapes.
     type Output;
 
     /// Uniformly sample a point from inside the area/volume of this shape, centered on 0.

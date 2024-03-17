@@ -28,8 +28,9 @@ bitflags! {
     }
 }
 
-// None of the CI tests require any information at runtime other than the options that have been set,
-// which is why all of these are 'static; we could easily update this to use more flexible types.
+// None of the CI tests require any information at runtime other than the options that have been
+// set, which is why all of these are 'static; we could easily update this to use more flexible
+// types.
 struct CITest<'a> {
     /// The command to execute
     command: Cmd<'a>,
@@ -70,9 +71,9 @@ fn main() {
 
     let flag_arguments = [("--keep-going", Flag::KEEP_GOING)];
 
-    // Parameters are parsed disregarding their order. Note that the first arg is generally the name of
-    // the executable, so it is ignored. Any parameter may either be a flag or the name of a battery of tests
-    // to include.
+    // Parameters are parsed disregarding their order. Note that the first arg is generally the name
+    // of the executable, so it is ignored. Any parameter may either be a flag or the name of a
+    // battery of tests to include.
     let (mut checks, mut flags) = (Check::empty(), Flag::empty());
     for arg in std::env::args().skip(1) {
         if let Some((_, flag)) = flag_arguments.iter().find(|(flag_arg, _)| *flag_arg == arg) {
@@ -104,8 +105,8 @@ fn main() {
 
     let sh = Shell::new().unwrap();
 
-    // Each check contains a 'battery' (vector) that can include more than one command, but almost all of them
-    // just contain a single command.
+    // Each check contains a 'battery' (vector) that can include more than one command, but almost
+    // all of them just contain a single command.
     let mut test_suite: BTreeMap<Check, Vec<CITest>> = BTreeMap::new();
 
     if checks.contains(Check::FORMAT) {
@@ -341,7 +342,8 @@ fn main() {
 
     for (check, battery) in test_suite {
         for ci_test in battery {
-            // If the CI test is to be executed in a subdirectory, we move there before running the command
+            // If the CI test is to be executed in a subdirectory, we move there before running the
+            // command
             let _subdir_hook = ci_test.subdir.map(|path| sh.push_dir(path));
 
             // Actually run the test, setting environment variables temporarily

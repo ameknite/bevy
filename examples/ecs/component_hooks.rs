@@ -1,9 +1,9 @@
 //! This example illustrates the different ways you can employ component lifecycle hooks.
 //!
-//! Whenever possible, prefer using Bevy's change detection or Events for reacting to component changes.
-//! Events generally offer better performance and more flexible integration into Bevy's systems.
-//! Hooks are useful to enforce correctness but have limitations (only one hook per component,
-//! less ergonomic than events).
+//! Whenever possible, prefer using Bevy's change detection or Events for reacting to component
+//! changes. Events generally offer better performance and more flexible integration into Bevy's
+//! systems. Hooks are useful to enforce correctness but have limitations (only one hook per
+//! component, less ergonomic than events).
 //!
 //! Here are some cases where components hooks might be necessary:
 //!
@@ -52,14 +52,17 @@ fn setup(world: &mut World) {
     // In order to register component hooks the component must:
     // - not be currently in use by any entities in the world
     // - not already have a hook of that kind registered
-    // This is to prevent overriding hooks defined in plugins and other crates as well as keeping things fast
+    // This is to prevent overriding hooks defined in plugins and other crates as well as keeping
+    // things fast
     world
         .register_component_hooks::<MyComponent>()
         // There are 3 component lifecycle hooks: `on_add`, `on_insert` and `on_remove`
         // A hook has 3 arguments:
-        // - a `DeferredWorld`, this allows access to resource and component data as well as `Commands`
+        // - a `DeferredWorld`, this allows access to resource and component data as well as
+        //   `Commands`
         // - the entity that triggered the hook
-        // - the component id of the triggering component, this is mostly used for dynamic components
+        // - the component id of the triggering component, this is mostly used for dynamic
+        //   components
         //
         // `on_add` will trigger when a component is inserted onto an entity without it
         .on_add(|mut world, entity, component_id| {

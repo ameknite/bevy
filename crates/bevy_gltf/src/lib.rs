@@ -31,10 +31,11 @@ pub struct GltfPlugin {
 }
 
 impl GltfPlugin {
-    /// Register a custom vertex attribute so that it is recognized when loading a glTF file with the [`GltfLoader`].
+    /// Register a custom vertex attribute so that it is recognized when loading a glTF file with
+    /// the [`GltfLoader`].
     ///
-    /// `name` must be the attribute name as found in the glTF data, which must start with an underscore.
-    /// See [this section of the glTF specification](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#meshes-overview)
+    /// `name` must be the attribute name as found in the glTF data, which must start with an
+    /// underscore. See [this section of the glTF specification](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#meshes-overview)
     /// for additional details on custom attributes.
     pub fn add_custom_vertex_attribute(
         mut self,
@@ -128,7 +129,8 @@ pub struct GltfMesh {
     pub extras: Option<GltfExtras>,
 }
 
-/// Part of a [`GltfMesh`] that consists of a [`Mesh`], an optional [`StandardMaterial`] and [`GltfExtras`].
+/// Part of a [`GltfMesh`] that consists of a [`Mesh`], an optional [`StandardMaterial`] and
+/// [`GltfExtras`].
 ///
 /// See [the relevant glTF specification section](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#reference-mesh-primitive).
 #[derive(Asset, Debug, Clone, TypePath)]

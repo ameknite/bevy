@@ -195,11 +195,12 @@ impl Bounded2d for Triangle2d {
             None
         };
 
-        // Find the minimum bounding circle. If the triangle is obtuse, the circle passes through two vertices.
-        // Otherwise, it's the circumcircle and passes through all three.
+        // Find the minimum bounding circle. If the triangle is obtuse, the circle passes through
+        // two vertices. Otherwise, it's the circumcircle and passes through all three.
         if let Some((point1, point2)) = side_opposite_to_non_acute {
-            // The triangle is obtuse or right, so the minimum bounding circle's diameter is equal to the longest side.
-            // We can compute the minimum bounding circle from the line segment of the longest side.
+            // The triangle is obtuse or right, so the minimum bounding circle's diameter is equal
+            // to the longest side. We can compute the minimum bounding circle from the
+            // line segment of the longest side.
             let (segment, center) = Segment2d::from_points(point1, point2);
             segment.bounding_circle(rotation * center + translation, rotation)
         } else {
@@ -294,7 +295,8 @@ impl Bounded2d for Capsule2d {
 
         // Get the line segment between the hemicircles of the rotated capsule
         let segment = Segment2d {
-            // Multiplying a normalized vector (Vec2::Y) with a rotation returns a normalized vector.
+            // Multiplying a normalized vector (Vec2::Y) with a rotation returns a normalized
+            // vector.
             direction: rotation * Dir2::Y,
             half_length: self.half_length,
         };
@@ -468,7 +470,8 @@ mod tests {
         assert_eq!(aabb.min, Vec2::new(-8.0, 0.0));
         assert_eq!(aabb.max, Vec2::new(12.0, 2.0));
 
-        // For obtuse and right triangles, the center is the midpoint of the longest side (diameter of bounding circle)
+        // For obtuse and right triangles, the center is the midpoint of the longest side (diameter
+        // of bounding circle)
         let bounding_circle = obtuse_triangle.bounding_circle(translation, 0.0);
         assert_eq!(bounding_circle.center, translation - Vec2::Y);
         assert_eq!(bounding_circle.radius(), 10.0);

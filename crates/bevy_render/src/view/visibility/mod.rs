@@ -87,13 +87,16 @@ impl InheritedVisibility {
     }
 }
 
-/// Algorithmically-computed indication of whether an entity is visible and should be extracted for rendering.
+/// Algorithmically-computed indication of whether an entity is visible and should be extracted for
+/// rendering.
 ///
-/// Each frame, this will be reset to `false` during [`VisibilityPropagate`] systems in [`PostUpdate`].
-/// Later in the frame, systems in [`CheckVisibility`] will mark any visible entities using [`ViewVisibility::set`].
-/// Because of this, values of this type will be marked as changed every frame, even when they do not change.
+/// Each frame, this will be reset to `false` during [`VisibilityPropagate`] systems in
+/// [`PostUpdate`]. Later in the frame, systems in [`CheckVisibility`] will mark any visible
+/// entities using [`ViewVisibility::set`]. Because of this, values of this type will be marked as
+/// changed every frame, even when they do not change.
 ///
-/// If you wish to add custom visibility system that sets this value, make sure you add it to the [`CheckVisibility`] set.
+/// If you wish to add custom visibility system that sets this value, make sure you add it to the
+/// [`CheckVisibility`] set.
 ///
 /// [`VisibilityPropagate`]: VisibilitySystems::VisibilityPropagate
 /// [`CheckVisibility`]: VisibilitySystems::CheckVisibility
@@ -115,8 +118,8 @@ impl ViewVisibility {
     /// Sets the visibility to `true`. This should not be considered reversible for a given frame,
     /// as this component tracks whether or not the entity visible in _any_ view.
     ///
-    /// This will be automatically reset to `false` every frame in [`VisibilityPropagate`] and then set
-    /// to the proper value in [`CheckVisibility`].
+    /// This will be automatically reset to `false` every frame in [`VisibilityPropagate`] and then
+    /// set to the proper value in [`CheckVisibility`].
     ///
     /// You should only manually set this if you are defining a custom visibility system,
     /// in which case the system should be placed in the [`CheckVisibility`] set.
@@ -135,7 +138,8 @@ impl ViewVisibility {
 ///
 /// * To show or hide an entity, you should set its [`Visibility`].
 /// * To get the inherited visibility of an entity, you should get its [`InheritedVisibility`].
-/// * For visibility hierarchies to work correctly, you must have both all of [`Visibility`], [`InheritedVisibility`], and [`ViewVisibility`].
+/// * For visibility hierarchies to work correctly, you must have both all of [`Visibility`],
+///   [`InheritedVisibility`], and [`ViewVisibility`].
 ///   * You may use the [`VisibilityBundle`] to guarantee this.
 #[derive(Bundle, Debug, Clone, Default)]
 pub struct VisibilityBundle {
@@ -161,9 +165,9 @@ pub struct NoFrustumCulling;
 /// Collection of entities visible from the current view.
 ///
 /// This component contains all entities which are visible from the currently
-/// rendered view. The collection is updated automatically by the [`VisibilitySystems::CheckVisibility`]
-/// system set, and renderers can use it to optimize rendering of a particular view, to
-/// prevent drawing items not visible from that view.
+/// rendered view. The collection is updated automatically by the
+/// [`VisibilitySystems::CheckVisibility`] system set, and renderers can use it to optimize
+/// rendering of a particular view, to prevent drawing items not visible from that view.
 ///
 /// This component is intended to be attached to the same entity as the [`Camera`] and
 /// the [`Frustum`] defining the view.
@@ -190,8 +194,8 @@ impl VisibleEntities {
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemSet)]
 pub enum VisibilitySystems {
-    /// Label for the [`calculate_bounds`], `calculate_bounds_2d` and `calculate_bounds_text2d` systems,
-    /// calculating and inserting an [`Aabb`] to relevant entities.
+    /// Label for the [`calculate_bounds`], `calculate_bounds_2d` and `calculate_bounds_text2d`
+    /// systems, calculating and inserting an [`Aabb`] to relevant entities.
     CalculateBounds,
     /// Label for the [`update_frusta<OrthographicProjection>`] system.
     UpdateOrthographicFrusta,

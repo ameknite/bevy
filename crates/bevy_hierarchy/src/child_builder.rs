@@ -8,8 +8,9 @@ use bevy_ecs::{
 };
 use smallvec::{smallvec, SmallVec};
 
-// Do not use `world.send_event_batch` as it prints error message when the Events are not available in the world,
-// even though it's a valid use case to execute commands on a world without events. Loading a GLTF file for example
+// Do not use `world.send_event_batch` as it prints error message when the Events are not available
+// in the world, even though it's a valid use case to execute commands on a world without events.
+// Loading a GLTF file for example
 fn push_events(world: &mut World, events: impl IntoIterator<Item = HierarchyEvent>) {
     if let Some(mut moved) = world.get_resource_mut::<Events<HierarchyEvent>>() {
         moved.extend(events);
@@ -117,8 +118,8 @@ fn update_old_parents(world: &mut World, parent: Entity, children: &[Entity]) {
     push_events(world, events);
 }
 
-/// Removes entities in `children` from `parent`'s [`Children`], removing the component if it ends up empty.
-/// Also removes [`Parent`] component from `children`.
+/// Removes entities in `children` from `parent`'s [`Children`], removing the component if it ends
+/// up empty. Also removes [`Parent`] component from `children`.
 fn remove_children(parent: Entity, children: &[Entity], world: &mut World) {
     let mut events: SmallVec<[HierarchyEvent; 8]> = SmallVec::new();
     if let Some(parent_children) = world.get::<Children>(parent) {
@@ -174,7 +175,8 @@ impl Command for PushChild {
     }
 }
 
-/// Command that inserts a child at a given index of a parent's children, shifting following children back.
+/// Command that inserts a child at a given index of a parent's children, shifting following
+/// children back.
 #[derive(Debug)]
 pub struct InsertChildren {
     parent: Entity,
@@ -240,7 +242,8 @@ impl Command for ReplaceChildren {
     }
 }
 
-/// Command that removes the parent of an entity, and removes that entity from the parent's [`Children`].
+/// Command that removes the parent of an entity, and removes that entity from the parent's
+/// [`Children`].
 pub struct RemoveParent {
     /// `Entity` whose parent must be removed.
     pub child: Entity,
@@ -288,8 +291,8 @@ impl ChildBuilder<'_> {
         e
     }
 
-    /// Spawns an [`Entity`] with no components and inserts it into the parent entity's [`Children`].
-    /// Also adds [`Parent`] component to the created entity.
+    /// Spawns an [`Entity`] with no components and inserts it into the parent entity's
+    /// [`Children`]. Also adds [`Parent`] component to the created entity.
     pub fn spawn_empty(&mut self) -> EntityCommands {
         let e = self.commands.spawn_empty();
         self.push_children.children.push(e.id());
@@ -315,9 +318,9 @@ pub trait BuildChildren {
     /// Pushes children to the back of the builder's children. For any entities that are
     /// already a child of this one, this method does nothing.
     ///
-    /// If the children were previously children of another parent, that parent's [`Children`] component
-    /// will have those children removed from its list. Removing all children from a parent causes its
-    /// [`Children`] component to be removed from the entity.
+    /// If the children were previously children of another parent, that parent's [`Children`]
+    /// component will have those children removed from its list. Removing all children from a
+    /// parent causes its [`Children`] component to be removed from the entity.
     ///
     /// # Panics
     ///
@@ -325,9 +328,9 @@ pub trait BuildChildren {
     fn push_children(&mut self, children: &[Entity]) -> &mut Self;
     /// Inserts children at the given index.
     ///
-    /// If the children were previously children of another parent, that parent's [`Children`] component
-    /// will have those children removed from its list. Removing all children from a parent causes its
-    /// [`Children`] component to be removed from the entity.
+    /// If the children were previously children of another parent, that parent's [`Children`]
+    /// component will have those children removed from its list. Removing all children from a
+    /// parent causes its [`Children`] component to be removed from the entity.
     ///
     /// # Panics
     ///
@@ -335,21 +338,24 @@ pub trait BuildChildren {
     fn insert_children(&mut self, index: usize, children: &[Entity]) -> &mut Self;
     /// Removes the given children
     ///
-    /// Removing all children from a parent causes its [`Children`] component to be removed from the entity.
+    /// Removing all children from a parent causes its [`Children`] component to be removed from the
+    /// entity.
     fn remove_children(&mut self, children: &[Entity]) -> &mut Self;
     /// Adds a single child.
     ///
-    /// If the children were previously children of another parent, that parent's [`Children`] component
-    /// will have those children removed from its list. Removing all children from a parent causes its
-    /// [`Children`] component to be removed from the entity.
+    /// If the children were previously children of another parent, that parent's [`Children`]
+    /// component will have those children removed from its list. Removing all children from a
+    /// parent causes its [`Children`] component to be removed from the entity.
     ///
     /// # Panics
     ///
     /// Panics if the child is the same as the parent.
     fn add_child(&mut self, child: Entity) -> &mut Self;
-    /// Removes all children from this entity. The [`Children`] component will be removed if it exists, otherwise this does nothing.
+    /// Removes all children from this entity. The [`Children`] component will be removed if it
+    /// exists, otherwise this does nothing.
     fn clear_children(&mut self) -> &mut Self;
-    /// Removes all current children from this entity, replacing them with the specified list of entities.
+    /// Removes all current children from this entity, replacing them with the specified list of
+    /// entities.
     ///
     /// The removed children will have their [`Parent`] component removed.
     ///
@@ -369,8 +375,8 @@ pub trait BuildChildren {
     fn set_parent(&mut self, parent: Entity) -> &mut Self;
     /// Removes the [`Parent`] of this entity.
     ///
-    /// Also removes this entity from its parent's [`Children`] component. Removing all children from a parent causes
-    /// its [`Children`] component to be removed from the entity.
+    /// Also removes this entity from its parent's [`Children`] component. Removing all children
+    /// from a parent causes its [`Children`] component to be removed from the entity.
     fn remove_parent(&mut self) -> &mut Self;
 }
 
@@ -471,7 +477,8 @@ impl BuildChildren for EntityCommands<'_> {
     }
 }
 
-/// Struct for adding children to an entity directly through the [`World`] for use in exclusive systems.
+/// Struct for adding children to an entity directly through the [`World`] for use in exclusive
+/// systems.
 #[derive(Debug)]
 pub struct WorldChildBuilder<'w> {
     world: &'w mut World,
@@ -494,8 +501,8 @@ impl<'w> WorldChildBuilder<'w> {
         self.world.entity_mut(entity)
     }
 
-    /// Spawns an [`Entity`] with no components and inserts it into the parent entity's [`Children`].
-    /// Also adds [`Parent`] component to the created entity.
+    /// Spawns an [`Entity`] with no components and inserts it into the parent entity's
+    /// [`Children`]. Also adds [`Parent`] component to the created entity.
     pub fn spawn_empty(&mut self) -> EntityWorldMut<'_> {
         let entity = self.world.spawn(Parent(self.parent)).id();
         push_child_unchecked(self.world, self.parent, entity);
@@ -515,16 +522,17 @@ impl<'w> WorldChildBuilder<'w> {
     }
 }
 
-/// Trait that defines adding, changing and children and parents of an entity directly through the [`World`].
+/// Trait that defines adding, changing and children and parents of an entity directly through the
+/// [`World`].
 pub trait BuildWorldChildren {
     /// Takes a closure which builds children for this entity using [`WorldChildBuilder`].
     fn with_children(&mut self, spawn_children: impl FnOnce(&mut WorldChildBuilder)) -> &mut Self;
 
     /// Adds a single child.
     ///
-    /// If the children were previously children of another parent, that parent's [`Children`] component
-    /// will have those children removed from its list. Removing all children from a parent causes its
-    /// [`Children`] component to be removed from the entity.
+    /// If the children were previously children of another parent, that parent's [`Children`]
+    /// component will have those children removed from its list. Removing all children from a
+    /// parent causes its [`Children`] component to be removed from the entity.
     ///
     /// # Panics
     ///
@@ -534,9 +542,9 @@ pub trait BuildWorldChildren {
     /// Pushes children to the back of the builder's children. For any entities that are
     /// already a child of this one, this method does nothing.
     ///
-    /// If the children were previously children of another parent, that parent's [`Children`] component
-    /// will have those children removed from its list. Removing all children from a parent causes its
-    /// [`Children`] component to be removed from the entity.
+    /// If the children were previously children of another parent, that parent's [`Children`]
+    /// component will have those children removed from its list. Removing all children from a
+    /// parent causes its [`Children`] component to be removed from the entity.
     ///
     /// # Panics
     ///
@@ -544,9 +552,9 @@ pub trait BuildWorldChildren {
     fn push_children(&mut self, children: &[Entity]) -> &mut Self;
     /// Inserts children at the given index.
     ///
-    /// If the children were previously children of another parent, that parent's [`Children`] component
-    /// will have those children removed from its list. Removing all children from a parent causes its
-    /// [`Children`] component to be removed from the entity.
+    /// If the children were previously children of another parent, that parent's [`Children`]
+    /// component will have those children removed from its list. Removing all children from a
+    /// parent causes its [`Children`] component to be removed from the entity.
     ///
     /// # Panics
     ///
@@ -554,7 +562,8 @@ pub trait BuildWorldChildren {
     fn insert_children(&mut self, index: usize, children: &[Entity]) -> &mut Self;
     /// Removes the given children
     ///
-    /// Removing all children from a parent causes its [`Children`] component to be removed from the entity.
+    /// Removing all children from a parent causes its [`Children`] component to be removed from the
+    /// entity.
     fn remove_children(&mut self, children: &[Entity]) -> &mut Self;
 
     /// Sets the parent of this entity.
@@ -570,12 +579,14 @@ pub trait BuildWorldChildren {
 
     /// Removes the [`Parent`] of this entity.
     ///
-    /// Also removes this entity from its parent's [`Children`] component. Removing all children from a parent causes
-    /// its [`Children`] component to be removed from the entity.
+    /// Also removes this entity from its parent's [`Children`] component. Removing all children
+    /// from a parent causes its [`Children`] component to be removed from the entity.
     fn remove_parent(&mut self) -> &mut Self;
-    /// Removes all children from this entity. The [`Children`] component will be removed if it exists, otherwise this does nothing.
+    /// Removes all children from this entity. The [`Children`] component will be removed if it
+    /// exists, otherwise this does nothing.
     fn clear_children(&mut self) -> &mut Self;
-    /// Removes all current children from this entity, replacing them with the specified list of entities.
+    /// Removes all current children from this entity, replacing them with the specified list of
+    /// entities.
     ///
     /// The removed children will have their [`Parent`] component removed.
     ///

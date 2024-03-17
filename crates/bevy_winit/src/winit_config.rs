@@ -90,9 +90,10 @@ pub enum UpdateMode {
     /// - a redraw has been requested with the [`EventLoopProxy`](crate::EventLoopProxy)
     ///
     /// **Note:** Unlike [`Reactive`](`UpdateMode::Reactive`), this mode will ignore events that
-    /// don't come from interacting with a window, like [`MouseMotion`](winit::event::DeviceEvent::MouseMotion).
-    /// Use this mode if, for example, you only want your app to update when the mouse cursor is
-    /// moving over a window, not just moving in general. This can greatly reduce power consumption.
+    /// don't come from interacting with a window, like
+    /// [`MouseMotion`](winit::event::DeviceEvent::MouseMotion). Use this mode if, for example,
+    /// you only want your app to update when the mouse cursor is moving over a window, not
+    /// just moving in general. This can greatly reduce power consumption.
     ReactiveLowPower {
         /// The approximate time from the start of one update to the next.
         ///

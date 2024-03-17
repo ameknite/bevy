@@ -162,8 +162,9 @@ impl ComponentSparseSet {
     /// set.
     ///
     /// # Safety
-    /// The `value` pointer must point to a valid address that matches the [`Layout`](std::alloc::Layout)
-    /// inside the [`ComponentInfo`] given when constructing this sparse set.
+    /// The `value` pointer must point to a valid address that matches the
+    /// [`Layout`](std::alloc::Layout) inside the [`ComponentInfo`] given when constructing this
+    /// sparse set.
     pub(crate) unsafe fn insert(
         &mut self,
         entity: Entity,
@@ -399,12 +400,14 @@ macro_rules! impl_sparse_set {
                 self.dense.iter_mut()
             }
 
-            /// Returns an iterator visiting all key-value pairs in arbitrary order, with references to the values.
+            /// Returns an iterator visiting all key-value pairs in arbitrary order, with references
+            /// to the values.
             pub fn iter(&self) -> impl Iterator<Item = (&I, &V)> {
                 self.indices.iter().zip(self.dense.iter())
             }
 
-            /// Returns an iterator visiting all key-value pairs in arbitrary order, with mutable references to the values.
+            /// Returns an iterator visiting all key-value pairs in arbitrary order, with mutable
+            /// references to the values.
             pub fn iter_mut(&mut self) -> impl Iterator<Item = (&I, &mut V)> {
                 self.indices.iter().zip(self.dense.iter_mut())
             }
@@ -442,7 +445,8 @@ impl<I: SparseSetIndex, V> SparseSet<I, V> {
         }
     }
 
-    /// Returns the total number of elements the [`SparseSet`] can hold without needing to reallocate.
+    /// Returns the total number of elements the [`SparseSet`] can hold without needing to
+    /// reallocate.
     #[inline]
     pub fn capacity(&self) -> usize {
         self.dense.capacity()

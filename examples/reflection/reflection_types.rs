@@ -41,8 +41,8 @@ enum D {
 }
 
 /// Reflect has "built in" support for some common traits like `PartialEq`, `Hash`, and `Serialize`.
-/// These are exposed via methods like `Reflect::reflect_hash()`, `Reflect::reflect_partial_eq()`, and
-/// `Reflect::serializable()`. You can force these implementations to use the actual trait
+/// These are exposed via methods like `Reflect::reflect_hash()`, `Reflect::reflect_partial_eq()`,
+/// and `Reflect::serializable()`. You can force these implementations to use the actual trait
 /// implementations (instead of their defaults) like this:
 #[derive(Reflect, Hash, Serialize, PartialEq, Eq)]
 #[reflect(Hash, Serialize, PartialEq)]
@@ -90,15 +90,15 @@ fn setup() {
         // with fields via their indices. Tuple is automatically implemented for tuples of
         // arity 12 or less.
         ReflectRef::Tuple(_) => {}
-        // `Enum` is a trait automatically implemented for enums that derive Reflect. This trait allows you
-        // to interact with the current variant and its fields (if it has any)
+        // `Enum` is a trait automatically implemented for enums that derive Reflect. This trait
+        // allows you to interact with the current variant and its fields (if it has any)
         ReflectRef::Enum(_) => {}
         // `List` is a special trait that can be manually implemented (instead of deriving Reflect).
         // This exposes "list" operations on your type, such as insertion. `List` is automatically
         // implemented for relevant core types like Vec<T>.
         ReflectRef::List(_) => {}
-        // `Array` is a special trait that can be manually implemented (instead of deriving Reflect).
-        // This exposes "array" operations on your type, such as indexing. `Array`
+        // `Array` is a special trait that can be manually implemented (instead of deriving
+        // Reflect). This exposes "array" operations on your type, such as indexing. `Array`
         // is automatically implemented for relevant core types like [T; N].
         ReflectRef::Array(_) => {}
         // `Map` is a special trait that can be manually implemented (instead of deriving Reflect).

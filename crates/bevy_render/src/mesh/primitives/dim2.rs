@@ -116,7 +116,8 @@ impl Default for EllipseMeshBuilder {
 }
 
 impl EllipseMeshBuilder {
-    /// Creates a new [`EllipseMeshBuilder`] from a given half width and half height and a vertex count.
+    /// Creates a new [`EllipseMeshBuilder`] from a given half width and half height and a vertex
+    /// count.
     #[inline]
     pub const fn new(half_width: f32, half_height: f32, resolution: usize) -> Self {
         Self {
@@ -289,8 +290,9 @@ impl Default for Capsule2dMeshBuilder {
 }
 
 impl Capsule2dMeshBuilder {
-    /// Creates a new [`Capsule2dMeshBuilder`] from a given radius, length, and the number of vertices
-    /// used for one hemicircle. The total number of vertices for the capsule mesh will be two times the resolution.
+    /// Creates a new [`Capsule2dMeshBuilder`] from a given radius, length, and the number of
+    /// vertices used for one hemicircle. The total number of vertices for the capsule mesh will
+    /// be two times the resolution.
     #[inline]
     pub fn new(radius: f32, length: f32, resolution: usize) -> Self {
         Self {

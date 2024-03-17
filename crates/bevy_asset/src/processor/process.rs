@@ -15,18 +15,21 @@ use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
 use thiserror::Error;
 
-/// Asset "processor" logic that reads input asset bytes (stored on [`ProcessContext`]), processes the value in some way,
-/// and then writes the final processed bytes with [`Writer`]. The resulting bytes must be loadable with the given [`Process::OutputLoader`].
+/// Asset "processor" logic that reads input asset bytes (stored on [`ProcessContext`]), processes
+/// the value in some way, and then writes the final processed bytes with [`Writer`]. The resulting
+/// bytes must be loadable with the given [`Process::OutputLoader`].
 ///
-/// This is a "low level", maximally flexible interface. Most use cases are better served by the [`LoadTransformAndSave`] implementation
-/// of [`Process`].
+/// This is a "low level", maximally flexible interface. Most use cases are better served by the
+/// [`LoadTransformAndSave`] implementation of [`Process`].
 pub trait Process: Send + Sync + Sized + 'static {
-    /// The configuration / settings used to process the asset. This will be stored in the [`AssetMeta`] and is user-configurable per-asset.
+    /// The configuration / settings used to process the asset. This will be stored in the
+    /// [`AssetMeta`] and is user-configurable per-asset.
     type Settings: Settings + Default + Serialize + for<'a> Deserialize<'a>;
     /// The [`AssetLoader`] that will be used to load the final processed asset.
     type OutputLoader: AssetLoader;
-    /// Processes the asset stored on `context` in some way using the settings stored on `meta`. The results are written to `writer`. The
-    /// final written processed asset is loadable using [`Process::OutputLoader`]. This load will use the returned [`AssetLoader::Settings`].
+    /// Processes the asset stored on `context` in some way using the settings stored on `meta`. The
+    /// results are written to `writer`. The final written processed asset is loadable using
+    /// [`Process::OutputLoader`]. This load will use the returned [`AssetLoader::Settings`].
     fn process<'a>(
         &'a self,
         context: &'a mut ProcessContext,
@@ -35,14 +38,16 @@ pub trait Process: Send + Sync + Sized + 'static {
     ) -> BoxedFuture<'a, Result<<Self::OutputLoader as AssetLoader>::Settings, ProcessError>>;
 }
 
-/// A flexible [`Process`] implementation that loads the source [`Asset`] using the `L` [`AssetLoader`], then transforms
-/// the `L` asset into an `S` [`AssetSaver`] asset using the `T` [`AssetTransformer`], and lastly saves the asset using the `S` [`AssetSaver`].
+/// A flexible [`Process`] implementation that loads the source [`Asset`] using the `L`
+/// [`AssetLoader`], then transforms the `L` asset into an `S` [`AssetSaver`] asset using the `T`
+/// [`AssetTransformer`], and lastly saves the asset using the `S` [`AssetSaver`].
 ///
-/// When creating custom processors, it is generally recommended to use the [`LoadTransformAndSave`] [`Process`] implementation,
-/// as it encourages you to separate your code into an [`AssetLoader`] capable of loading assets without processing enabled,
-/// an [`AssetTransformer`] capable of converting from an `L` asset to an `S` asset, and
-/// an [`AssetSaver`] that allows you save any `S` asset. However you can
-/// also implement [`Process`] directly if [`LoadTransformAndSave`] feels limiting or unnecessary.
+/// When creating custom processors, it is generally recommended to use the [`LoadTransformAndSave`]
+/// [`Process`] implementation, as it encourages you to separate your code into an [`AssetLoader`]
+/// capable of loading assets without processing enabled, an [`AssetTransformer`] capable of
+/// converting from an `L` asset to an `S` asset, and an [`AssetSaver`] that allows you save any `S`
+/// asset. However you can also implement [`Process`] directly if [`LoadTransformAndSave`] feels
+/// limiting or unnecessary.
 ///
 /// This uses [`LoadTransformAndSaveSettings`] to configure the processor.
 ///
@@ -59,8 +64,8 @@ pub struct LoadTransformAndSave<
 
 /// Settings for the [`LoadTransformAndSave`] [`Process::Settings`] implementation.
 ///
-/// `LoaderSettings` corresponds to [`AssetLoader::Settings`], `TransformerSettings` corresponds to [`AssetTransformer::Settings`],
-/// and `SaverSettings` corresponds to [`AssetSaver::Settings`].
+/// `LoaderSettings` corresponds to [`AssetLoader::Settings`], `TransformerSettings` corresponds to
+/// [`AssetTransformer::Settings`], and `SaverSettings` corresponds to [`AssetSaver::Settings`].
 #[derive(Serialize, Deserialize, Default)]
 pub struct LoadTransformAndSaveSettings<LoaderSettings, TransformerSettings, SaverSettings> {
     /// The [`AssetLoader::Settings`] for [`LoadTransformAndSave`].
@@ -86,11 +91,11 @@ impl<
     }
 }
 
-/// A flexible [`Process`] implementation that loads the source [`Asset`] using the `L` [`AssetLoader`], then
-/// saves that `L` asset using the `S` [`AssetSaver`].
+/// A flexible [`Process`] implementation that loads the source [`Asset`] using the `L`
+/// [`AssetLoader`], then saves that `L` asset using the `S` [`AssetSaver`].
 ///
-/// This is a specialized use case of [`LoadTransformAndSave`] and is useful where there is no asset manipulation
-/// such as when compressing assets.
+/// This is a specialized use case of [`LoadTransformAndSave`] and is useful where there is no asset
+/// manipulation such as when compressing assets.
 ///
 /// This uses [`LoadAndSaveSettings`] to configure the processor.
 ///
@@ -111,7 +116,8 @@ impl<L: AssetLoader, S: AssetSaver<Asset = L::Asset>> From<S> for LoadAndSave<L,
 
 /// Settings for the [`LoadAndSave`] [`Process::Settings`] implementation.
 ///
-/// `LoaderSettings` corresponds to [`AssetLoader::Settings`] and `SaverSettings` corresponds to [`AssetSaver::Settings`].
+/// `LoaderSettings` corresponds to [`AssetLoader::Settings`] and `SaverSettings` corresponds to
+/// [`AssetSaver::Settings`].
 #[derive(Serialize, Deserialize, Default)]
 pub struct LoadAndSaveSettings<LoaderSettings, SaverSettings> {
     /// The [`AssetLoader::Settings`] for [`LoadAndSave`].
@@ -243,8 +249,8 @@ impl<Loader: AssetLoader, Saver: AssetSaver<Asset = Loader::Asset>> Process
     }
 }
 
-/// A type-erased variant of [`Process`] that enables interacting with processor implementations without knowing
-/// their type.
+/// A type-erased variant of [`Process`] that enables interacting with processor implementations
+/// without knowing their type.
 pub trait ErasedProcessor: Send + Sync {
     /// Type-erased variant of [`Process::process`].
     fn process<'a>(
@@ -253,8 +259,8 @@ pub trait ErasedProcessor: Send + Sync {
         meta: Box<dyn AssetMetaDyn>,
         writer: &'a mut Writer,
     ) -> BoxedFuture<'a, Result<Box<dyn AssetMetaDyn>, ProcessError>>;
-    /// Deserialized `meta` as type-erased [`AssetMeta`], operating under the assumption that it matches the meta
-    /// for the underlying [`Process`] impl.
+    /// Deserialized `meta` as type-erased [`AssetMeta`], operating under the assumption that it
+    /// matches the meta for the underlying [`Process`] impl.
     fn deserialize_meta(&self, meta: &[u8]) -> Result<Box<dyn AssetMetaDyn>, DeserializeMetaError>;
     /// Returns the default type-erased [`AssetMeta`] for the underlying [`Process`] impl.
     fn default_meta(&self) -> Box<dyn AssetMetaDyn>;
@@ -309,10 +315,11 @@ pub struct ProcessContext<'a> {
     pub(crate) new_processed_info: &'a mut ProcessedInfo,
     /// This exists to expose access to asset values (via the [`AssetServer`]).
     ///
-    /// ANY ASSET VALUE THAT IS ACCESSED SHOULD BE ADDED TO `new_processed_info.process_dependencies`
+    /// ANY ASSET VALUE THAT IS ACCESSED SHOULD BE ADDED TO
+    /// `new_processed_info.process_dependencies`
     ///
-    /// Do not expose this publicly as it would be too easily to invalidate state by forgetting to update
-    /// `process_dependencies`.
+    /// Do not expose this publicly as it would be too easily to invalidate state by forgetting to
+    /// update `process_dependencies`.
     ///
     /// [`AssetServer`]: crate::server::AssetServer
     processor: &'a AssetProcessor,
@@ -337,8 +344,8 @@ impl<'a> ProcessContext<'a> {
 
     /// Load the source asset using the `L` [`AssetLoader`] and the passed in `meta` config.
     /// This will take the "load dependencies" (asset values used when loading with `L`]) and
-    /// register them as "process dependencies" because they are asset values required to process the
-    /// current asset.
+    /// register them as "process dependencies" because they are asset values required to process
+    /// the current asset.
     pub async fn load_source_asset<L: AssetLoader>(
         &mut self,
         meta: AssetMeta<L, ()>,

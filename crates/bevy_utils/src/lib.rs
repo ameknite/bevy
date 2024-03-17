@@ -1,7 +1,6 @@
 //! General utilities for first-party [Bevy] engine crates.
 //!
 //! [Bevy]: https://bevyengine.org/
-//!
 
 #[allow(missing_docs)]
 pub mod prelude {
@@ -44,7 +43,8 @@ use std::{
     pin::Pin,
 };
 
-/// An owned and dynamically typed Future used when you can't statically type your result or need to add some indirection.
+/// An owned and dynamically typed Future used when you can't statically type your result or need to
+/// add some indirection.
 #[cfg(not(target_arch = "wasm32"))]
 pub type BoxedFuture<'a, T> = Pin<Box<dyn Future<Output = T> + Send + 'a>>;
 
@@ -118,10 +118,10 @@ pub type HashSet<K> = hashbrown::HashSet<K, BuildHasherDefault<AHasher>>;
 )]
 pub type StableHashSet<K> = hashbrown::HashSet<K, FixedState>;
 
-/// A pre-hashed value of a specific type. Pre-hashing enables memoization of hashes that are expensive to compute.
-/// It also enables faster [`PartialEq`] comparisons by short circuiting on hash equality.
-/// See [`PassHash`] and [`PassHasher`] for a "pass through" [`BuildHasher`] and [`Hasher`] implementation
-/// designed to work with [`Hashed`]
+/// A pre-hashed value of a specific type. Pre-hashing enables memoization of hashes that are
+/// expensive to compute. It also enables faster [`PartialEq`] comparisons by short circuiting on
+/// hash equality. See [`PassHash`] and [`PassHasher`] for a "pass through" [`BuildHasher`] and
+/// [`Hasher`] implementation designed to work with [`Hashed`]
 /// See [`PreHashMap`] for a hashmap pre-configured to use [`Hashed`] keys.
 pub struct Hashed<V, H = FixedState> {
     hash: u64,
@@ -424,7 +424,8 @@ impl<F: FnOnce()> OnDrop<F> {
 
 impl<F: FnOnce()> Drop for OnDrop<F> {
     fn drop(&mut self) {
-        // SAFETY: We may move out of `self`, since this instance can never be observed after it's dropped.
+        // SAFETY: We may move out of `self`, since this instance can never be observed after it's
+        // dropped.
         let callback = unsafe { ManuallyDrop::take(&mut self.callback) };
         callback();
     }

@@ -7,20 +7,22 @@ use std::{
     sync::Arc,
 };
 
-/// Much like a [`Cow`](std::borrow::Cow), but owned values are Arc-ed to make clones cheap. This should be used for values that
-/// are cloned for use across threads and change rarely (if ever).
+/// Much like a [`Cow`](std::borrow::Cow), but owned values are Arc-ed to make clones cheap. This
+/// should be used for values that are cloned for use across threads and change rarely (if ever).
 ///
-/// This also makes an opinionated tradeoff by adding a [`CowArc::Static`] and implementing [`From<&'static T>`] instead of
-/// [`From<'a T>`]. This preserves the static context and prevents conversion to [`CowArc::Owned`] in cases where a reference
-/// is known to be static. This is an optimization that prevents allocations and atomic ref-counting.
+/// This also makes an opinionated tradeoff by adding a [`CowArc::Static`] and implementing
+/// [`From<&'static T>`] instead of [`From<'a T>`]. This preserves the static context and prevents
+/// conversion to [`CowArc::Owned`] in cases where a reference is known to be static. This is an
+/// optimization that prevents allocations and atomic ref-counting.
 ///
-/// This means that static references should prefer [`From::from`] or [`CowArc::Static`] and non-static references must
-/// use [`CowArc::Borrowed`].
+/// This means that static references should prefer [`From::from`] or [`CowArc::Static`] and
+/// non-static references must use [`CowArc::Borrowed`].
 pub enum CowArc<'a, T: ?Sized + 'static> {
     /// A borrowed value
     Borrowed(&'a T),
-    /// A static value reference. This exists to avoid conversion to [`CowArc::Owned`] in cases where a reference is
-    /// known to be static. This is an optimization that prevents allocations and atomic ref-counting.
+    /// A static value reference. This exists to avoid conversion to [`CowArc::Owned`] in cases
+    /// where a reference is known to be static. This is an optimization that prevents
+    /// allocations and atomic ref-counting.
     Static(&'static T),
     /// An owned [`Arc`]-ed value
     Owned(Arc<T>),
@@ -56,8 +58,9 @@ impl<'a, T: ?Sized> CowArc<'a, T>
 where
     &'a T: Into<Arc<T>>,
 {
-    /// Converts this into an "owned" value. If internally a value is borrowed, it will be cloned into an "owned [`Arc`]".
-    /// If it is already a [`CowArc::Owned`] or a [`CowArc::Static`], it will remain unchanged.
+    /// Converts this into an "owned" value. If internally a value is borrowed, it will be cloned
+    /// into an "owned [`Arc`]". If it is already a [`CowArc::Owned`] or a [`CowArc::Static`],
+    /// it will remain unchanged.
     #[inline]
     pub fn into_owned(self) -> CowArc<'static, T> {
         match self {
@@ -67,9 +70,10 @@ where
         }
     }
 
-    /// Clones into an owned [`CowArc<'static>`]. If internally a value is borrowed, it will be cloned into an "owned [`Arc`]".
-    /// If it is already a [`CowArc::Owned`] or [`CowArc::Static`], the value will be cloned.
-    /// This is equivalent to `.clone().into_owned()`.
+    /// Clones into an owned [`CowArc<'static>`]. If internally a value is borrowed, it will be
+    /// cloned into an "owned [`Arc`]". If it is already a [`CowArc::Owned`] or
+    /// [`CowArc::Static`], the value will be cloned. This is equivalent to
+    /// `.clone().into_owned()`.
     #[inline]
     pub fn clone_owned(&self) -> CowArc<'static, T> {
         self.clone().into_owned()

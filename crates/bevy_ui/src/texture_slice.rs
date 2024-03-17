@@ -12,7 +12,8 @@ use bevy_utils::HashSet;
 
 use crate::{CalculatedClip, ExtractedUiNode, Node, UiImage};
 
-/// Component storing texture slices for image nodes entities with a tiled or sliced  [`ImageScaleMode`]
+/// Component storing texture slices for image nodes entities with a tiled or sliced
+/// [`ImageScaleMode`]
 ///
 /// This component is automatically inserted and updated
 #[derive(Debug, Clone, Component)]

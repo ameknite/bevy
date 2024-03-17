@@ -9,8 +9,8 @@ use std::{
 
 /// A static accessor to compile-time type information.
 ///
-/// This trait is automatically implemented by the [`#[derive(Reflect)]`](derive@crate::Reflect) macro
-/// and allows type information to be processed without an instance of that type.
+/// This trait is automatically implemented by the [`#[derive(Reflect)]`](derive@crate::Reflect)
+/// macro and allows type information to be processed without an instance of that type.
 ///
 /// # Implementing
 ///
@@ -89,13 +89,13 @@ pub trait Typed: Reflect + TypePath {
 ///
 /// Each return a static reference to [`TypeInfo`], but they all have their own use cases.
 /// For example, if you know the type at compile time, [`Typed::type_info`] is probably
-/// the simplest. If all you have is a `dyn Reflect`, you'll probably want [`Reflect::get_represented_type_info`].
-/// Lastly, if all you have is a [`TypeId`] or [type path], you will need to go through
-/// [`TypeRegistry::get_type_info`].
+/// the simplest. If all you have is a `dyn Reflect`, you'll probably want
+/// [`Reflect::get_represented_type_info`]. Lastly, if all you have is a [`TypeId`] or [type path],
+/// you will need to go through [`TypeRegistry::get_type_info`].
 ///
-/// You may also opt to use [`TypeRegistry::get_type_info`] in place of the other methods simply because
-/// it can be more performant. This is because those other methods may require attaining a lock on
-/// the static [`TypeInfo`], while the registry simply checks a map.
+/// You may also opt to use [`TypeRegistry::get_type_info`] in place of the other methods simply
+/// because it can be more performant. This is because those other methods may require attaining a
+/// lock on the static [`TypeInfo`], while the registry simply checks a map.
 ///
 /// [`Reflect::get_represented_type_info`]: Reflect::get_represented_type_info
 /// [`TypeRegistry::get_type_info`]: crate::TypeRegistry::get_type_info

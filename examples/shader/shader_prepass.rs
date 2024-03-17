@@ -1,6 +1,7 @@
-//! Bevy has an optional prepass that is controlled per-material. A prepass is a rendering pass that runs before the main pass.
-//! It will optionally generate various view textures. Currently it supports depth, normal, and motion vector textures.
-//! The textures are not generated for any material using alpha blending.
+//! Bevy has an optional prepass that is controlled per-material. A prepass is a rendering pass that
+//! runs before the main pass. It will optionally generate various view textures. Currently it
+//! supports depth, normal, and motion vector textures. The textures are not generated for any
+//! material using alpha blending.
 
 use bevy::{
     core_pipeline::prepass::{DepthPrepass, MotionVectorPrepass, NormalPrepass},
@@ -23,14 +24,16 @@ fn main() {
             MaterialPlugin::<CustomMaterial>::default(),
             MaterialPlugin::<PrepassOutputMaterial> {
                 // This material only needs to read the prepass textures,
-                // but the meshes using it should not contribute to the prepass render, so we can disable it.
+                // but the meshes using it should not contribute to the prepass render, so we can
+                // disable it.
                 prepass_enabled: false,
                 ..default()
             },
         ))
         .add_systems(Startup, setup)
         .add_systems(Update, (rotate, toggle_prepass_view))
-        // Disabling MSAA for maximum compatibility. Shader prepass with MSAA needs GPU capability MULTISAMPLED_SHADING
+        // Disabling MSAA for maximum compatibility. Shader prepass with MSAA needs GPU capability
+        // MULTISAMPLED_SHADING
         .insert_resource(Msaa::Off)
         .run();
 }

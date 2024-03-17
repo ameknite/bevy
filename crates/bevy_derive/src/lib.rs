@@ -18,7 +18,8 @@ pub fn derive_dynamic_plugin(input: TokenStream) -> TokenStream {
     app_plugin::derive_dynamic_plugin(input)
 }
 
-/// Implements [`Deref`] for structs. This is especially useful when utilizing the [newtype] pattern.
+/// Implements [`Deref`] for structs. This is especially useful when utilizing the [newtype]
+/// pattern.
 ///
 /// For single-field structs, the implementation automatically uses that field.
 /// For multi-field structs, you must specify which field to use with the `#[deref]` attribute.
@@ -102,7 +103,8 @@ pub fn derive_deref(input: TokenStream) -> TokenStream {
     derefs::derive_deref(input)
 }
 
-/// Implements [`DerefMut`] for structs. This is especially useful when utilizing the [newtype] pattern.
+/// Implements [`DerefMut`] for structs. This is especially useful when utilizing the [newtype]
+/// pattern.
 ///
 /// For single-field structs, the implementation automatically uses that field.
 /// For multi-field structs, you must specify which field to use with the `#[deref]` attribute.

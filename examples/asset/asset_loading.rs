@@ -45,10 +45,10 @@ fn setup(
     // somewhere.
     let _loaded_folder: Handle<LoadedFolder> = asset_server.load_folder("models/torus");
 
-    // If you want a handle to a specific asset in a loaded folder, the easiest way to get one is to call load.
-    // It will _not_ be loaded a second time.
-    // The LoadedFolder asset will ultimately also hold handles to the assets, but waiting for it to load
-    // and finding the right handle is more work!
+    // If you want a handle to a specific asset in a loaded folder, the easiest way to get one is to
+    // call load. It will _not_ be loaded a second time.
+    // The LoadedFolder asset will ultimately also hold handles to the assets, but waiting for it to
+    // load and finding the right handle is more work!
     let torus_handle = asset_server.load("models/torus/torus.gltf#Mesh0/Primitive0");
 
     // You can also add assets directly to their Assets<T> storage:

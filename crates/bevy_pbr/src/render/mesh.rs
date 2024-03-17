@@ -60,10 +60,11 @@ pub const MORPH_HANDLE: Handle<Shader> = Handle::weak_from_u128(9709828135876073
 
 /// How many textures are allowed in the view bind group layout (`@group(0)`) before
 /// broader compatibility with WebGL and WebGPU is at risk, due to the minimum guaranteed
-/// values for `MAX_TEXTURE_IMAGE_UNITS` (in WebGL) and `maxSampledTexturesPerShaderStage` (in WebGPU),
-/// currently both at 16.
+/// values for `MAX_TEXTURE_IMAGE_UNITS` (in WebGL) and `maxSampledTexturesPerShaderStage` (in
+/// WebGPU), currently both at 16.
 ///
-/// We use 10 here because it still leaves us, in a worst case scenario, with 6 textures for the other bind groups.
+/// We use 10 here because it still leaves us, in a worst case scenario, with 6 textures for the
+/// other bind groups.
 ///
 /// See: <https://gpuweb.github.io/gpuweb/#limits>
 #[cfg(debug_assertions)]
@@ -368,7 +369,8 @@ impl FromWorld for MeshPipeline {
         let view_layouts =
             generate_view_layouts(&render_device, clustered_forward_buffer_binding_type);
 
-        // A 1x1x1 'all 1.0' texture to use as a dummy texture to use in place of optional StandardMaterial textures
+        // A 1x1x1 'all 1.0' texture to use as a dummy texture to use in place of optional
+        // StandardMaterial textures
         let dummy_white_gpu_image = {
             let image = Image::default();
             let texture = render_device.create_texture(&image.texture_descriptor);
@@ -436,7 +438,8 @@ impl MeshPipeline {
 
         #[cfg(debug_assertions)]
         if layout.texture_count > MESH_PIPELINE_VIEW_LAYOUT_SAFE_MAX_TEXTURES {
-            // Issue our own warning here because Naga's error message is a bit cryptic in this situation
+            // Issue our own warning here because Naga's error message is a bit cryptic in this
+            // situation
             warn_once!("Too many textures in mesh pipeline view layout, this might cause us to hit `wgpu::Limits::max_sampled_textures_per_shader_stage` in some environments.");
         }
 
@@ -740,7 +743,8 @@ impl SpecializedMeshPipeline for MeshPipeline {
             depth_write_enabled = false;
         } else {
             label = "opaque_mesh_pipeline".into();
-            // BlendState::REPLACE is not needed here, and None will be potentially much faster in some cases
+            // BlendState::REPLACE is not needed here, and None will be potentially much faster in
+            // some cases
             blend = None;
             // For the opaque and alpha mask passes, fragments that are closer will replace
             // the current fragment value in the output and the depth is written to the
@@ -850,7 +854,8 @@ impl SpecializedMeshPipeline for MeshPipeline {
                 MeshPipelineKey::SCREEN_SPACE_SPECULAR_TRANSMISSION_MEDIUM => 8,
                 MeshPipelineKey::SCREEN_SPACE_SPECULAR_TRANSMISSION_HIGH => 16,
                 MeshPipelineKey::SCREEN_SPACE_SPECULAR_TRANSMISSION_ULTRA => 32,
-                _ => unreachable!(), // Not possible, since the mask is 2 bits, and we've covered all 4 cases
+                _ => unreachable!(), /* Not possible, since the mask is 2 bits, and we've covered
+                                      * all 4 cases */
             },
         ));
 

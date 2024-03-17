@@ -88,7 +88,8 @@ pub mod internal {
     }
 
     #[derive(Debug)]
-    // This is required because the Debug trait doesn't detect it's used when it's only used in a print :(
+    // This is required because the Debug trait doesn't detect it's used when it's only used in a
+    // print :(
     #[allow(dead_code)]
     struct SystemInfo {
         os: String,
@@ -117,7 +118,8 @@ pub mod internal {
                 .physical_core_count()
                 .map(|x| x.to_string())
                 .unwrap_or_else(|| String::from("not available")),
-            // Convert from Bytes to GibiBytes since it's probably what people expect most of the time
+            // Convert from Bytes to GibiBytes since it's probably what people expect most of the
+            // time
             memory: format!("{:.1} GiB", sys.total_memory() as f64 * BYTES_TO_GIB),
         };
 

@@ -122,7 +122,7 @@ impl<'a> std::fmt::Debug for DebugNameItem<'a> {
     }
 }
 
-/* Conversions from strings */
+// Conversions from strings
 
 impl From<&str> for Name {
     #[inline(always)]
@@ -137,7 +137,7 @@ impl From<String> for Name {
     }
 }
 
-/* Conversions to strings */
+// Conversions to strings
 
 impl AsRef<str> for Name {
     #[inline(always)]

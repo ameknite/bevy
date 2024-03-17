@@ -20,9 +20,10 @@ pub(crate) const DEFAULT_ATTR: &str = "default";
 
 /// Stores data about if the field should be visible via the Reflect and serialization interfaces
 ///
-/// Note the relationship between serialization and reflection is such that a member must be reflected in order to be serialized.
-/// In boolean logic this is described as: `is_serialized -> is_reflected`, this means we can reflect something without serializing it but not the other way round.
-/// The `is_reflected` predicate is provided as `self.is_active()`
+/// Note the relationship between serialization and reflection is such that a member must be
+/// reflected in order to be serialized. In boolean logic this is described as: `is_serialized ->
+/// is_reflected`, this means we can reflect something without serializing it but not the other way
+/// round. The `is_reflected` predicate is provided as `self.is_active()`
 #[derive(Default, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ReflectIgnoreBehavior {
     /// Don't ignore, appear to all systems
@@ -35,7 +36,8 @@ pub(crate) enum ReflectIgnoreBehavior {
 }
 
 impl ReflectIgnoreBehavior {
-    /// Returns `true` if the ignoring behavior implies member is included in the reflection API, and false otherwise.
+    /// Returns `true` if the ignoring behavior implies member is included in the reflection API,
+    /// and false otherwise.
     pub fn is_active(self) -> bool {
         match self {
             ReflectIgnoreBehavior::None | ReflectIgnoreBehavior::IgnoreSerialization => true,
@@ -43,7 +45,8 @@ impl ReflectIgnoreBehavior {
         }
     }
 
-    /// The exact logical opposite of `self.is_active()` returns true iff this member is not part of the reflection API whatsoever (neither serialized nor reflected)
+    /// The exact logical opposite of `self.is_active()` returns true iff this member is not part of
+    /// the reflection API whatsoever (neither serialized nor reflected)
     pub fn is_ignored(self) -> bool {
         !self.is_active()
     }

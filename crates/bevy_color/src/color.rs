@@ -78,12 +78,14 @@ impl Color {
     }
 
     #[deprecated = "Use `Color::srgb_from_array` instead"]
-    /// Reads an array of floats to creates a new [`Color`] object storing a [`Srgba`] color with an alpha of 1.0.
+    /// Reads an array of floats to creates a new [`Color`] object storing a [`Srgba`] color with an
+    /// alpha of 1.0.
     pub fn rgb_from_array([r, g, b]: [f32; 3]) -> Self {
         Self::Srgba(Srgba::rgb(r, g, b))
     }
 
-    /// Reads an array of floats to creates a new [`Color`] object storing a [`Srgba`] color with an alpha of 1.0.
+    /// Reads an array of floats to creates a new [`Color`] object storing a [`Srgba`] color with an
+    /// alpha of 1.0.
     pub fn srgb_from_array(array: [f32; 3]) -> Self {
         Self::Srgba(Srgba {
             red: array[0],
@@ -114,14 +116,16 @@ impl Color {
     }
 
     #[deprecated = "Use `Color::srgb_u8` instead"]
-    /// Creates a new [`Color`] object storing a [`Srgba`] color from [`u8`] values with an alpha of 1.0.
+    /// Creates a new [`Color`] object storing a [`Srgba`] color from [`u8`] values with an alpha of
+    /// 1.0.
     ///
     /// A value of 0 is interpreted as 0.0, and a value of 255 is interpreted as 1.0.
     pub fn rgb_u8(red: u8, green: u8, blue: u8) -> Self {
         Self::srgb_u8(red, green, blue)
     }
 
-    /// Creates a new [`Color`] object storing a [`Srgba`] color from [`u8`] values with an alpha of 1.0.
+    /// Creates a new [`Color`] object storing a [`Srgba`] color from [`u8`] values with an alpha of
+    /// 1.0.
     ///
     /// A value of 0 is interpreted as 0.0, and a value of 255 is interpreted as 1.0.
     pub fn srgb_u8(red: u8, green: u8, blue: u8) -> Self {

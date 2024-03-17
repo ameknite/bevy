@@ -30,7 +30,8 @@ fn change_component(time: Res<Time>, mut query: Query<(Entity, &mut MyComponent)
             // Change detection occurs on mutable dereference,
             // and does not consider whether or not a value is actually equal.
             // To avoid triggering change detection when nothing has actually changed,
-            // you can use the `set_if_neq` method on any component or resource that implements PartialEq
+            // you can use the `set_if_neq` method on any component or resource that implements
+            // PartialEq
             component.set_if_neq(new_component);
         }
     }

@@ -41,7 +41,8 @@ use std::{
 ///
 /// # Implementation
 ///
-/// > 💡 This trait can be automatically implemented using [`#[derive(Reflect)]`](derive@crate::Reflect)
+/// > 💡 This trait can be automatically implemented using
+/// > [`#[derive(Reflect)]`](derive@crate::Reflect)
 /// > on an enum definition.
 ///
 /// Despite the fact that enums can represent multiple states, traits only exist in one state
@@ -54,8 +55,8 @@ use std::{
 /// accessing fields!
 /// Again, this is to account for _all three_ variant types.
 ///
-/// We recommend using the built-in [`#[derive(Reflect)]`](derive@crate::Reflect) macro to automatically handle all the
-/// implementation details for you.
+/// We recommend using the built-in [`#[derive(Reflect)]`](derive@crate::Reflect) macro to
+/// automatically handle all the implementation details for you.
 /// However, if you _must_ implement this trait manually, there are a few things to keep in mind...
 ///
 /// ## Field Order
@@ -96,11 +97,13 @@ pub trait Enum: Reflect {
     fn field(&self, name: &str) -> Option<&dyn Reflect>;
     /// Returns a reference to the value of the field (in the current variant) at the given index.
     fn field_at(&self, index: usize) -> Option<&dyn Reflect>;
-    /// Returns a mutable reference to the value of the field (in the current variant) with the given name.
+    /// Returns a mutable reference to the value of the field (in the current variant) with the
+    /// given name.
     ///
     /// For non-[`VariantType::Struct`] variants, this should return `None`.
     fn field_mut(&mut self, name: &str) -> Option<&mut dyn Reflect>;
-    /// Returns a mutable reference to the value of the field (in the current variant) at the given index.
+    /// Returns a mutable reference to the value of the field (in the current variant) at the given
+    /// index.
     fn field_at_mut(&mut self, index: usize) -> Option<&mut dyn Reflect>;
     /// Returns the index of the field (in the current variant) with the given name.
     ///
@@ -150,7 +153,6 @@ impl EnumInfo {
     /// # Arguments
     ///
     /// * `variants`: The variants of this enum in the order they are defined
-    ///
     pub fn new<TEnum: Enum + TypePath>(variants: &[VariantInfo]) -> Self {
         let variant_indices = variants
             .iter()

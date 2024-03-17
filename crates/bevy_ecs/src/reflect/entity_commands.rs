@@ -18,7 +18,8 @@ pub trait ReflectCommandExt {
     /// # Panics
     ///
     /// - If the entity doesn't exist.
-    /// - If [`AppTypeRegistry`] does not have the reflection data for the given [`Component`](crate::component::Component).
+    /// - If [`AppTypeRegistry`] does not have the reflection data for the given
+    ///   [`Component`](crate::component::Component).
     /// - If the component data is invalid. See [`Reflect::apply`] for further details.
     /// - If [`AppTypeRegistry`] is not present in the [`World`].
     ///
@@ -68,12 +69,11 @@ pub trait ReflectCommandExt {
     ///         .spawn_empty()
     ///         .insert_reflect(prefab.component.clone_value());
     /// }
-    ///
     /// ```
     fn insert_reflect(&mut self, component: Box<dyn Reflect>) -> &mut Self;
 
-    /// Same as [`insert_reflect`](ReflectCommandExt::insert_reflect), but using the `T` resource as type registry instead of
-    /// `AppTypeRegistry`.
+    /// Same as [`insert_reflect`](ReflectCommandExt::insert_reflect), but using the `T` resource as
+    /// type registry instead of `AppTypeRegistry`.
     ///
     /// # Panics
     ///
@@ -87,15 +87,17 @@ pub trait ReflectCommandExt {
         component: Box<dyn Reflect>,
     ) -> &mut Self;
 
-    /// Removes from the entity the component with the given type name registered in [`AppTypeRegistry`].
+    /// Removes from the entity the component with the given type name registered in
+    /// [`AppTypeRegistry`].
     ///
-    /// Does nothing if the entity does not have a component of the same type, if [`AppTypeRegistry`]
-    /// does not contain the reflection data for the given component, or if the entity does not exist.
+    /// Does nothing if the entity does not have a component of the same type, if
+    /// [`AppTypeRegistry`] does not contain the reflection data for the given component, or if
+    /// the entity does not exist.
     ///
     /// # Note
     ///
-    /// Prefer to use the typed [`EntityCommands::remove`] if possible. Removing a reflected component
-    /// is much slower.
+    /// Prefer to use the typed [`EntityCommands::remove`] if possible. Removing a reflected
+    /// component is much slower.
     ///
     /// # Example
     ///
@@ -131,11 +133,10 @@ pub trait ReflectCommandExt {
     ///     commands.entity(prefab.entity)
     ///         .remove_reflect(prefab.component.reflect_type_path().to_owned());
     /// }
-    ///
     /// ```
     fn remove_reflect(&mut self, component_type_name: impl Into<Cow<'static, str>>) -> &mut Self;
-    /// Same as [`remove_reflect`](ReflectCommandExt::remove_reflect), but using the `T` resource as type registry instead of
-    /// `AppTypeRegistry`.
+    /// Same as [`remove_reflect`](ReflectCommandExt::remove_reflect), but using the `T` resource as
+    /// type registry instead of `AppTypeRegistry`.
     fn remove_reflect_with_registry<T: Resource + AsRef<TypeRegistry>>(
         &mut self,
         component_type_name: impl Into<Cow<'static, str>>,
@@ -272,8 +273,8 @@ fn remove_reflect(
 pub struct RemoveReflect {
     /// The entity from which the component will be removed.
     pub entity: Entity,
-    /// The [`Component`](crate::component::Component) type name that will be used to remove a component
-    /// of the same type from the entity.
+    /// The [`Component`](crate::component::Component) type name that will be used to remove a
+    /// component of the same type from the entity.
     pub component_type_path: Cow<'static, str>,
 }
 
@@ -297,8 +298,8 @@ pub struct RemoveReflectWithRegistry<T: Resource + AsRef<TypeRegistry>> {
     /// The entity from which the component will be removed.
     pub entity: Entity,
     pub _t: PhantomData<T>,
-    /// The [`Component`](crate::component::Component) type name that will be used to remove a component
-    /// of the same type from the entity.
+    /// The [`Component`](crate::component::Component) type name that will be used to remove a
+    /// component of the same type from the entity.
     pub component_type_name: Cow<'static, str>,
 }
 
