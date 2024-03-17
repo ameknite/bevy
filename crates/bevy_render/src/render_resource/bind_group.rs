@@ -275,7 +275,7 @@ impl Deref for BindGroup {
 ///     }
 /// }
 /// ```
-/// 
+///
 /// Setting `bind_group_data` looks like this:
 /// ```
 /// # use bevy_render::{render_resource::AsBindGroup};
